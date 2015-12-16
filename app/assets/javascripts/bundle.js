@@ -26452,25 +26452,27 @@
 /* 185 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
+	var React = __webpack_require__(1),
+	    TaskForm = __webpack_require__(187);
 
 	var TaskType = React.createClass({
-	  displayName: "TaskType",
+	  displayName: 'TaskType',
 
 	  render: function () {
 	    return React.createElement(
-	      "div",
+	      'div',
 	      null,
 	      React.createElement(
-	        "ul",
-	        { className: "taskType" },
+	        'ul',
+	        { className: 'taskType' },
 	        this.props.taskType.type_name,
+	        React.createElement(TaskForm, { taskTypeName: this.props.taskType.type_name }),
 	        this.props.taskType.tasks.map(function (task, idx) {
 	          return React.createElement(
-	            "li",
-	            { className: "task", key: idx },
+	            'li',
+	            { className: 'task', key: idx },
 	            task.title,
-	            " $",
+	            ' $',
 	            task.money_reward
 	          );
 	        })
@@ -26480,6 +26482,90 @@
 	});
 
 	module.exports = TaskType;
+
+/***/ },
+/* 186 */,
+/* 187 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var TaskForm = React.createClass({
+	  displayName: "TaskForm",
+
+	  getInitialState: function () {
+	    return {
+	      title: "",
+	      moneyReward: 0
+	    };
+	  },
+
+	  handleRewardChange: function (e) {
+	    this.setState({ moneyReward: e.target.value });
+	  },
+
+	  handleTitleChange: function (e) {
+	    this.setState({ title: e.target.value });
+	  },
+
+	  checkSubmit: function (e) {
+	    if (e.which === 13) {
+	      e.preventDefault();
+	      this.setState({
+	        title: "",
+	        moneyReward: 0
+	      });
+	    }
+	  },
+
+	  handleMinus: function () {
+	    this.setState({ moneyReward: this.state.moneyReward - 10 });
+	  },
+
+	  handlePlus: function () {
+	    this.setState({ moneyReward: this.state.moneyReward + 10 });
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      "form",
+	      { id: "newTaskForm" },
+	      "Create new ",
+	      this.props.taskTypeName,
+	      React.createElement("input", { type: "text",
+	        value: this.state.title,
+	        onChange: this.handleTitleChange,
+	        onKeyPress: this.checkSubmit
+	      }),
+	      React.createElement("br", null),
+	      React.createElement(
+	        "label",
+	        { id: "moneyRewardForm" },
+	        "$",
+	        React.createElement("input", { type: "text",
+	          name: "quantity",
+	          value: this.state.moneyReward,
+	          className: "qty",
+	          onChange: this.handleRewardChange
+	        }),
+	        React.createElement("input", { type: "button",
+	          value: "-",
+	          className: "qtyminus",
+	          field: "quantity",
+	          onClick: this.handleMinus
+	        }),
+	        React.createElement("input", { type: "button",
+	          value: "+",
+	          className: "qtyplus",
+	          field: "quantity",
+	          onClick: this.handlePlus
+	        })
+	      )
+	    );
+	  }
+	});
+
+	module.exports = TaskForm;
 
 /***/ }
 /******/ ]);
