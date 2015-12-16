@@ -13,3 +13,19 @@
  *= require_tree .
  *= require_self
  */
+
+.taskType {
+  float: left;
+  width: 200px;
+  height: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 40px;
+  padding: 5px;
+  outline: 1px solid black;
+}
+
+.task {
+  width: inherit;
+  height: 30px;
+}

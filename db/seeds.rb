@@ -5,3 +5,11 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+10.times {
+  Task.create!(
+    type_id: 1,
+    title: Faker::Name.name,
+    money_reward: 10
+  )
+}

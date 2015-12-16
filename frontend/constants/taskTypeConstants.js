@@ -1,0 +1,3 @@
+module.exports = {
+  TASKTYPES_RECEIVED: "TASKTYPES_RECEIVED"
+};
