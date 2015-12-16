@@ -6,8 +6,6 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: {format: :json} do
     resources :tasks, only: [:index, :show, :create, :destroy, :update]
-    resources :task_types, only: [:index, :show, :create, :destroy, :update] do
-      resources :tasks, only: [:index]
-    end
+    resources :task_types, only: [:index, :show, :create, :destroy, :update]
   end
 end

@@ -2,6 +2,8 @@ class Api::TaskTypesController < ApplicationController
   def index
     if signed_in?
       @task_types = current_user.task_types
+    else
+      @task_types = []
     end
     render :index
   end
