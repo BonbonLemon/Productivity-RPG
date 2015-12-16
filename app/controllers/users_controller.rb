@@ -9,9 +9,9 @@ class UsersController < ApplicationController
     if @user.save
       sign_in(@user)
 
-      TaskType.create(user_id: @user.id, type_name: "To-dos")
-      TaskType.create(user_id: @user.id, type_name: "Dailies")
       TaskType.create(user_id: @user.id, type_name: "Habits")
+      TaskType.create(user_id: @user.id, type_name: "Dailies")
+      TaskType.create(user_id: @user.id, type_name: "To-dos")
 
       redirect_to root_url
     else

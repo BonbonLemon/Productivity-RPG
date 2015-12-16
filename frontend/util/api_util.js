@@ -2,12 +2,23 @@
 var ApiActions = require('./../actions/taskTypeActions')
 
 var ApiUtil = {
-  fetchAllTaskTypes: function(){
+  fetchAllTaskTypes: function() {
     $.ajax({
       url: "api/task_types/",
       method: "GET",
       success: function (taskTypes) {
         ApiActions.receiveAllTaskTypes(taskTypes);
+      }
+    })
+  },
+
+  createTask: function (task) {
+    $.ajax({
+      url: "api/tasks/",
+      method: "POST",
+      data: {task: task},
+      success: function (task) {
+        // ApiActions.receiveSingleTask(task);
       }
     })
   }

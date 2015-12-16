@@ -1,5 +1,6 @@
 class Api::TasksController < ApplicationController
   def index
+    # if params[:task_type_id]:
     tasks = current_user.task_types
     render json: tasks
   end
@@ -28,6 +29,6 @@ class Api::TasksController < ApplicationController
 
   private
   def task_params
-    params.require(:task).permit(:title, :money_reward)
+    params.require(:task).permit(:title, :money_reward, :type_id)
   end
 end

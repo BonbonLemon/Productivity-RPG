@@ -38,8 +38,16 @@
 
 #newTaskForm {
   text-align: center;
-  padding: 5px;
-  border: 1px dotted #ccc;
+  outline: 1px dotted #ccc;
+  padding: 0px;
+}
+
+#task-text-box {
+  width: 100px;
+}
+
+.task-title {
+  position: inherit;
 }
 
 #moneyRewardForm {
