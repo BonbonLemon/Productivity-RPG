@@ -27,11 +27,19 @@ var TaskForm = React.createClass({
   },
 
   handleMinus: function () {
-    this.setState({moneyReward: this.state.moneyReward - 10})
+    this.setState({moneyReward: parseInt(this.state.moneyReward) - 10})
+    this.checkNaN();
   },
 
   handlePlus: function () {
-    this.setState({moneyReward: this.state.moneyReward + 10})
+    this.setState({moneyReward: parseInt(this.state.moneyReward) + 10})
+    this.checkNaN();
+  },
+
+  checkNaN: function () {
+    if (isNaN(this.state.moneyReward)) {
+      this.setState({ moneyReward: 0 })
+    }
   },
 
   render: function () {
