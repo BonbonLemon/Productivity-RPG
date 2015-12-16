@@ -12,13 +12,13 @@ var ApiUtil = {
     })
   },
 
-  createTask: function (task) {
+  createTask: function (task, callback) {
     $.ajax({
       url: "api/tasks/",
       method: "POST",
       data: {task: task},
       success: function (task) {
-        // ApiActions.receiveSingleTask(task);
+        ApiActions.receiveSingleTask(task);
       }
     })
   }

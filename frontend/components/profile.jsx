@@ -21,8 +21,8 @@ var Profile = React.createClass({
     return (
       <div>
         {
-          this.state.TaskTypes.map(function (taskType, idx) {
-            return <TaskType key={idx} taskType={taskType} />;
+          this.state.TaskTypes.map(function (taskType) {
+            return <TaskType key={taskType.id} taskType={taskType} />;
           })
         }
       </div>

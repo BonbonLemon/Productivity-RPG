@@ -36,6 +36,14 @@
   background-color: #80ffff
 }
 
+.task-title {
+  float: left;
+}
+
+.task-reward {
+  float: right;
+}
+
 #newTaskForm {
   text-align: center;
   outline: 1px dotted #ccc;
@@ -46,8 +54,8 @@
   width: 100px;
 }
 
-.task-title {
-  position: inherit;
+.task-form-text {
+  position: relative;
 }
 
 #moneyRewardForm {

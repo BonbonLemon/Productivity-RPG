@@ -34,8 +34,6 @@ var TaskForm = React.createClass({
       title: "",
       moneyReward: 0
     });
-    // debugger;
-    // this.history.pushState(null, "/", {});
   },
 
   handleMinus: function (e) {
@@ -62,12 +60,12 @@ var TaskForm = React.createClass({
         Create new {this.props.taskType.type_name}
         <input type="text"
                id="task-text-box"
-               className="task-title"
+               className="task-form-text"
                value={this.state.title}
                onChange={this.handleTitleChange}
         />
         <input type="submit"
-               className="task-title"
+               className="task-form-text"
                value="+"
         />
         <br/><br/>
