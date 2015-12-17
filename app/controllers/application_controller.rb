@@ -5,6 +5,8 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_user, :signed_in?
 
+  attr_reader :current_user
+
   private
   def current_user
     return nil unless session[:token]
