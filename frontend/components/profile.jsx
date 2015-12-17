@@ -1,7 +1,8 @@
 var React = require('react'),
     ApiUtil = require('./../util/api_util'),
     TaskTypeStore = require('./../stores/taskType'),
-    TaskType = require('./taskType');
+    TaskType = require('./taskType'),
+    Avatar = require('./avatar');
 
 var Profile = React.createClass({
   getInitialState: function () {
@@ -24,6 +25,7 @@ var Profile = React.createClass({
   render: function () {
     return (
       <div>
+        <Avatar />
         {
           this.state.TaskTypes.map(function (taskType) {
             return <TaskType key={taskType.id} taskType={taskType} />;

@@ -7,13 +7,8 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
+      @user.create_profile_items
       sign_in(@user)
-
-      TaskType.create(user_id: @user.id, type_name: "Habits")
-      TaskType.create(user_id: @user.id, type_name: "Dailies")
-      TaskType.create(user_id: @user.id, type_name: "To-dos")
-      Avatar.create(user_id: @user.id)
-
       redirect_to root_url
     else
       flash.now[:errors] = @user.errors.full_messages

@@ -50,4 +50,11 @@ class User < ActiveRecord::Base
   def ensure_session_token
     self.session_token ||= User.generate_session_token
   end
+
+  def create_profile_items
+    TaskType.create(user_id: self.id, type_name: "Habits")
+    TaskType.create(user_id: self.id, type_name: "Dailies")
+    TaskType.create(user_id: self.id, type_name: "To-dos")
+    Avatar.create(user_id: self.id)
+  end
 end

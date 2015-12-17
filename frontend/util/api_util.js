@@ -1,5 +1,6 @@
 //util/api_util.js
-var TaskActions = require('./../actions/taskActions')
+var TaskActions = require('./../actions/taskActions'),
+    AvatarActions = require('./../actions/avatarActions');
 
 var ApiUtil = {
   fetchAllTaskTypes: function() {
@@ -30,6 +31,16 @@ var ApiUtil = {
       data: {task: task},
       success: function (task) {
         TaskActions.removeSingleTask(task);
+      }
+    })
+  },
+
+  fetchAvatar: function () {
+    $.ajax({
+      url: "api/avatar/",
+      method: "GET",
+      success: function (avatar) {
+        AvatarActions.receiveAvatar(avatar);
       }
     })
   }

@@ -3,6 +3,7 @@ var React = require('react'),
     Task = require('./task');
 
 var TaskType = React.createClass({
+  // NOTE: Not usefule atm
   getInitialState: function () {
     return ({tasks: 0});
   },

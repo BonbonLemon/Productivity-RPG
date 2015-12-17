@@ -24427,7 +24427,8 @@
 	var React = __webpack_require__(1),
 	    ApiUtil = __webpack_require__(211),
 	    TaskTypeStore = __webpack_require__(219),
-	    TaskType = __webpack_require__(236);
+	    TaskType = __webpack_require__(236),
+	    Avatar = __webpack_require__(243);
 
 	var Profile = React.createClass({
 	  displayName: 'Profile',
@@ -24453,6 +24454,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
+	      React.createElement(Avatar, null),
 	      this.state.TaskTypes.map(function (taskType) {
 	        return React.createElement(TaskType, { key: taskType.id, taskType: taskType });
 	      })
@@ -24467,7 +24469,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	//util/api_util.js
-	var TaskActions = __webpack_require__(212);
+	var TaskActions = __webpack_require__(212),
+	    AvatarActions = __webpack_require__(246);
 
 	var ApiUtil = {
 	  fetchAllTaskTypes: function () {
@@ -24498,6 +24501,16 @@
 	      data: { task: task },
 	      success: function (task) {
 	        TaskActions.removeSingleTask(task);
+	      }
+	    });
+	  },
+
+	  fetchAvatar: function () {
+	    $.ajax({
+	      url: "api/avatar/",
+	      method: "GET",
+	      success: function (avatar) {
+	        AvatarActions.receiveAvatar(avatar);
 	      }
 	    });
 	  }
@@ -31317,6 +31330,7 @@
 	var TaskType = React.createClass({
 	  displayName: 'TaskType',
 
+	  // NOTE: Not usefule atm
 	  getInitialState: function () {
 	    return { tasks: 0 };
 	  },
@@ -31704,6 +31718,109 @@
 	});
 
 	module.exports = Task;
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    AvatarStore = __webpack_require__(244),
+	    ApiUtil = __webpack_require__(211);
+
+	var Avatar = React.createClass({
+	  displayName: 'Avatar',
+
+	  getInitialState: function () {
+	    return { Avatar: AvatarStore.get() };
+	  },
+
+	  _onChange: function () {
+	    this.setState({ Avatar: AvatarStore.get() });
+	  },
+
+	  componentDidMount: function () {
+	    AvatarStore.addListener(this._onChange);
+	    ApiUtil.fetchAvatar();
+	  },
+
+	  componentWillUnmount: function () {
+	    AvatarStore.removeListener(this._onChange);
+	  },
+
+	  render: function () {
+	    var money;
+	    var Avatar = this.state.Avatar;
+	    if (Avatar) {
+	      money = Avatar.money;
+	    } else {
+	      money = 0;
+	    }
+	    return React.createElement(
+	      'div',
+	      null,
+	      'Money: $',
+	      money
+	    );
+	  }
+	});
+
+	module.exports = Avatar;
+
+/***/ },
+/* 244 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(213),
+	    Store = __webpack_require__(220).Store,
+	    AvatarConstants = __webpack_require__(245);
+
+	var AvatarStore = new Store(AppDispatcher);
+
+	var _Avatar;
+
+	var resetAvatar = function (avatar) {
+	  _Avatar = avatar;
+	};
+
+	AvatarStore.get = function () {
+	  var Avatar = _Avatar;
+	  return Avatar;
+	};
+
+	AvatarStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case AvatarConstants.AVATAR_RECEIVED:
+	      resetAvatar(payload.avatar);
+	      AvatarStore.__emitChange();
+	      break;
+	  }
+	};
+
+	module.exports = AvatarStore;
+
+/***/ },
+/* 245 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  AVATAR_RECEIVED: "AVATAR_RECEIVED"
+	};
+
+/***/ },
+/* 246 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(213),
+	    AvatarConstants = __webpack_require__(245);
+
+	module.exports = {
+	  receiveAvatar: function (avatar) {
+	    Dispatcher.dispatch({
+	      actionType: AvatarConstants.AVATAR_RECEIVED,
+	      avatar: avatar
+	    });
+	  }
+	};
 
 /***/ }
 /******/ ]);
