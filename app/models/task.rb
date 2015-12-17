@@ -17,4 +17,12 @@ class Task < ActiveRecord::Base
     class_name: "TaskType",
     foreign_key: :type_id,
     primary_key: :id
+
+  has_one :user,
+    through: :task_type,
+    source: :user
+
+  has_one :avatar,
+    through: :user,
+    source: :avatar
 end

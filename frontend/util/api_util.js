@@ -43,6 +43,17 @@ var ApiUtil = {
         AvatarActions.receiveAvatar(avatar);
       }
     })
+  },
+
+  updateAvatar: function (deletedTask) {
+    $.ajax({
+      url: "api/avatar/" + deletedTask.avatar.id,
+      method: "PATCH",
+      data: {task: deletedTask},
+      success: function (avatar) {
+        AvatarActions.receiveAvatar(avatar);
+      }
+    })
   }
 }
 

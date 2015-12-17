@@ -24513,6 +24513,17 @@
 	        AvatarActions.receiveAvatar(avatar);
 	      }
 	    });
+	  },
+
+	  updateAvatar: function (deletedTask) {
+	    $.ajax({
+	      url: "api/avatar/" + deletedTask.avatar.id,
+	      method: "PATCH",
+	      data: { task: deletedTask },
+	      success: function (avatar) {
+	        AvatarActions.receiveAvatar(avatar);
+	      }
+	    });
 	  }
 	};
 
@@ -31700,6 +31711,7 @@
 	  displayName: 'Task',
 
 	  handleClick: function () {
+	    ApiUtil.updateAvatar(this.props.task);
 	    ApiUtil.deleteTask(this.props.task);
 	  },
 

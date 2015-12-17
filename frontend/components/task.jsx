@@ -3,6 +3,7 @@ var React = require('react'),
 
 var Task = React.createClass({
   handleClick: function () {
+    ApiUtil.updateAvatar(this.props.task);
     ApiUtil.deleteTask(this.props.task);
   },
 

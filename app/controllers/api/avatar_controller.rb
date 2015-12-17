@@ -1,8 +1,19 @@
 class Api::AvatarController < ApplicationController
   def index
-    if signed_in?
-      @avatar = current_user.avatar
-      render json: @avatar
-    end
+    @avatar = current_user.avatar
+    render json: @avatar
+  end
+
+  def update
+    @avatar = current_user.avatar
+    reward_money = task_params['money_reward'].to_i
+    @avatar.money += reward_money
+    @avatar.save!
+    render json: @avatar
+  end
+
+  private
+  def task_params
+    params.require(:task).permit(:money_reward)
   end
 end
