@@ -19,6 +19,8 @@ class User < ActiveRecord::Base
 
   has_many :task_types
 
+  has_one :avatar
+
   after_initialize :ensure_session_token
 
   def self.generate_session_token

@@ -16,5 +16,12 @@ module.exports = {
       actionType: TaskConstants.TASK_RECEIVED,
       task: task
     });
+  },
+
+  removeSingleTask: function (task) {
+    Dispatcher.dispatch({
+      actionType: TaskConstants.TASK_REMOVED,
+      task: task
+    });
   }
 }

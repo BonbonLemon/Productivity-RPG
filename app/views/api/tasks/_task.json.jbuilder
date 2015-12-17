@@ -1,1 +1,1 @@
-json.extract! task, :title, :money_reward
+json.extract! task, :id, :title, :money_reward, :task_type

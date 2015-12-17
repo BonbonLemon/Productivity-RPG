@@ -1,5 +1,5 @@
 //util/api_util.js
-var ApiActions = require('./../actions/taskTypeActions')
+var TaskActions = require('./../actions/taskActions')
 
 var ApiUtil = {
   fetchAllTaskTypes: function() {
@@ -7,18 +7,29 @@ var ApiUtil = {
       url: "api/task_types/",
       method: "GET",
       success: function (taskTypes) {
-        ApiActions.receiveAllTaskTypes(taskTypes);
+        TaskActions.receiveAllTaskTypes(taskTypes);
       }
     })
   },
 
-  createTask: function (task, callback) {
+  createTask: function (task) {
     $.ajax({
       url: "api/tasks/",
       method: "POST",
       data: {task: task},
       success: function (task) {
-        ApiActions.receiveSingleTask(task);
+        TaskActions.receiveSingleTask(task);
+      }
+    })
+  },
+
+  deleteTask: function (task) {
+    $.ajax({
+      url: "api/tasks/" + task.id,
+      method: "DELETE",
+      data: {task: task},
+      success: function (task) {
+        TaskActions.removeSingleTask(task);
       }
     })
   }

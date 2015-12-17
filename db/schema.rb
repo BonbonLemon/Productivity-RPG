@@ -11,7 +11,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151215220501) do
+ActiveRecord::Schema.define(version: 20151217010916) do
+
+  create_table "avatars", force: :cascade do |t|
+    t.integer  "user_id",                null: false
+    t.integer  "money",      default: 0, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "avatars", ["user_id"], name: "index_avatars_on_user_id", unique: true
 
   create_table "task_types", force: :cascade do |t|
     t.integer  "user_id",    null: false

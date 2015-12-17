@@ -1,13 +1,13 @@
 class Api::TasksController < ApplicationController
   def index
     # if params[:task_type_id]:
-    tasks = current_user.task_types
+    tasks = Task.all
     render json: tasks
   end
 
   def show
-    task = Task.find(params[:id])
-    render json: task
+    @task = Task.find(params[:id])
+    render :show
   end
 
   def create
@@ -22,9 +22,9 @@ class Api::TasksController < ApplicationController
   end
 
   def destroy
-    task = Task.find(params[:id])
-    task = destroy!
-    render json: Task.all
+    @task = Task.find(params[:id])
+    @task.destroy!
+    render :show
   end
 
   private

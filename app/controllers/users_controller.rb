@@ -12,6 +12,7 @@ class UsersController < ApplicationController
       TaskType.create(user_id: @user.id, type_name: "Habits")
       TaskType.create(user_id: @user.id, type_name: "Dailies")
       TaskType.create(user_id: @user.id, type_name: "To-dos")
+      Avatar.create(user_id: @user.id)
 
       redirect_to root_url
     else

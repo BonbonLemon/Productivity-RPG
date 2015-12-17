@@ -17,6 +17,10 @@ var Profile = React.createClass({
     ApiUtil.fetchAllTaskTypes();
   },
 
+  componentWillUnmount: function () {
+    TaskTypeStore.removeListener(this._onChange);
+  },
+
   render: function () {
     return (
       <div>

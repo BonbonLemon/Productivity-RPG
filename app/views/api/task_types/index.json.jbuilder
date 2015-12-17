@@ -3,6 +3,7 @@ json.array! @task_types do |task_type|
   json.type_name task_type.type_name
 
   json.tasks task_type.tasks do |task|
+    json.id task.id
     json.title task.title
     json.money_reward task.money_reward
   end

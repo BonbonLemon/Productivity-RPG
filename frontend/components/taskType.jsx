@@ -11,7 +11,7 @@ var TaskType = React.createClass({
     return (
       <div className="taskType">
         {this.props.taskType.type_name}
-        <TaskForm taskType={this.props.taskType} onSubmit={this.handleSubmit} />
+        <TaskForm taskType={this.props.taskType} />
         {
           this.props.taskType.tasks.map(function (task, idx) {
             return (

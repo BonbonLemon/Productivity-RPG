@@ -24445,6 +24445,10 @@
 	    ApiUtil.fetchAllTaskTypes();
 	  },
 
+	  componentWillUnmount: function () {
+	    TaskTypeStore.removeListener(this._onChange);
+	  },
+
 	  render: function () {
 	    return React.createElement(
 	      'div',
@@ -24463,7 +24467,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	//util/api_util.js
-	var ApiActions = __webpack_require__(212);
+	var TaskActions = __webpack_require__(243);
 
 	var ApiUtil = {
 	  fetchAllTaskTypes: function () {
@@ -24471,18 +24475,29 @@
 	      url: "api/task_types/",
 	      method: "GET",
 	      success: function (taskTypes) {
-	        ApiActions.receiveAllTaskTypes(taskTypes);
+	        TaskActions.receiveAllTaskTypes(taskTypes);
 	      }
 	    });
 	  },
 
-	  createTask: function (task, callback) {
+	  createTask: function (task) {
 	    $.ajax({
 	      url: "api/tasks/",
 	      method: "POST",
 	      data: { task: task },
 	      success: function (task) {
-	        ApiActions.receiveSingleTask(task);
+	        TaskActions.receiveSingleTask(task);
+	      }
+	    });
+	  },
+
+	  deleteTask: function (task) {
+	    $.ajax({
+	      url: "api/tasks/" + task.id,
+	      method: "DELETE",
+	      data: { task: task },
+	      success: function (task) {
+	        TaskActions.removeSingleTask(task);
 	      }
 	    });
 	  }
@@ -24491,31 +24506,7 @@
 	module.exports = ApiUtil;
 
 /***/ },
-/* 212 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(213),
-	    TaskTypeConstants = __webpack_require__(217);
-	TaskConstants = __webpack_require__(242);
-
-	module.exports = {
-	  receiveAllTaskTypes: function (taskTypes) {
-	    Dispatcher.dispatch({
-	      actionType: TaskTypeConstants.TASKTYPES_RECEIVED,
-	      taskTypes: taskTypes
-	    });
-	  },
-
-	  // Task Actions
-	  receiveSingleTask: function (task) {
-	    Dispatcher.dispatch({
-	      actionType: TaskConstants.TASK_RECEIVED,
-	      task: task
-	    });
-	  }
-	};
-
-/***/ },
+/* 212 */,
 /* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -24863,6 +24854,15 @@
 	  _taskTypes[task.type_id].tasks.push(task);
 	};
 
+	var removeTask = function (task) {
+	  debugger;
+	  // NOTE: This part is BROKEN!!!
+	  var tasksArr = _taskTypes[task.type_id].tasks;
+	  var taskIdx = tasksArr.indexOf(task);
+
+	  tasksArr.splice(taskIdx, 1);
+	};
+
 	TaskTypeStore.all = function () {
 	  taskTypes = [];
 	  for (var id in _taskTypes) {
@@ -24880,6 +24880,11 @@
 	    case TaskConstants.TASK_RECEIVED:
 	      addTask(payload.task);
 	      TaskTypeStore.__emitChange();
+	      break;
+	    case TaskConstants.TASK_REMOVED:
+	      removeTask(payload.task);
+	      TaskTypeStore.__emitChange();
+	      break;
 	  }
 	};
 
@@ -31272,7 +31277,7 @@
 	      'div',
 	      { className: 'taskType' },
 	      this.props.taskType.type_name,
-	      React.createElement(TaskForm, { taskType: this.props.taskType, onSubmit: this.handleSubmit }),
+	      React.createElement(TaskForm, { taskType: this.props.taskType }),
 	      this.props.taskType.tasks.map(function (task, idx) {
 	        return React.createElement(Task, { key: idx, task: task });
 	      })
@@ -31319,6 +31324,7 @@
 	    newTask.type_id = this.props.taskType.id;
 	    newTask.title = this.state.title;
 	    newTask.money_reward = this.state.moneyReward;
+	    debugger;
 	    ApiUtil.createTask(newTask);
 	    this.setState({
 	      title: "",
@@ -31625,20 +31631,25 @@
 /* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var React = __webpack_require__(1);
+	var React = __webpack_require__(1),
+	    ApiUtil = __webpack_require__(211);
 
 	var Task = React.createClass({
-	  displayName: "Task",
+	  displayName: 'Task',
 
-	  // <div className="task-title">{task.title}</div>
-	  // <div className="task-reward">{task.money_reward}</div>
+	  handleClick: function () {
+	    ApiUtil.deleteTask(this.props.task);
+	  },
+
 	  render: function () {
+	    // <div className="task-title">{task.title}</div>
+	    // <div className="task-reward">{task.money_reward}</div>
 	    var task = this.props.task;
 	    return React.createElement(
-	      "div",
-	      { className: "task" },
+	      'div',
+	      { className: 'task', onClick: this.handleClick },
 	      task.title,
-	      " $",
+	      ' $',
 	      task.money_reward
 	    );
 	  }
@@ -31651,7 +31662,40 @@
 /***/ function(module, exports) {
 
 	module.exports = {
-	  TASK_RECEIVED: "TASK_RECEIVED"
+	  TASK_RECEIVED: "TASK_RECEIVED",
+	  TASK_REMOVED: "TASK_REMOVED"
+	};
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(213),
+	    TaskTypeConstants = __webpack_require__(217);
+	TaskConstants = __webpack_require__(242);
+
+	module.exports = {
+	  receiveAllTaskTypes: function (taskTypes) {
+	    Dispatcher.dispatch({
+	      actionType: TaskTypeConstants.TASKTYPES_RECEIVED,
+	      taskTypes: taskTypes
+	    });
+	  },
+
+	  // Task Actions
+	  receiveSingleTask: function (task) {
+	    Dispatcher.dispatch({
+	      actionType: TaskConstants.TASK_RECEIVED,
+	      task: task
+	    });
+	  },
+
+	  removeSingleTask: function (task) {
+	    Dispatcher.dispatch({
+	      actionType: TaskConstants.TASK_REMOVED,
+	      task: task
+	    });
+	  }
 	};
 
 /***/ }
