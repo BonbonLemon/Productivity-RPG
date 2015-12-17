@@ -23,16 +23,24 @@ var Profile = React.createClass({
   },
 
   render: function () {
-    return (
-      <div>
-        <Avatar />
-        {
-          this.state.TaskTypes.map(function (taskType) {
-            return <TaskType key={taskType.id} taskType={taskType} />;
-          })
-        }
-      </div>
-    );
+    if (this.state.TaskTypes.length === 0) {
+      return (
+        <div>Welcome!</div>
+      );
+    } else {
+      return (
+        <div>
+          <Avatar />
+          {
+            this.state.TaskTypes.map(function (taskType) {
+              return <TaskType key={taskType.id} taskType={taskType} />;
+            })
+          }
+        </div>
+      );
+    }
+
+    return render;
   }
 })
 

@@ -24451,14 +24451,24 @@
 	  },
 
 	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(Avatar, null),
-	      this.state.TaskTypes.map(function (taskType) {
-	        return React.createElement(TaskType, { key: taskType.id, taskType: taskType });
-	      })
-	    );
+	    if (this.state.TaskTypes.length === 0) {
+	      return React.createElement(
+	        'div',
+	        null,
+	        'Welcome!'
+	      );
+	    } else {
+	      return React.createElement(
+	        'div',
+	        null,
+	        React.createElement(Avatar, null),
+	        this.state.TaskTypes.map(function (taskType) {
+	          return React.createElement(TaskType, { key: taskType.id, taskType: taskType });
+	        })
+	      );
+	    }
+
+	    return render;
 	  }
 	});
 
