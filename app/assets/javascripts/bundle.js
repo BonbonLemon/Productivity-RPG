@@ -58,11 +58,13 @@
 	document.addEventListener("DOMContentLoaded", function () {
 	  var root = document.querySelector('#root');
 
-	  ReactDOM.render(React.createElement(
-	    Router,
-	    null,
-	    routes
-	  ), root);
+	  if (root) {
+	    ReactDOM.render(React.createElement(
+	      Router,
+	      null,
+	      routes
+	    ), root);
+	  }
 	});
 
 /***/ },
@@ -24486,8 +24488,6 @@
 	  }
 	};
 
-	window.ApiUtil = ApiUtil;
-
 	module.exports = ApiUtil;
 
 /***/ },
@@ -24882,8 +24882,6 @@
 	      TaskTypeStore.__emitChange();
 	  }
 	};
-
-	window.TaskTypeStore = TaskTypeStore;
 
 	module.exports = TaskTypeStore;
 

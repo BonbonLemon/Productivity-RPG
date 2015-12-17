@@ -38,6 +38,4 @@ TaskTypeStore.__onDispatch = function (payload) {
   }
 };
 
-window.TaskTypeStore = TaskTypeStore;
-
 module.exports = TaskTypeStore;

@@ -17,7 +17,6 @@ class SessionsController < ApplicationController
       flash.now[:errors] = ["Incorrect credentials"]
       render :new
     end
-
   end
 
   def destroy
