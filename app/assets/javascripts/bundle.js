@@ -31359,12 +31359,16 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'taskType' },
+	      { className: 'task-type' },
 	      this.props.taskType.type_name,
 	      React.createElement(TaskForm, { taskType: this.props.taskType }),
-	      this.props.taskType.tasks.map(function (task, idx) {
-	        return React.createElement(Task, { key: idx, task: task });
-	      })
+	      React.createElement(
+	        'ul',
+	        { className: 'task-box' },
+	        this.props.taskType.tasks.map(function (task, idx) {
+	          return React.createElement(Task, { key: idx, task: task });
+	        })
+	      )
 	    );
 	  }
 	});
@@ -31449,7 +31453,6 @@
 	        className: 'task-form-text',
 	        value: '+'
 	      }),
-	      React.createElement('br', null),
 	      React.createElement('br', null),
 	      React.createElement(
 	        'label',
@@ -31730,8 +31733,8 @@
 	    // <div className="task-reward">{task.money_reward}</div>
 	    var task = this.props.task;
 	    return React.createElement(
-	      'div',
-	      { className: 'task', onClick: this.handleClick },
+	      'li',
+	      { className: 'task-item', onClick: this.handleClick },
 	      task.title,
 	      ' $',
 	      task.money_reward

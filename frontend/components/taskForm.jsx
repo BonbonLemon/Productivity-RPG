@@ -68,7 +68,7 @@ var TaskForm = React.createClass({
                className="task-form-text"
                value="+"
         />
-        <br/><br/>
+        <br/>
         <label id="moneyRewardForm">$
         <input type="text"
                name="quantity"

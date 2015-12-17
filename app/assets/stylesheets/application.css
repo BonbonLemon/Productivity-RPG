@@ -14,25 +14,40 @@
  *= require_self
  */
 
-.taskType {
+
+.task-type {
   float: left;
   width: 200px;
   height: 40px;
   margin: auto;
   font-size: 16px;
+  text-indent: 10px;
   line-height: 40px;
-  padding-left: 5px;
-  outline: 1px solid black;
+  outline: thin solid black;
 }
 
-.task {
-  width: inherit;
-  margin: auto;
+ul {
+  list-style: none;
+}
+
+.task-box {
+  margin: inherit;
   padding: inherit;
-  height: 30px;
+  outline: thin solid black;
+  height: 400px;
+  overflow-y: auto;
 }
 
-.task:hover {
+.task-item {
+  width: inherit;
+  height: 45px;
+  line-height: 45px;
+  outline: inherit;
+  list-style: none;
+  cursor: pointer;
+}
+
+.task-item:hover {
   background-color: #80ffff
 }
 
@@ -46,8 +61,11 @@
 
 #newTaskForm {
   text-align: center;
-  outline: 1px dotted #ccc;
-  padding: 0px;
+  text-indent: 0px;
+  width: inherit;
+  outline: thin solid black;
+  /*border-top: 1px solid black;*/
+  /*margin-top: 1px;*/
 }
 
 #task-text-box {
