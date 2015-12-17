@@ -1,8 +1,8 @@
 class Api::TasksController < ApplicationController
   def index
     # if params[:task_type_id]:
-    tasks = Task.all
-    render json: tasks
+    @tasks = Task.all
+    render :index
   end
 
   def show
@@ -11,8 +11,8 @@ class Api::TasksController < ApplicationController
   end
 
   def create
-    task = Task.create!(task_params)
-    render json: task
+    @task = Task.create!(task_params)
+    render :show
   end
 
   def update

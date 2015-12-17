@@ -18,14 +18,23 @@ var addTask = function (task) {
   _taskTypes[task.type_id].tasks.push(task);
 };
 
+var findTaskIdx = function (tasksArr, task) {
+  var idx;
+  tasksArr.forEach(function (taskEl, i) {
+    if (taskEl.id === task.id) {
+      idx = i;
+      return;
+    }
+  });
+  return idx;
+};
+
 var removeTask = function (task) {
-  debugger;
-  // NOTE: This part is BROKEN!!!
   var tasksArr = _taskTypes[task.type_id].tasks;
-  var taskIdx = tasksArr.indexOf(task);
+  var taskIdx = findTaskIdx(tasksArr, task);
 
   tasksArr.splice(taskIdx, 1);
-}
+};
 
 TaskTypeStore.all = function () {
   taskTypes = [];

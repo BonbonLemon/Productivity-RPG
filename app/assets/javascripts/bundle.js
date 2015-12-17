@@ -24426,8 +24426,8 @@
 
 	var React = __webpack_require__(1),
 	    ApiUtil = __webpack_require__(211),
-	    TaskTypeStore = __webpack_require__(218),
-	    TaskType = __webpack_require__(235);
+	    TaskTypeStore = __webpack_require__(219),
+	    TaskType = __webpack_require__(236);
 
 	var Profile = React.createClass({
 	  displayName: 'Profile',
@@ -24467,7 +24467,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	//util/api_util.js
-	var TaskActions = __webpack_require__(243);
+	var TaskActions = __webpack_require__(212);
 
 	var ApiUtil = {
 	  fetchAllTaskTypes: function () {
@@ -24506,7 +24506,38 @@
 	module.exports = ApiUtil;
 
 /***/ },
-/* 212 */,
+/* 212 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(213),
+	    TaskTypeConstants = __webpack_require__(217);
+	TaskConstants = __webpack_require__(218);
+
+	module.exports = {
+	  receiveAllTaskTypes: function (taskTypes) {
+	    Dispatcher.dispatch({
+	      actionType: TaskTypeConstants.TASKTYPES_RECEIVED,
+	      taskTypes: taskTypes
+	    });
+	  },
+
+	  // Task Actions
+	  receiveSingleTask: function (task) {
+	    Dispatcher.dispatch({
+	      actionType: TaskConstants.TASK_RECEIVED,
+	      task: task
+	    });
+	  },
+
+	  removeSingleTask: function (task) {
+	    Dispatcher.dispatch({
+	      actionType: TaskConstants.TASK_REMOVED,
+	      task: task
+	    });
+	  }
+	};
+
+/***/ },
 /* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -24832,12 +24863,21 @@
 
 /***/ },
 /* 218 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  TASK_RECEIVED: "TASK_RECEIVED",
+	  TASK_REMOVED: "TASK_REMOVED"
+	};
+
+/***/ },
+/* 219 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(213),
-	    Store = __webpack_require__(219).Store,
+	    Store = __webpack_require__(220).Store,
 	    TaskTypeConstants = __webpack_require__(217),
-	    TaskConstants = __webpack_require__(242);
+	    TaskConstants = __webpack_require__(218);
 
 	var TaskTypeStore = new Store(AppDispatcher);
 
@@ -24854,11 +24894,20 @@
 	  _taskTypes[task.type_id].tasks.push(task);
 	};
 
+	var findTaskIdx = function (tasksArr, task) {
+	  var idx;
+	  tasksArr.forEach(function (taskEl, i) {
+	    if (taskEl.id === task.id) {
+	      idx = i;
+	      return;
+	    }
+	  });
+	  return idx;
+	};
+
 	var removeTask = function (task) {
-	  debugger;
-	  // NOTE: This part is BROKEN!!!
 	  var tasksArr = _taskTypes[task.type_id].tasks;
-	  var taskIdx = tasksArr.indexOf(task);
+	  var taskIdx = findTaskIdx(tasksArr, task);
 
 	  tasksArr.splice(taskIdx, 1);
 	};
@@ -24891,7 +24940,7 @@
 	module.exports = TaskTypeStore;
 
 /***/ },
-/* 219 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -24903,15 +24952,15 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 
-	module.exports.Container = __webpack_require__(220);
-	module.exports.MapStore = __webpack_require__(223);
-	module.exports.Mixin = __webpack_require__(234);
-	module.exports.ReduceStore = __webpack_require__(224);
-	module.exports.Store = __webpack_require__(225);
+	module.exports.Container = __webpack_require__(221);
+	module.exports.MapStore = __webpack_require__(224);
+	module.exports.Mixin = __webpack_require__(235);
+	module.exports.ReduceStore = __webpack_require__(225);
+	module.exports.Store = __webpack_require__(226);
 
 
 /***/ },
-/* 220 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -24933,10 +24982,10 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var FluxStoreGroup = __webpack_require__(221);
+	var FluxStoreGroup = __webpack_require__(222);
 
 	var invariant = __webpack_require__(216);
-	var shallowEqual = __webpack_require__(222);
+	var shallowEqual = __webpack_require__(223);
 
 	var DEFAULT_OPTIONS = {
 	  pure: true,
@@ -25094,7 +25143,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 221 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25175,7 +25224,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 222 */
+/* 223 */
 /***/ function(module, exports) {
 
 	/**
@@ -25230,7 +25279,7 @@
 	module.exports = shallowEqual;
 
 /***/ },
-/* 223 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25251,8 +25300,8 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var FluxReduceStore = __webpack_require__(224);
-	var Immutable = __webpack_require__(233);
+	var FluxReduceStore = __webpack_require__(225);
+	var Immutable = __webpack_require__(234);
 
 	var invariant = __webpack_require__(216);
 
@@ -25380,7 +25429,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 224 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25401,9 +25450,9 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var FluxStore = __webpack_require__(225);
+	var FluxStore = __webpack_require__(226);
 
-	var abstractMethod = __webpack_require__(232);
+	var abstractMethod = __webpack_require__(233);
 	var invariant = __webpack_require__(216);
 
 	var FluxReduceStore = (function (_FluxStore) {
@@ -25487,7 +25536,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 225 */
+/* 226 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25506,7 +25555,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var _require = __webpack_require__(226);
+	var _require = __webpack_require__(227);
 
 	var EventEmitter = _require.EventEmitter;
 
@@ -25670,7 +25719,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 226 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25683,14 +25732,14 @@
 	 */
 
 	var fbemitter = {
-	  EventEmitter: __webpack_require__(227)
+	  EventEmitter: __webpack_require__(228)
 	};
 
 	module.exports = fbemitter;
 
 
 /***/ },
-/* 227 */
+/* 228 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25709,10 +25758,10 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var EmitterSubscription = __webpack_require__(228);
-	var EventSubscriptionVendor = __webpack_require__(230);
+	var EmitterSubscription = __webpack_require__(229);
+	var EventSubscriptionVendor = __webpack_require__(231);
 
-	var emptyFunction = __webpack_require__(231);
+	var emptyFunction = __webpack_require__(232);
 	var invariant = __webpack_require__(216);
 
 	/**
@@ -25887,7 +25936,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 228 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25908,7 +25957,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var EventSubscription = __webpack_require__(229);
+	var EventSubscription = __webpack_require__(230);
 
 	/**
 	 * EmitterSubscription represents a subscription with listener and context data.
@@ -25940,7 +25989,7 @@
 	module.exports = EmitterSubscription;
 
 /***/ },
-/* 229 */
+/* 230 */
 /***/ function(module, exports) {
 
 	/**
@@ -25991,7 +26040,7 @@
 	module.exports = EventSubscription;
 
 /***/ },
-/* 230 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26100,7 +26149,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 231 */
+/* 232 */
 /***/ function(module, exports) {
 
 	/**
@@ -26143,7 +26192,7 @@
 	module.exports = emptyFunction;
 
 /***/ },
-/* 232 */
+/* 233 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26170,7 +26219,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 233 */
+/* 234 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31135,7 +31184,7 @@
 	}));
 
 /***/ },
-/* 234 */
+/* 235 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -31152,7 +31201,7 @@
 
 	'use strict';
 
-	var FluxStoreGroup = __webpack_require__(221);
+	var FluxStoreGroup = __webpack_require__(222);
 
 	var invariant = __webpack_require__(216);
 
@@ -31258,12 +31307,12 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 235 */
+/* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    TaskForm = __webpack_require__(236),
-	    Task = __webpack_require__(241);
+	    TaskForm = __webpack_require__(237),
+	    Task = __webpack_require__(242);
 
 	var TaskType = React.createClass({
 	  displayName: 'TaskType',
@@ -31288,13 +31337,13 @@
 	module.exports = TaskType;
 
 /***/ },
-/* 236 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    ApiUtil = __webpack_require__(211),
 	    History = __webpack_require__(159).History,
-	    LinkedStateMixin = __webpack_require__(237);
+	    LinkedStateMixin = __webpack_require__(238);
 
 	var TaskForm = React.createClass({
 	  displayName: 'TaskForm',
@@ -31324,7 +31373,6 @@
 	    newTask.type_id = this.props.taskType.id;
 	    newTask.title = this.state.title;
 	    newTask.money_reward = this.state.moneyReward;
-	    debugger;
 	    ApiUtil.createTask(newTask);
 	    this.setState({
 	      title: "",
@@ -31398,13 +31446,13 @@
 	module.exports = TaskForm;
 
 /***/ },
-/* 237 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(238);
+	module.exports = __webpack_require__(239);
 
 /***/ },
-/* 238 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31421,8 +31469,8 @@
 
 	'use strict';
 
-	var ReactLink = __webpack_require__(239);
-	var ReactStateSetters = __webpack_require__(240);
+	var ReactLink = __webpack_require__(240);
+	var ReactStateSetters = __webpack_require__(241);
 
 	/**
 	 * A simple mixin around ReactLink.forState().
@@ -31445,7 +31493,7 @@
 	module.exports = LinkedStateMixin;
 
 /***/ },
-/* 239 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31519,7 +31567,7 @@
 	module.exports = ReactLink;
 
 /***/ },
-/* 240 */
+/* 241 */
 /***/ function(module, exports) {
 
 	/**
@@ -31628,7 +31676,7 @@
 	module.exports = ReactStateSetters;
 
 /***/ },
-/* 241 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
@@ -31656,47 +31704,6 @@
 	});
 
 	module.exports = Task;
-
-/***/ },
-/* 242 */
-/***/ function(module, exports) {
-
-	module.exports = {
-	  TASK_RECEIVED: "TASK_RECEIVED",
-	  TASK_REMOVED: "TASK_REMOVED"
-	};
-
-/***/ },
-/* 243 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(213),
-	    TaskTypeConstants = __webpack_require__(217);
-	TaskConstants = __webpack_require__(242);
-
-	module.exports = {
-	  receiveAllTaskTypes: function (taskTypes) {
-	    Dispatcher.dispatch({
-	      actionType: TaskTypeConstants.TASKTYPES_RECEIVED,
-	      taskTypes: taskTypes
-	    });
-	  },
-
-	  // Task Actions
-	  receiveSingleTask: function (task) {
-	    Dispatcher.dispatch({
-	      actionType: TaskConstants.TASK_RECEIVED,
-	      task: task
-	    });
-	  },
-
-	  removeSingleTask: function (task) {
-	    Dispatcher.dispatch({
-	      actionType: TaskConstants.TASK_REMOVED,
-	      task: task
-	    });
-	  }
-	};
 
 /***/ }
 /******/ ]);

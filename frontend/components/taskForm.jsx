@@ -29,7 +29,6 @@ var TaskForm = React.createClass({
     newTask.type_id = this.props.taskType.id;
     newTask.title = this.state.title;
     newTask.money_reward = this.state.moneyReward;
-    debugger;
     ApiUtil.createTask(newTask);
     this.setState({
       title: "",
