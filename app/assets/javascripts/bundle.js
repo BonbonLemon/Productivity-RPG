@@ -31729,15 +31729,22 @@
 	  },
 
 	  render: function () {
-	    // <div className="task-title">{task.title}</div>
-	    // <div className="task-reward">{task.money_reward}</div>
 	    var task = this.props.task;
+	    // {task.title} ${task.money_reward}
 	    return React.createElement(
 	      'li',
 	      { className: 'task-item', onClick: this.handleClick },
-	      task.title,
-	      ' $',
-	      task.money_reward
+	      React.createElement(
+	        'div',
+	        { className: 'task-description' },
+	        task.title
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'task-reward' },
+	        '$',
+	        task.money_reward
+	      )
 	    );
 	  }
 	});

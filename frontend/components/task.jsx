@@ -8,12 +8,12 @@ var Task = React.createClass({
   },
 
   render: function () {
-        // <div className="task-title">{task.title}</div>
-        // <div className="task-reward">{task.money_reward}</div>
     var task = this.props.task;
+        // {task.title} ${task.money_reward}
     return (
       <li className="task-item" onClick={this.handleClick}>
-        {task.title} ${task.money_reward}
+        <div className="task-description">{task.title}</div>
+        <div className="task-reward">${task.money_reward}</div>
       </li>
     )
   }
