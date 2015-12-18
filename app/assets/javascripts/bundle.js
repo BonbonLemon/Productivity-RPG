@@ -24426,7 +24426,7 @@
 
 	var React = __webpack_require__(1),
 	    ApiUtil = __webpack_require__(211),
-	    TaskStore = __webpack_require__(247),
+	    TaskStore = __webpack_require__(221),
 	    TaskType = __webpack_require__(238),
 	    Avatar = __webpack_require__(245);
 
@@ -24527,12 +24527,19 @@
 
 	  updateAvatar: function (deletedTask) {
 	    $.ajax({
-	      url: "api/avatar/" + deletedTask.avatar.id,
-	      method: "PATCH",
-	      data: { task: deletedTask },
-	      success: function (avatar) {
-	        AvatarActions.receiveAvatar(avatar);
-	      }
+	      url: "api/tasks/" + deletedTask.id,
+	      method: "GET",
+	      success: (function (task) {
+	        $.ajax({
+	          url: "api/avatar/" + deletedTask.avatar.id,
+	          method: "PATCH",
+	          data: { task: task },
+	          success: (function (avatar) {
+	            this.deleteTask(deletedTask);
+	            AvatarActions.receiveAvatar(avatar);
+	          }).bind(this)
+	        });
+	      }).bind(this)
 	    });
 	  }
 	};
@@ -24929,7 +24936,75 @@
 	};
 
 /***/ },
-/* 221 */,
+/* 221 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var AppDispatcher = __webpack_require__(213),
+	    Store = __webpack_require__(222).Store,
+	    TaskTypeConstants = __webpack_require__(217),
+	    TaskConstants = __webpack_require__(218);
+
+	var TaskStore = new Store(AppDispatcher);
+
+	var _taskTypes = {};
+
+	var resetTaskTypes = function (taskTypes) {
+	  _taskTypes = {};
+	  taskTypes.forEach(function (taskType) {
+	    _taskTypes[taskType.id] = taskType;
+	  });
+	};
+
+	var addTask = function (task) {
+	  _taskTypes[task.type_id].tasks.push(task);
+	};
+
+	var findTaskIdx = function (tasksArr, task) {
+	  var idx;
+	  tasksArr.forEach(function (taskEl, i) {
+	    if (taskEl.id === task.id) {
+	      idx = i;
+	      return;
+	    }
+	  });
+	  return idx;
+	};
+
+	var removeTask = function (task) {
+	  var tasksArr = _taskTypes[task.type_id].tasks;
+	  var taskIdx = findTaskIdx(tasksArr, task);
+
+	  tasksArr.splice(taskIdx, 1);
+	};
+
+	TaskStore.all = function () {
+	  taskTypes = [];
+	  for (var id in _taskTypes) {
+	    taskTypes.push(_taskTypes[id]);
+	  }
+	  return taskTypes;
+	};
+
+	TaskStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case TaskTypeConstants.TASKTYPES_RECEIVED:
+	      resetTaskTypes(payload.taskTypes);
+	      TaskStore.__emitChange();
+	      break;
+	    case TaskConstants.TASK_RECEIVED:
+	      addTask(payload.task);
+	      TaskStore.__emitChange();
+	      break;
+	    case TaskConstants.TASK_REMOVED:
+	      removeTask(payload.task);
+	      TaskStore.__emitChange();
+	      break;
+	  }
+	};
+
+	module.exports = TaskStore;
+
+/***/ },
 /* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -31399,6 +31474,8 @@
 	      { id: 'newTaskForm', onSubmit: this.handleSubmit },
 	      'Create new ',
 	      this.props.taskType.type_name,
+	      React.createElement('br', null),
+	      React.createElement('br', null),
 	      React.createElement('input', { type: 'text',
 	        id: 'task-text-box',
 	        className: 'task-form-text',
@@ -31409,6 +31486,7 @@
 	        className: 'task-form-text',
 	        value: '+'
 	      }),
+	      React.createElement('br', null),
 	      React.createElement('br', null),
 	      React.createElement(
 	        'label',
@@ -31681,7 +31759,7 @@
 
 	  handleClick: function () {
 	    ApiUtil.updateAvatar(this.props.task);
-	    ApiUtil.deleteTask(this.props.task);
+	    // ApiUtil.deleteTask(this.props.task);
 	  },
 
 	  render: function () {
@@ -31784,75 +31862,6 @@
 	};
 
 	module.exports = AvatarStore;
-
-/***/ },
-/* 247 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(213),
-	    Store = __webpack_require__(222).Store,
-	    TaskTypeConstants = __webpack_require__(217),
-	    TaskConstants = __webpack_require__(218);
-
-	var TaskStore = new Store(AppDispatcher);
-
-	var _taskTypes = {};
-
-	var resetTaskTypes = function (taskTypes) {
-	  _taskTypes = {};
-	  taskTypes.forEach(function (taskType) {
-	    _taskTypes[taskType.id] = taskType;
-	  });
-	};
-
-	var addTask = function (task) {
-	  _taskTypes[task.type_id].tasks.push(task);
-	};
-
-	var findTaskIdx = function (tasksArr, task) {
-	  var idx;
-	  tasksArr.forEach(function (taskEl, i) {
-	    if (taskEl.id === task.id) {
-	      idx = i;
-	      return;
-	    }
-	  });
-	  return idx;
-	};
-
-	var removeTask = function (task) {
-	  var tasksArr = _taskTypes[task.type_id].tasks;
-	  var taskIdx = findTaskIdx(tasksArr, task);
-
-	  tasksArr.splice(taskIdx, 1);
-	};
-
-	TaskStore.all = function () {
-	  taskTypes = [];
-	  for (var id in _taskTypes) {
-	    taskTypes.push(_taskTypes[id]);
-	  }
-	  return taskTypes;
-	};
-
-	TaskStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case TaskTypeConstants.TASKTYPES_RECEIVED:
-	      resetTaskTypes(payload.taskTypes);
-	      TaskStore.__emitChange();
-	      break;
-	    case TaskConstants.TASK_RECEIVED:
-	      addTask(payload.task);
-	      TaskStore.__emitChange();
-	      break;
-	    case TaskConstants.TASK_REMOVED:
-	      removeTask(payload.task);
-	      TaskStore.__emitChange();
-	      break;
-	  }
-	};
-
-	module.exports = TaskStore;
 
 /***/ }
 /******/ ]);

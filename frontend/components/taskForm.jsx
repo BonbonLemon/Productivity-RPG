@@ -58,6 +58,7 @@ var TaskForm = React.createClass({
     return (
       <form id="newTaskForm" onSubmit={this.handleSubmit}>
         Create new {this.props.taskType.type_name}
+        <br/><br/>
         <input type="text"
                id="task-text-box"
                className="task-form-text"
@@ -68,6 +69,7 @@ var TaskForm = React.createClass({
                className="task-form-text"
                value="+"
         />
+        <br/>
         <br/>
         <label id="moneyRewardForm">$
         <input type="text"

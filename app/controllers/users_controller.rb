@@ -7,7 +7,6 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.save
-      debugger
       @user.create_profile_items
       @user.create_tutorial_tasks
 

@@ -22,11 +22,9 @@ body {
   background: #ccccff;
   float: left;
   width: 200px;
-  height: 40px;
   margin: auto;
   font-size: 16px;
   text-indent: 10px;
-  line-height: 40px;
   outline: thin solid black;
 }
 
@@ -45,12 +43,13 @@ ul {
 
 .task-item {
   background: #33ffbb;
+  font-size: 14px;
   width: inherit;
   height: 45px;
-  line-height: 45px;
   outline: inherit;
   list-style: none;
   cursor: pointer;
+  display: table;
 }
 
 .task-item:hover {
@@ -62,14 +61,20 @@ ul {
 }
 
 .task-reward {
-  width: 50px;
-  float: left;
+  display: table-cell;
+  width: 40px;
+  height: inherit;
+  vertical-align: middle;
   text-indent: 10px;
 }
 
 .task-description {
-  float: left;
-  word-wrap: break-word;
+  width: 150px;
+  height: inherit;
+  padding-right: 10px;
+  display: table-cell;
+  vertical-align: middle;
+  text-indent: 0px;
 }
 
 #newTaskForm {

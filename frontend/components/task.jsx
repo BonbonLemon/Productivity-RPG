@@ -4,7 +4,7 @@ var React = require('react'),
 var Task = React.createClass({
   handleClick: function () {
     ApiUtil.updateAvatar(this.props.task);
-    ApiUtil.deleteTask(this.props.task);
+    // ApiUtil.deleteTask(this.props.task);
   },
 
   render: function () {
@@ -14,7 +14,7 @@ var Task = React.createClass({
         <div className="task-reward">${task.money_reward}</div>
         <div className="task-description">{task.title}</div>
       </li>
-    )
+    );
   }
 });
 

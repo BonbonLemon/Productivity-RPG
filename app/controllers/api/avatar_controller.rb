@@ -1,7 +1,11 @@
 class Api::AvatarController < ApplicationController
   def index
     @avatar = current_user.avatar
-    render json: @avatar
+    render :show
+  end
+
+  def show
+    @avatar = Avatar.find(params[:id])
   end
 
   def update
