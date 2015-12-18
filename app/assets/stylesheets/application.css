@@ -15,7 +15,7 @@
  */
 
 body {
-  min-width: 600px;
+  min-width: 800px;
 }
 
 .task-type {
@@ -51,21 +51,21 @@ ul {
 }
 
 .task-item:hover {
-  background-color: #80ffff
+  background-color: #80ffff;
 }
 
 .task-item:active {
-  background-color: #0065ff
+  background-color: #0065ff;
+}
+
+.task-reward {
+  width: 50px;
+  float: left;
+  text-indent: 10px;
 }
 
 .task-description {
   float: left;
-}
-
-.task-reward {
-  float: right;
-  direction: rtl;
-  text-indent: 10px;
 }
 
 #newTaskForm {

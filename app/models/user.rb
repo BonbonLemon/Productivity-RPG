@@ -55,6 +55,7 @@ class User < ActiveRecord::Base
     TaskType.create(user_id: self.id, type_name: "Habits")
     TaskType.create(user_id: self.id, type_name: "Dailies")
     TaskType.create(user_id: self.id, type_name: "To-dos")
+    TaskType.create(user_id: self.id, type_name: "Rewards")
     Avatar.create(user_id: self.id)
   end
 end

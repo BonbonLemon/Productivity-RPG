@@ -9,11 +9,10 @@ var Task = React.createClass({
 
   render: function () {
     var task = this.props.task;
-        // {task.title} ${task.money_reward}
     return (
       <li className="task-item" onClick={this.handleClick}>
-        <div className="task-description">{task.title}</div>
         <div className="task-reward">${task.money_reward}</div>
+        <div className="task-description">{task.title}</div>
       </li>
     )
   }
