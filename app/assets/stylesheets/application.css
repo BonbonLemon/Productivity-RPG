@@ -69,6 +69,7 @@ ul {
 
 .task-description {
   float: left;
+  word-wrap: break-word;
 }
 
 #newTaskForm {

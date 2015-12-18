@@ -58,4 +58,22 @@ class User < ActiveRecord::Base
     TaskType.create(user_id: self.id, type_name: "Rewards")
     Avatar.create(user_id: self.id)
   end
+
+  def create_tutorial_tasks
+    types = self.task_types
+    habits = types[0]
+    dailies = types[1]
+    todos = types[2]
+    rewards = types[3]
+    debugger
+
+    Task.create!(type_id: habits.id, title: "Complete tasks for money!", money_reward: 2)
+    Task.create!(type_id: habits.id, title: "Eat a fruit", money_reward: 3)
+    Task.create!(type_id: habits.id, title: "Use the stairs", money_reward: 3)
+    Task.create!(type_id: dailies.id, title: "You can create your own tasks in the box above", money_reward: 2)
+    Task.create!(type_id: todos.id, title: "Complete tasks by clicking on them!", money_reward: 2)
+    Task.create!(type_id: rewards.id, title: "Use your money and reward yourself!", money_reward: 0)
+    Task.create!(type_id: rewards.id, title: "Candy bar", money_reward: 2)
+    Task.create!(type_id: rewards.id, title: "30min of video games", money_reward: 2)
+  end
 end
