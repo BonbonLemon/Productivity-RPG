@@ -3,7 +3,7 @@ var AppDispatcher = require('../dispatcher/Dispatcher.js'),
     TaskTypeConstants = require('./../constants/taskTypeConstants'),
     TaskConstants = require('./../constants/taskConstants');
 
-var TaskTypeStore = new Store(AppDispatcher);
+var TaskStore = new Store(AppDispatcher);
 
 var _taskTypes = {};
 
@@ -36,7 +36,7 @@ var removeTask = function (task) {
   tasksArr.splice(taskIdx, 1);
 };
 
-TaskTypeStore.all = function () {
+TaskStore.all = function () {
   taskTypes = [];
   for (var id in _taskTypes) {
     taskTypes.push(_taskTypes[id]);
@@ -44,21 +44,21 @@ TaskTypeStore.all = function () {
   return taskTypes;
 };
 
-TaskTypeStore.__onDispatch = function (payload) {
+TaskStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
     case TaskTypeConstants.TASKTYPES_RECEIVED:
       resetTaskTypes(payload.taskTypes);
-      TaskTypeStore.__emitChange();
+      TaskStore.__emitChange();
       break;
     case TaskConstants.TASK_RECEIVED:
       addTask(payload.task);
-      TaskTypeStore.__emitChange();
+      TaskStore.__emitChange();
       break;
     case TaskConstants.TASK_REMOVED:
       removeTask(payload.task);
-      TaskTypeStore.__emitChange();
+      TaskStore.__emitChange();
       break;
   }
 };
 
-module.exports = TaskTypeStore;
+module.exports = TaskStore;

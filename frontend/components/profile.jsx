@@ -1,25 +1,25 @@
 var React = require('react'),
     ApiUtil = require('./../util/api_util'),
-    TaskTypeStore = require('./../stores/taskType'),
+    TaskStore = require('./../stores/task'),
     TaskType = require('./taskType'),
     Avatar = require('./avatar');
 
 var Profile = React.createClass({
   getInitialState: function () {
-    return { TaskTypes: TaskTypeStore.all() };
+    return { TaskTypes: TaskStore.all() };
   },
 
   _onChange: function () {
-    this.setState({ TaskTypes: TaskTypeStore.all() })
+    this.setState({ TaskTypes: TaskStore.all() })
   },
 
   componentDidMount: function () {
-    TaskTypeStore.addListener(this._onChange);
+    TaskStore.addListener(this._onChange);
     ApiUtil.fetchAllTaskTypes();
   },
 
   componentWillUnmount: function () {
-    TaskTypeStore.removeListener(this._onChange);
+    TaskStore.removeListener(this._onChange);
   },
 
   render: function () {
