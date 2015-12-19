@@ -24425,6 +24425,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
+	    ReactDOM = __webpack_require__(158),
 	    ApiUtil = __webpack_require__(211),
 	    TaskStore = __webpack_require__(221),
 	    TaskType = __webpack_require__(238),
@@ -24439,6 +24440,19 @@
 
 	  _onChange: function () {
 	    this.setState({ TaskTypes: TaskStore.all() });
+	  },
+
+	  componentDidUpdate: function () {
+	    try {
+	      var profile = ReactDOM.findDOMNode(this.refs.profileRef);
+	      var sprite = document.querySelector('.sjs');
+	      if (profile && !sprite) {
+	        var scene = sjs.Scene({ parent: profile, w: 640, h: 480 });
+	        var stick = scene.Sprite('assets/stick.png');
+	        //TODO hacky
+	        setTimeout(stick.update.bind(stick), 500);
+	      }
+	    } catch (e) {}
 	  },
 
 	  componentDidMount: function () {
@@ -24458,9 +24472,11 @@
 	        'Welcome!'
 	      );
 	    } else {
+
 	      return React.createElement(
 	        'div',
 	        null,
+	        React.createElement('div', { ref: 'profileRef' }),
 	        React.createElement(Avatar, null),
 	        this.state.TaskTypes.map(function (taskType) {
 	          return React.createElement(TaskType, { key: taskType.id, taskType: taskType });
@@ -31491,7 +31507,12 @@
 	      React.createElement(
 	        'label',
 	        { id: 'moneyRewardForm' },
-	        '$',
+	        React.createElement('img', { className: 'gold-bar', src: '/assets/gold_bar.png' }),
+	        React.createElement(
+	          'span',
+	          null,
+	          ' '
+	        ),
 	        React.createElement('input', { type: 'text',
 	          name: 'quantity',
 	          value: this.state.moneyReward,
@@ -31822,8 +31843,9 @@
 	    }
 	    return React.createElement(
 	      'div',
-	      null,
-	      'Money: $',
+	      { className: 'current-money' },
+	      React.createElement('img', { className: 'current-gold-bar', src: '/assets/gold_bar.png' }),
+	      '  ',
 	      money
 	    );
 	  }

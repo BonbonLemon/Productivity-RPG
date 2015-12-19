@@ -16,6 +16,20 @@
 
 body {
   min-width: 800px;
+  height: 1500px;
+}
+
+.current-money {
+  background: #00FFF9;
+  width: 800px;
+  height: 40px;
+  text-indent: 10px;
+  font-size: 30px;
+}
+
+.current-gold-bar {
+  max-height: 30px;
+  vertical-align: middle;
 }
 
 .task-type {
@@ -105,5 +119,12 @@ ul {
   height: 25px;
   text-align: center;
 }
+
+.gold-bar {
+  height: 25px;
+  vertical-align: middle;
+  max-height: 18px;
+}
+
 input.qtyplus { width: 25px; height: 25px;}
 input.qtyminus { width: 25px; height: 25px;}

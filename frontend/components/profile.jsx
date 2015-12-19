@@ -1,4 +1,5 @@
 var React = require('react'),
+    ReactDOM = require('react-dom'),
     ApiUtil = require('./../util/api_util'),
     TaskStore = require('./../stores/task'),
     TaskType = require('./taskType'),
@@ -11,6 +12,22 @@ var Profile = React.createClass({
 
   _onChange: function () {
     this.setState({ TaskTypes: TaskStore.all() })
+  },
+
+  componentDidUpdate: function () {
+    try{
+      var profile = ReactDOM.findDOMNode(this.refs.profileRef);
+      var sprite = document.querySelector('.sjs');
+      if (profile && !sprite) {
+        var scene = sjs.Scene({parent: profile, w:640, h:480});
+        var stick = scene.Sprite('assets/stick.png');
+        //TODO hacky
+        setTimeout(stick.update.bind(stick), 500);
+      }
+    }
+    catch(e) {
+
+    }
   },
 
   componentDidMount: function () {
@@ -28,8 +45,10 @@ var Profile = React.createClass({
         <div>Welcome!</div>
       );
     } else {
+
       return (
         <div>
+          <div ref="profileRef"/>
           <Avatar />
           {
             this.state.TaskTypes.map(function (taskType) {

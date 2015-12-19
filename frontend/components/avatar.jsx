@@ -29,8 +29,8 @@ var Avatar = React.createClass({
       money = 0;
     }
     return (
-      <div>
-        Money: ${money}
+      <div className="current-money">
+        <img className="current-gold-bar" src="/assets/gold_bar.png" />  {money}
       </div>
     );
   }

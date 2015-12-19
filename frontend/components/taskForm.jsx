@@ -71,25 +71,26 @@ var TaskForm = React.createClass({
         />
         <br/>
         <br/>
-        <label id="moneyRewardForm">$
-        <input type="text"
-               name="quantity"
-               value={this.state.moneyReward}
-               className="qty"
-               onChange={this.handleRewardChange}
-        />
-        <input type="button"
-               value="-"
-               className="qtyminus"
-               field="quantity"
-               onClick={this.handleMinus}
-        />
-        <input type="button"
-               value="+"
-               className="qtyplus"
-               field="quantity"
-               onClick={this.handlePlus}
-        />
+        <label id="moneyRewardForm">
+          <img className="gold-bar" src="/assets/gold_bar.png" /><span> </span>
+          <input type="text"
+                 name="quantity"
+                 value={this.state.moneyReward}
+                 className="qty"
+                 onChange={this.handleRewardChange}
+          />
+          <input type="button"
+                 value="-"
+                 className="qtyminus"
+                 field="quantity"
+                 onClick={this.handleMinus}
+          />
+          <input type="button"
+                 value="+"
+                 className="qtyplus"
+                 field="quantity"
+                 onClick={this.handlePlus}
+          />
         </label>
       </form>
     );
