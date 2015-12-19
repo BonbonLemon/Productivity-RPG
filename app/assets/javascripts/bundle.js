@@ -24447,8 +24447,9 @@
 	      var profile = ReactDOM.findDOMNode(this.refs.profileRef);
 	      var sprite = document.querySelector('.sjs');
 	      if (profile && !sprite) {
-	        var scene = sjs.Scene({ parent: profile, w: 640, h: 480 });
-	        var stick = scene.Sprite('assets/stick.png');
+	        var scene = sjs.Scene({ parent: profile, w: 300, h: 380 });
+	        var stick = scene.Sprite('assets/stick_man.png');
+	        stick.move(50, 60);
 	        //TODO hacky
 	        setTimeout(stick.update.bind(stick), 500);
 	      }
