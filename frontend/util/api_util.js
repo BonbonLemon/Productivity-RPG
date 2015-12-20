@@ -45,21 +45,15 @@ var ApiUtil = {
     })
   },
 
-  updateAvatar: function (deletedTask) {
+  updateAvatar: function (task, callback) {
     $.ajax({
-      url: "api/tasks/" + deletedTask.id,
-      method: "GET",
-      success: function (task) {
-        $.ajax({
-          url: "api/avatar/" + deletedTask.avatar.id,
-          method: "PATCH",
-          data: {task: task},
-          success: function (avatar) {
-            this.deleteTask(deletedTask);
-            AvatarActions.receiveAvatar(avatar);
-          }.bind(this)
-        })
-      }.bind(this)
+      url: "api/avatar/" + task.avatar.id,
+      method: "PATCH",
+      data: {task: task},
+      success: function (avatar) {
+        AvatarActions.receiveAvatar(avatar);
+        callback;
+      }
     })
   }
 }

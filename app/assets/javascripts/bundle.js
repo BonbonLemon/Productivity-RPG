@@ -24449,7 +24449,7 @@
 	      if (profile && !sprite) {
 	        var scene = sjs.Scene({ parent: profile, w: 300, h: 380 });
 	        var stick = scene.Sprite('assets/stick_man.png');
-	        stick.move(50, 60);
+	        stick.position(50, 60);
 	        //TODO hacky
 	        setTimeout(stick.update.bind(stick), 500);
 	      }
@@ -24542,21 +24542,15 @@
 	    });
 	  },
 
-	  updateAvatar: function (deletedTask) {
+	  updateAvatar: function (task, callback) {
 	    $.ajax({
-	      url: "api/tasks/" + deletedTask.id,
-	      method: "GET",
-	      success: (function (task) {
-	        $.ajax({
-	          url: "api/avatar/" + deletedTask.avatar.id,
-	          method: "PATCH",
-	          data: { task: task },
-	          success: (function (avatar) {
-	            this.deleteTask(deletedTask);
-	            AvatarActions.receiveAvatar(avatar);
-	          }).bind(this)
-	        });
-	      }).bind(this)
+	      url: "api/avatar/" + task.avatar.id,
+	      method: "PATCH",
+	      data: { task: task },
+	      success: function (avatar) {
+	        AvatarActions.receiveAvatar(avatar);
+	        callback;
+	      }
 	    });
 	  }
 	};
@@ -31779,27 +31773,66 @@
 	var Task = React.createClass({
 	  displayName: 'Task',
 
-	  handleClick: function () {
-	    ApiUtil.updateAvatar(this.props.task);
-	    // ApiUtil.deleteTask(this.props.task);
+	  getInitialState: function () {
+	    return { disable: false };
+	  },
+
+	  handleClickComplete: function () {
+	    this.handleTaskType();
+	    // ApiUtil.updateAvatar(this.props.task);
+	  },
+
+	  handleClickDelete: function () {
+	    ApiUtil.deleteTask(this.props.task);
+	  },
+
+	  handleTaskType: function () {
+	    switch (this.props.task.task_type.type_name) {
+	      case "Habits":
+	        ApiUtil.updateAvatar(this.props.task);
+	        break;
+	      case "Dailies":
+	        // NOTE: Enables on page reload. JavaScript is not the language to for
+	        // this job of reseting disabled at 12am every night. If I had to, the
+	        // code would look something like this:
+	        // window.setInterval(function () {
+	        //   var date = new Date();
+	        //   if (date.getHours() === 0 && date.getMinutes() === 0) {
+	        //     e.currentTarget.disabled = false;
+	        //   }
+	        // }, 60000)
+	        ApiUtil.updateAvatar(this.props.task);
+	        this.setState({ disable: true });
+	        break;
+	      case "To-dos":
+	      case "Rewards":
+	        ApiUtil.updateAvatar(this.props.task, ApiUtil.deleteTask(this.props.task));
+	        break;
+	    }
 	  },
 
 	  render: function () {
 	    var task = this.props.task;
 	    return React.createElement(
-	      'li',
-	      { className: 'task-item', onClick: this.handleClick },
+	      'div',
+	      null,
 	      React.createElement(
-	        'div',
-	        { className: 'task-reward' },
-	        '$',
-	        task.money_reward
+	        'button',
+	        { className: 'task-item', disabled: this.state.disable, onClick: this.handleClickComplete },
+	        React.createElement(
+	          'div',
+	          { className: 'task-reward' },
+	          React.createElement('img', { className: 'gold-bar', src: '/assets/gold_bar.png' }),
+	          ' ',
+	          task.money_reward
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'task-description' },
+	          task.title
+	        )
 	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'task-description' },
-	        task.title
-	      )
+	      React.createElement('div', { className: 'delete-task-button', onClick: this.handleClickDelete })
 	    );
 	  }
 	});

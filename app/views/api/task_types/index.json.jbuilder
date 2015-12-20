@@ -8,5 +8,6 @@ json.array! @task_types do |task_type|
     json.money_reward task.money_reward
     json.type_id task.type_id
     json.avatar task.avatar
+    json.task_type task.task_type
   end
 end

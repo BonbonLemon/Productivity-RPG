@@ -67,11 +67,13 @@ class User < ActiveRecord::Base
     rewards = types[3]
 
     Task.create!(type_id: habits.id, title: "Complete tasks by clicking on them!", money_reward: 2)
+    Task.create!(type_id: habits.id, title: "Habits will exist until you delete them", money_reward: 2)
     Task.create!(type_id: habits.id, title: "Eat a fruit", money_reward: 3)
     Task.create!(type_id: habits.id, title: "Use the stairs", money_reward: 3)
-    Task.create!(type_id: dailies.id, title: "You can create your own tasks in the box above", money_reward: 2)
+    Task.create!(type_id: dailies.id, title: "Create your own tasks in the box above", money_reward: 2)
+    Task.create!(type_id: dailies.id, title: "Floss", money_reward: 2)
     Task.create!(type_id: todos.id, title: "Click on me!", money_reward: 2)
-    Task.create!(type_id: rewards.id, title: "Use your money and reward yourself!", money_reward: 0)
+    Task.create!(type_id: rewards.id, title: "Spend gold and reward yourself!", money_reward: 0)
     Task.create!(type_id: rewards.id, title: "Candy bar", money_reward: 2)
     Task.create!(type_id: rewards.id, title: "30min of video games", money_reward: 2)
   end

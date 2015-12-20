@@ -21,7 +21,7 @@ var Profile = React.createClass({
       if (profile && !sprite) {
         var scene = sjs.Scene({parent: profile, w:300, h:380});
         var stick = scene.Sprite('assets/stick_man.png');
-        stick.move(50, 60);
+        stick.position(50, 60);
         //TODO hacky
         setTimeout(stick.update.bind(stick), 500);
       }

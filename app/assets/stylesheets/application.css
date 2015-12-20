@@ -56,12 +56,14 @@ ul {
 }
 
 .task-item {
+  float: left;
   background: #33ffbb;
   font-size: 14px;
-  width: inherit;
+  width: 170px;
   height: 45px;
-  outline: inherit;
-  list-style: none;
+  padding: 0px;
+  border: 0px;
+  outline: 1px solid black;
   cursor: pointer;
   display: table;
 }
@@ -76,19 +78,39 @@ ul {
 
 .task-reward {
   display: table-cell;
-  width: 40px;
+  width: 50px;
   height: inherit;
   vertical-align: middle;
-  text-indent: 10px;
+  text-indent: 5px;
 }
 
 .task-description {
-  width: 150px;
-  height: inherit;
-  padding-right: 10px;
+  width: 120px;
   display: table-cell;
   vertical-align: middle;
+  text-align: left;
   text-indent: 0px;
+}
+
+.delete-task-button {
+  float: left;
+  background: red;
+  width: 30px;
+  height: 45px;
+  color: white;
+  outline: 1px solid black;
+  font-size: 24px;
+  line-height: 45px;
+  text-align: center;
+  text-indent: 0px;
+}
+
+.delete-task-button:before {
+    content: "×";
+}
+
+.delete-task-button:active {
+  background: #AD0000;
 }
 
 #newTaskForm {
