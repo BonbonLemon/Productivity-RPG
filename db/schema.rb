@@ -16,10 +16,16 @@ ActiveRecord::Schema.define(version: 20151217010916) do
   create_table "avatars", force: :cascade do |t|
     t.integer  "user_id",                null: false
     t.integer  "money",      default: 0, null: false
+    t.integer  "sword_id"
+    t.integer  "shield_id"
+    t.integer  "hat_id"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
 
+  add_index "avatars", ["hat_id"], name: "index_avatars_on_hat_id"
+  add_index "avatars", ["shield_id"], name: "index_avatars_on_shield_id"
+  add_index "avatars", ["sword_id"], name: "index_avatars_on_sword_id"
   add_index "avatars", ["user_id"], name: "index_avatars_on_user_id", unique: true
 
   create_table "task_types", force: :cascade do |t|

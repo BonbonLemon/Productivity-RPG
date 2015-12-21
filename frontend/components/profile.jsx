@@ -3,6 +3,7 @@ var React = require('react'),
     ApiUtil = require('./../util/api_util'),
     TaskStore = require('./../stores/task'),
     TaskType = require('./taskType'),
+    sjs = require('../util/sprite'),
     Avatar = require('./avatar');
 
 var Profile = React.createClass({
@@ -15,7 +16,7 @@ var Profile = React.createClass({
   },
 
   componentDidUpdate: function () {
-    try{
+    // try{
       var profile = ReactDOM.findDOMNode(this.refs.profileRef);
       var sprite = document.querySelector('.sjs');
       if (profile && !sprite) {
@@ -25,10 +26,8 @@ var Profile = React.createClass({
         //TODO hacky
         setTimeout(stick.update.bind(stick), 500);
       }
-    }
-    catch(e) {
-
-    }
+    // }
+    // catch(e) {}
   },
 
   componentDidMount: function () {

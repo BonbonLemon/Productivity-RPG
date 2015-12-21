@@ -8,7 +8,6 @@ var Task = React.createClass({
 
   handleClickComplete: function () {
     this.handleTaskType();
-    // ApiUtil.updateAvatar(this.props.task);
   },
 
   handleClickDelete: function () {
