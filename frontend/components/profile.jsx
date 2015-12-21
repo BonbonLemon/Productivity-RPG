@@ -15,20 +15,20 @@ var Profile = React.createClass({
     this.setState({ TaskTypes: TaskStore.all() })
   },
 
-  componentDidUpdate: function () {
-    // try{
-      var profile = ReactDOM.findDOMNode(this.refs.profileRef);
-      var sprite = document.querySelector('.sjs');
-      if (profile && !sprite) {
-        var scene = sjs.Scene({parent: profile, w:300, h:380});
-        var stick = scene.Sprite('assets/stick_man.png');
-        stick.position(50, 60);
-        //TODO hacky
-        setTimeout(stick.update.bind(stick), 500);
-      }
-    // }
-    // catch(e) {}
-  },
+  // componentDidUpdate: function () {
+  //   // try{
+  //     var profile = ReactDOM.findDOMNode(this.refs.profileRef);
+  //     var sprite = document.querySelector('.sjs');
+  //     if (profile && !sprite) {
+  //       var scene = sjs.Scene({parent: profile, w:300, h:380});
+  //       var stick = scene.Sprite('assets/stick_man.png');
+  //       stick.position(50, 60);
+  //       //TODO hacky
+  //       setTimeout(stick.update.bind(stick), 500);
+  //     }
+  //   // }
+  //   // catch(e) {}
+  // },
 
   componentDidMount: function () {
     TaskStore.addListener(this._onChange);
@@ -48,13 +48,15 @@ var Profile = React.createClass({
 
       return (
         <div>
-          <div ref="profileRef"/>
           <Avatar />
+          <div>
+
           {
             this.state.TaskTypes.map(function (taskType) {
               return <TaskType key={taskType.id} taskType={taskType} />;
             })
           }
+          </div>
         </div>
       );
     }

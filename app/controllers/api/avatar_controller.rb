@@ -1,7 +1,11 @@
 class Api::AvatarController < ApplicationController
   def index
     @avatar = current_user.avatar
-    render json: @avatar
+    render :show
+  end
+
+  def show
+    @avatar = current_user.avatar
   end
 
   def update
@@ -12,12 +16,27 @@ class Api::AvatarController < ApplicationController
     else
       @avatar.money += reward_money
     end
+
+    equipment_from_params = task_params['equipment']
+    if equipment_from_params
+      @equipment = Equipment.find(equipment_from_params['id'])
+      @avatar.equipments.each do |equipment|
+        if equipment.type_name == @equipment.type_name
+          equipment.avatar_id = nil
+          equipment.save!
+        end
+      end
+      @equipment.avatar_id = @avatar.id
+      @equipment.save!
+    end
     @avatar.save!
-    render json: @avatar
+    # NOTE: Hacky
+    @avatar = @equipment.avatar
+    render :show
   end
 
   private
   def task_params
-    params.require(:task).permit(:money_reward, task_type: [:type_name])
+    params.require(:task).permit(:money_reward, task_type: [:type_name], equipment: [:id])
   end
 end

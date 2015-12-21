@@ -1,14 +1,15 @@
 # == Schema Information
 #
-# Table name: tasks
+# Table name: equipment
 #
-#  id           :integer          not null, primary key
-#  type_id      :integer          not null
-#  title        :string           not null
-#  money_reward :integer          not null
-#  created_at   :datetime         not null
-#  updated_at   :datetime         not null
-#  equipment_id :integer
+#  id         :integer          not null, primary key
+#  name       :string           not null
+#  url        :string           not null
+#  type_name  :string           not null
+#  task_id    :integer          not null
+#  avatar_id  :integer
+#  created_at :datetime         not null
+#  updated_at :datetime         not null
 #
 
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html

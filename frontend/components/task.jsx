@@ -15,9 +15,10 @@ var Task = React.createClass({
   },
 
   handleTaskType: function () {
-    switch (this.props.task.task_type.type_name) {
+    var task = this.props.task;
+    switch (task.task_type.type_name) {
       case "Habits":
-        ApiUtil.updateAvatar(this.props.task);
+        ApiUtil.updateAvatar(task);
         break;
       case "Dailies":
         // NOTE: Enables on page reload. JavaScript is not the language to for
@@ -29,12 +30,15 @@ var Task = React.createClass({
         //     e.currentTarget.disabled = false;
         //   }
         // }, 60000)
-        ApiUtil.updateAvatar(this.props.task);
+        ApiUtil.updateAvatar(task);
         this.setState({disable: true});
         break;
       case "To-dos":
+        ApiUtil.updateAvatar(task, ApiUtil.deleteTask(task));
+        break;
       case "Rewards":
-        ApiUtil.updateAvatar(this.props.task, ApiUtil.deleteTask(this.props.task));
+        ApiUtil.updateAvatar(task);
+        // ApiUtil.updateAvatar(task, ApiUtil.deleteTask(task));
         break;
     }
   },

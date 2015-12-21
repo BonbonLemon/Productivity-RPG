@@ -77,4 +77,13 @@ class User < ActiveRecord::Base
     Task.create!(type_id: rewards.id, title: "Candy bar", money_reward: 2)
     Task.create!(type_id: rewards.id, title: "30min of video games", money_reward: 2)
   end
+
+  def create__equipment_rewards
+    rewards = self.task_types[3]
+
+    banana_task = Task.create!(type_id: rewards.id, title: "Banana Sword", money_reward: 0)
+    Equipment.create!(name: "Banana", url: "assets/banana.png", type_name: "sword", task_id: banana_task.id)
+    shovel_task = Task.create!(type_id: rewards.id, title: "Shovel", money_reward: 0)
+    Equipment.create!(name: "Shovel", url: "assets/shovel.png", type_name: "sword", task_id: shovel_task.id)
+  end
 end

@@ -929,6 +929,7 @@ Sprite.prototype.loadImg = function (src, resetSize) {
 
     // actions to perform when the image is loaded
     function imageReady(e) {
+      try {
         img = there.img;
         sjs.spriteCache[src].loaded = true;
         there.imgLoaded = true;
@@ -941,6 +942,7 @@ Sprite.prototype.loadImg = function (src, resetSize) {
         if (there.h === null || resetSize)
             there.setH(img.height);
         there.onload();
+   }catch(e) {}
     }
     if (_loaded)
         imageReady();

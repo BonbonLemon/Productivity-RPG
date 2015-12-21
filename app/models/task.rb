@@ -8,6 +8,7 @@
 #  money_reward :integer          not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  equipment_id :integer
 #
 
 class Task < ActiveRecord::Base
@@ -25,4 +26,6 @@ class Task < ActiveRecord::Base
   has_one :avatar,
     through: :user,
     source: :avatar
+
+  has_one :equipment
 end

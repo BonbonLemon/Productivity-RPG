@@ -17,7 +17,8 @@
 body {
   background: #ACAEB7;
   min-width: 800px;
-  height: 1100px;
+  /*height: 1100px;*/
+  height: 3000px;
 }
 
 .current-money {

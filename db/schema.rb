@@ -11,22 +11,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151217010916) do
+ActiveRecord::Schema.define(version: 20151221194740) do
 
   create_table "avatars", force: :cascade do |t|
     t.integer  "user_id",                null: false
     t.integer  "money",      default: 0, null: false
-    t.integer  "sword_id"
-    t.integer  "shield_id"
-    t.integer  "hat_id"
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
   end
 
-  add_index "avatars", ["hat_id"], name: "index_avatars_on_hat_id"
-  add_index "avatars", ["shield_id"], name: "index_avatars_on_shield_id"
-  add_index "avatars", ["sword_id"], name: "index_avatars_on_sword_id"
   add_index "avatars", ["user_id"], name: "index_avatars_on_user_id", unique: true
+
+  create_table "equipment", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.string   "url",        null: false
+    t.string   "type_name",  null: false
+    t.integer  "task_id",    null: false
+    t.integer  "avatar_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "equipment", ["avatar_id"], name: "index_equipment_on_avatar_id"
+  add_index "equipment", ["task_id"], name: "index_equipment_on_task_id", unique: true
 
   create_table "task_types", force: :cascade do |t|
     t.integer  "user_id",    null: false

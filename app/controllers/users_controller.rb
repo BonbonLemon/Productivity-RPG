@@ -9,6 +9,7 @@ class UsersController < ApplicationController
     if @user.save
       @user.create_profile_items
       @user.create_tutorial_tasks
+      @user.create__equipment_rewards
 
       sign_in(@user)
       redirect_to root_url
