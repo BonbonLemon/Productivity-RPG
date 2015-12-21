@@ -83,7 +83,11 @@ class User < ActiveRecord::Base
 
     banana_task = Task.create!(type_id: rewards.id, title: "Banana Sword", money_reward: 0)
     Equipment.create!(name: "Banana", url: "assets/banana.png", type_name: "sword", task_id: banana_task.id)
+    wooden_shield_task = Task.create!(type_id: rewards.id, title: "Wooden Shield", money_reward: 0)
+    Equipment.create!(name: "Wooden Shield", url: "assets/wooden_shield.png", type_name: "shield", task_id: wooden_shield_task.id)
     shovel_task = Task.create!(type_id: rewards.id, title: "Shovel", money_reward: 0)
     Equipment.create!(name: "Shovel", url: "assets/shovel.png", type_name: "sword", task_id: shovel_task.id)
+    gryffindor_shield_task = Task.create!(type_id: rewards.id, title: "Gryffindor Shield", money_reward: 0)
+    Equipment.create!(name: "Gryffindor Shield", url: "assets/gryffindor_shield.png", type_name: "shield", task_id: gryffindor_shield_task.id)
   end
 end

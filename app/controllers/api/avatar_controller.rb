@@ -28,10 +28,10 @@ class Api::AvatarController < ApplicationController
       end
       @equipment.avatar_id = @avatar.id
       @equipment.save!
+      # NOTE: Hacky
+      @avatar = @equipment.avatar
     end
     @avatar.save!
-    # NOTE: Hacky
-    @avatar = @equipment.avatar
     render :show
   end
 

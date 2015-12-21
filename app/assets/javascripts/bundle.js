@@ -31871,11 +31871,11 @@
 	  },
 
 	  renderStickMan: function () {
-	    var profile = ReactDOM.findDOMNode(this.refs.profileRef);
+	    this.avatar = ReactDOM.findDOMNode(this.refs.avatarRef);
 	    var sprite = document.querySelector('.sjs');
-	    if (profile && !sprite) {
-	      var scene = sjs.Scene({ parent: profile, w: 300, h: 380 });
-	      var stick = scene.Sprite('assets/stick_man.png');
+	    if (this.avatar && !sprite) {
+	      this.scene = sjs.Scene({ parent: this.avatar, w: 300, h: 380 });
+	      var stick = this.scene.Sprite('assets/stick_man.png');
 	      stick.position(50, 60);
 	      //TODO hacky
 	      setTimeout(stick.update.bind(stick), 500);
@@ -31886,31 +31886,80 @@
 	    var Avatar = this.state.Avatar;
 	    if (Avatar) {
 	      Avatar.equipments.forEach((function (equipment) {
-	        this.renderEquipment(equipment);
+	        this.handleEquipmentType(equipment);
 	      }).bind(this));
 	    }
 	  },
 
-	  renderEquipment: function (equipment) {
-	    var avatarDiv = document.querySelector('#sjs0');
+	  handleEquipmentType: function (equipment) {
+	    switch (equipment.type_name) {
+	      case "sword":
+	        this.renderSword(equipment);
+	        break;
+	      case "shield":
+	        this.renderShield(equipment);
+	        break;
+	      case "hat":
+
+	        break;
+	    }
+	  },
+
+	  renderShield: function (equipment) {
+	    var avatarDiv = this.avatar;
+	    if (this.shield) {
+	      currUrl = this.shield.dom['style']['backgroundImage'];
+	      if (currUrl.indexOf(equipment.url) > -1) {
+	        return;
+	      } else {
+	        this.shield.remove();
+	        this.shield = this.scene.Sprite(equipment.url);
+	        this.shield.position(160, 140);
+	        setTimeout(this.shield.update.bind(this.shield), 500);
+	      }
+	    } else {
+	      this.shield = this.scene.Sprite(equipment.url);
+	      this.shield.position(160, 140);
+	      //TODO hacky
+	      setTimeout(this.shield.update.bind(this.shield), 500);
+	    }
+	  },
+
+	  renderSword: function (equipment) {
+	    var avatarDiv = this.avatar;
 	    if (this.sword) {
-	      if (this.hackySolution) {
+	      currUrl = this.sword.dom['style']['backgroundImage'];
+	      if (currUrl.indexOf(equipment.url) > -1) {
+	        return;
+	      } else {
 	        this.sword.remove();
 	        this.sword = this.scene.Sprite(equipment.url);
 	        setTimeout(this.sword.update.bind(this.sword), 500);
-	      } else {
-	        this.hackySolution = true;
-	        this.sword.remove();
-	        this.sword = this.scene.Sprite(equipment.url);
-	        this.sword.update();
-	        this.renderEquipment(equipment);
 	      }
+	      // if (this.hackySolution) {
+	      //   currUrl = this.sword.dom['style']['backgroundImage'];
+	      //   if ( currUrl.indexOf(equipment.url) > -1 ) {
+	      //     return;
+	      //   }
+	      //   this.sword.remove();
+	      //   this.sword = this.scene.Sprite(equipment.url);
+	      //   setTimeout(this.sword.update.bind(this.sword), 500);
+	      // } else {
+	      //   currUrl = this.sword.dom['style']['backgroundImage'];
+	      //   if ( currUrl.indexOf(equipment.url) > -1 ) {
+	      //     return;
+	      //   }
+	      //   this.hackySolution = true;
+	      //   this.sword.remove();
+	      //   this.sword = this.scene.Sprite(equipment.url)
+	      //   this.sword.update();
+	      //   this.renderSword(equipment);
+	      // }
 	    } else {
-	      this.scene = sjs.Scene({ parent: avatarDiv, w: 300, h: 380 });
-	      this.sword = this.scene.Sprite(equipment.url);
-	      //TODO hacky
-	      setTimeout(this.sword.update.bind(this.sword), 500);
-	    }
+	        this.sword = this.scene.Sprite(equipment.url);
+	        //TODO hacky
+	        setTimeout(this.sword.update.bind(this.sword), 500);
+	      }
 	  },
 
 	  componentDidMount: function () {
@@ -31934,7 +31983,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement('div', { ref: 'profileRef' }),
+	      React.createElement('div', { ref: 'avatarRef' }),
 	      React.createElement(
 	        'div',
 	        { className: 'current-money' },
