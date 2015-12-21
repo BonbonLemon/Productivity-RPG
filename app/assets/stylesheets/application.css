@@ -15,14 +15,17 @@
  */
 
 body {
+  background: #ACAEB7;
   min-width: 800px;
   height: 1100px;
 }
 
 .current-money {
-  background: #00FFF9;
+  background: #ACAEB7;
+  color: white;
   width: 800px;
   height: 40px;
+  font-weight: bold;
   text-indent: 10px;
   font-size: 30px;
 }
@@ -33,9 +36,11 @@ body {
 }
 
 .task-type {
-  background: #ccccff;
+  background: #090940;
+  color: white;
   float: left;
   width: 200px;
+  text-align: center;
   margin: auto;
   font-size: 16px;
   text-indent: 10px;
@@ -47,7 +52,7 @@ ul {
 }
 
 .task-box {
-  background: #ffff66;
+  background: #090940;
   margin: inherit;
   padding: inherit;
   outline: thin solid black;
@@ -57,7 +62,7 @@ ul {
 
 .task-item {
   float: left;
-  background: #33ffbb;
+  background: #FFEC44;
   font-size: 14px;
   width: 170px;
   height: 45px;
@@ -69,11 +74,11 @@ ul {
 }
 
 .task-item:hover {
-  background-color: #00c0ff;
+  background-color: #FF9E44;
 }
 
 .task-item:active {
-  background-color: #0065ff;
+  background-color: #CC8B4F;
 }
 
 .task-reward {
@@ -94,7 +99,7 @@ ul {
 
 .delete-task-button {
   float: left;
-  background: red;
+  background: #C50000;
   width: 30px;
   height: 45px;
   color: white;
@@ -114,7 +119,8 @@ ul {
 }
 
 #newTaskForm {
-  background: #cc99ff;
+  background: #F1B148;
+  color: black;
   text-align: center;
   text-indent: 0px;
   width: inherit;
