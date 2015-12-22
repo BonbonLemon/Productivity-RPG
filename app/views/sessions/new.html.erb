@@ -1,17 +1,39 @@
-<h1>Sign In</h1>
+<nav class="navbar navbar-default">
+  <div class="container-fluid">
 
-<form class="" action="<%= session_url %>" method="post">
-  <%= auth_token_input %>
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed"
+              data-toggle="collapse"
+              data-target="#collapse-menu"
+              aria-expanded="false">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
 
-  <label>
-    Username
-    <input type="text" name="user[username]" value="<%= @user.username %>">
-  </label>
+    <div class="collapse navbar-collapse" id="collapse-menu">
+      <ul class="nav navbar-nav pull-left">
+        <li><%= link_to("Home", root_url) %></li>
+      </ul>
+      <ul class="nav navbar-nav pull-right">
+        <li><%= link_to("Sign In", new_session_url) %></li>
+        <li><%= link_to("Sign Up", new_user_url) %></li>
+      </ul>
+    </div>
 
-  <label>
-    Password
-    <input type="password" name="user[password]">
-  </label>
+  </div>
+</nav>
 
-  <input type="submit" value="Sign In">
-</form>
+<div class="row">
+  <div class="col-xs-4 col-xs-offset-1">
+    <h1>Sign In</h1>
+
+    <form class="" action="<%= session_url %>" method="post">
+      <%= auth_token_input %>
+
+      <% @button = "Sign In" %>
+      <%= render partial: "layouts/form" %>
+    </form>
+  </div>
+</div>

@@ -1,9 +1,17 @@
 var React = require('react'),
+    AvatarStore = require('./../stores/avatar'),
     ApiUtil = require('./../util/api_util');
 
 var Task = React.createClass({
   getInitialState: function () {
-    return ({disable: false});
+    return ({
+      Avatar: AvatarStore.get(),
+      disable: false
+    });
+  },
+
+  _onChange: function () {
+    this.setState({ Avatar: AvatarStore.get() });
   },
 
   handleClickComplete: function () {
@@ -37,23 +45,31 @@ var Task = React.createClass({
         ApiUtil.updateAvatar(task, ApiUtil.deleteTask(task));
         break;
       case "Rewards":
-        ApiUtil.updateAvatar(task);
+        if (task.money_reward > this.state.Avatar.money) {
+          alert("You don't have enough money for that! :(")
+        } else {
+          ApiUtil.updateAvatar(task);
+        }
         // ApiUtil.updateAvatar(task, ApiUtil.deleteTask(task));
         break;
     }
+  },
+
+  componentDidMount: function () {
+    AvatarStore.addListener(this._onChange);
   },
 
   render: function () {
     var task = this.props.task;
     return (
       <div className="task-item">
+        <div className="delete-task-button" onClick={this.handleClickDelete}/>
         <button className="task-item-descriptions" disabled={this.state.disable} onClick={this.handleClickComplete}>
           <div className="task-reward">
             <img className="gold-bar" src="/assets/gold_bar.png" /> {task.money_reward}
           </div>
           <div className="task-description">{task.title}</div>
         </button>
-        <div className="delete-task-button" onClick={this.handleClickDelete}/>
       </div>
     );
   }

@@ -10,18 +10,17 @@ var Avatar = React.createClass({
   },
 
   _onChange: function () {
-    this.setState({ Avatar: AvatarStore.get() })
+    this.setState({ Avatar: AvatarStore.get() });
     this.renderEquipments();
-    // debugger;
   },
 
   renderStickMan: function () {
     this.avatar = ReactDOM.findDOMNode(this.refs.avatarRef);
     var sprite = document.querySelector('.sjs');
     if (this.avatar && !sprite) {
-      this.scene = sjs.Scene({parent: this.avatar, w:300, h:380});
+      this.scene = sjs.Scene({parent: this.avatar, w:300, h:425});
       var stick = this.scene.Sprite('assets/stick_man.png');
-      stick.position(50, 60);
+      stick.position(50, 100);
       //TODO hacky
       setTimeout(stick.update.bind(stick), 500);
     }
@@ -45,8 +44,28 @@ var Avatar = React.createClass({
         this.renderShield(equipment);
         break;
       case "hat":
-
+        this.renderHat(equipment);
         break;
+    }
+  },
+
+  renderHat: function (equipment) {
+    var avatarDiv = this.avatar;
+    if (this.hat) {
+      currUrl = this.hat.dom['style']['backgroundImage'];
+      if ( currUrl.indexOf(equipment.url) > -1 ) {
+        return;
+      } else {
+        this.hat.remove();
+        this.hat = this.scene.Sprite(equipment.url);
+        this.hat.position(45, -10);
+        setTimeout(this.hat.update.bind(this.hat), 500);
+      }
+    } else {
+      this.hat = this.scene.Sprite(equipment.url);
+      this.hat.position(45, -10);
+      //TODO hacky
+      setTimeout(this.hat.update.bind(this.hat), 500);
     }
   },
 
@@ -59,12 +78,12 @@ var Avatar = React.createClass({
       } else {
         this.shield.remove();
         this.shield = this.scene.Sprite(equipment.url);
-        this.shield.position(160, 140);
+        this.shield.position(160, 180);
         setTimeout(this.shield.update.bind(this.shield), 500);
       }
     } else {
       this.shield = this.scene.Sprite(equipment.url);
-      this.shield.position(160, 140);
+      this.shield.position(160, 180);
       //TODO hacky
       setTimeout(this.shield.update.bind(this.shield), 500);
     }
@@ -79,29 +98,12 @@ var Avatar = React.createClass({
       } else {
         this.sword.remove();
         this.sword = this.scene.Sprite(equipment.url);
+        this.sword.position(0, 40);
         setTimeout(this.sword.update.bind(this.sword), 500);
       }
-      // if (this.hackySolution) {
-      //   currUrl = this.sword.dom['style']['backgroundImage'];
-      //   if ( currUrl.indexOf(equipment.url) > -1 ) {
-      //     return;
-      //   }
-      //   this.sword.remove();
-      //   this.sword = this.scene.Sprite(equipment.url);
-      //   setTimeout(this.sword.update.bind(this.sword), 500);
-      // } else {
-      //   currUrl = this.sword.dom['style']['backgroundImage'];
-      //   if ( currUrl.indexOf(equipment.url) > -1 ) {
-      //     return;
-      //   }
-      //   this.hackySolution = true;
-      //   this.sword.remove();
-      //   this.sword = this.scene.Sprite(equipment.url)
-      //   this.sword.update();
-      //   this.renderSword(equipment);
-      // }
     } else {
       this.sword = this.scene.Sprite(equipment.url);
+      this.sword.position(0, 40);
       //TODO hacky
       setTimeout(this.sword.update.bind(this.sword), 500);
     }
@@ -129,7 +131,7 @@ var Avatar = React.createClass({
       <div>
         <div ref="avatarRef"/>
         <div className="current-money">
-          <img className="current-gold-bar" src="/assets/gold_bar.png" />  {money}
+          <img className="current-gold-bar" src="/assets/gold_bar.png" /> {money}
         </div>
       </div>
     );

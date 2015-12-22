@@ -24429,8 +24429,9 @@
 	    ApiUtil = __webpack_require__(211),
 	    TaskStore = __webpack_require__(221),
 	    TaskType = __webpack_require__(238),
-	    sjs = __webpack_require__(247),
-	    Avatar = __webpack_require__(245);
+	    sjs = __webpack_require__(246),
+	    Avatar = __webpack_require__(247),
+	    NavBar = __webpack_require__(248);
 
 	var Profile = React.createClass({
 	  displayName: 'Profile',
@@ -24442,21 +24443,6 @@
 	  _onChange: function () {
 	    this.setState({ TaskTypes: TaskStore.all() });
 	  },
-
-	  // componentDidUpdate: function () {
-	  //   // try{
-	  //     var profile = ReactDOM.findDOMNode(this.refs.profileRef);
-	  //     var sprite = document.querySelector('.sjs');
-	  //     if (profile && !sprite) {
-	  //       var scene = sjs.Scene({parent: profile, w:300, h:380});
-	  //       var stick = scene.Sprite('assets/stick_man.png');
-	  //       stick.position(50, 60);
-	  //       //TODO hacky
-	  //       setTimeout(stick.update.bind(stick), 500);
-	  //     }
-	  //   // }
-	  //   // catch(e) {}
-	  // },
 
 	  componentDidMount: function () {
 	    TaskStore.addListener(this._onChange);
@@ -24471,18 +24457,23 @@
 	    if (this.state.TaskTypes.length === 0) {
 	      return React.createElement(
 	        'div',
-	        { className: 'heartbeat-loader' },
-	        'Loading…'
-	      );
-	    } else {
-
-	      return React.createElement(
-	        'div',
 	        null,
-	        React.createElement(Avatar, null),
+	        React.createElement(NavBar, { loggedIn: false }),
 	        React.createElement(
 	          'div',
-	          null,
+	          { className: 'heartbeat-loader' },
+	          'Loading…'
+	        )
+	      );
+	    } else {
+	      return React.createElement(
+	        'div',
+	        { className: 'profile container' },
+	        React.createElement(NavBar, { loggedIn: true }),
+	        React.createElement(Avatar, { className: 'row' }),
+	        React.createElement(
+	          'div',
+	          { className: 'task-block' },
 	          this.state.TaskTypes.map(function (taskType) {
 	            return React.createElement(TaskType, { key: taskType.id, taskType: taskType });
 	          })
@@ -24505,6 +24496,14 @@
 	    AvatarActions = __webpack_require__(219);
 
 	var ApiUtil = {
+	  deleteSession: function () {
+	    $.ajax({
+	      url: "session/",
+	      method: "DELETE",
+	      success: function () {}
+	    });
+	  },
+
 	  fetchAllTaskTypes: function () {
 	    $.ajax({
 	      url: "api/task_types/",
@@ -24999,6 +24998,13 @@
 	    taskTypes.push(_taskTypes[id]);
 	  }
 	  return taskTypes;
+	};
+
+	TaskStore.find = function (task) {
+	  var tasksArr = _taskTypes[task.type_id].tasks;
+	  var taskIdx = findTaskIdx(tasksArr, task);
+
+	  return tasksArr[taskIdx];
 	};
 
 	TaskStore.__onDispatch = function (payload) {
@@ -31773,13 +31779,21 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
+	    AvatarStore = __webpack_require__(245),
 	    ApiUtil = __webpack_require__(211);
 
 	var Task = React.createClass({
 	  displayName: 'Task',
 
 	  getInitialState: function () {
-	    return { disable: false };
+	    return {
+	      Avatar: AvatarStore.get(),
+	      disable: false
+	    };
+	  },
+
+	  _onChange: function () {
+	    this.setState({ Avatar: AvatarStore.get() });
 	  },
 
 	  handleClickComplete: function () {
@@ -31813,10 +31827,18 @@
 	        ApiUtil.updateAvatar(task, ApiUtil.deleteTask(task));
 	        break;
 	      case "Rewards":
-	        ApiUtil.updateAvatar(task);
+	        if (task.money_reward > this.state.Avatar.money) {
+	          alert("You don't have enough money for that! :(");
+	        } else {
+	          ApiUtil.updateAvatar(task);
+	        }
 	        // ApiUtil.updateAvatar(task, ApiUtil.deleteTask(task));
 	        break;
 	    }
+	  },
+
+	  componentDidMount: function () {
+	    AvatarStore.addListener(this._onChange);
 	  },
 
 	  render: function () {
@@ -31824,6 +31846,7 @@
 	    return React.createElement(
 	      'div',
 	      { className: 'task-item' },
+	      React.createElement('div', { className: 'delete-task-button', onClick: this.handleClickDelete }),
 	      React.createElement(
 	        'button',
 	        { className: 'task-item-descriptions', disabled: this.state.disable, onClick: this.handleClickComplete },
@@ -31839,8 +31862,7 @@
 	          { className: 'task-description' },
 	          task.title
 	        )
-	      ),
-	      React.createElement('div', { className: 'delete-task-button', onClick: this.handleClickDelete })
+	      )
 	    );
 	  }
 	});
@@ -31849,156 +31871,6 @@
 
 /***/ },
 /* 245 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    ReactDOM = __webpack_require__(158),
-	    AvatarStore = __webpack_require__(246),
-	    sjs = __webpack_require__(247),
-	    ApiUtil = __webpack_require__(211);
-
-	var Avatar = React.createClass({
-	  displayName: 'Avatar',
-
-	  getInitialState: function () {
-	    return { Avatar: AvatarStore.get() };
-	  },
-
-	  _onChange: function () {
-	    this.setState({ Avatar: AvatarStore.get() });
-	    this.renderEquipments();
-	    // debugger;
-	  },
-
-	  renderStickMan: function () {
-	    this.avatar = ReactDOM.findDOMNode(this.refs.avatarRef);
-	    var sprite = document.querySelector('.sjs');
-	    if (this.avatar && !sprite) {
-	      this.scene = sjs.Scene({ parent: this.avatar, w: 300, h: 380 });
-	      var stick = this.scene.Sprite('assets/stick_man.png');
-	      stick.position(50, 60);
-	      //TODO hacky
-	      setTimeout(stick.update.bind(stick), 500);
-	    }
-	  },
-
-	  renderEquipments: function () {
-	    var Avatar = this.state.Avatar;
-	    if (Avatar) {
-	      Avatar.equipments.forEach((function (equipment) {
-	        this.handleEquipmentType(equipment);
-	      }).bind(this));
-	    }
-	  },
-
-	  handleEquipmentType: function (equipment) {
-	    switch (equipment.type_name) {
-	      case "sword":
-	        this.renderSword(equipment);
-	        break;
-	      case "shield":
-	        this.renderShield(equipment);
-	        break;
-	      case "hat":
-
-	        break;
-	    }
-	  },
-
-	  renderShield: function (equipment) {
-	    var avatarDiv = this.avatar;
-	    if (this.shield) {
-	      currUrl = this.shield.dom['style']['backgroundImage'];
-	      if (currUrl.indexOf(equipment.url) > -1) {
-	        return;
-	      } else {
-	        this.shield.remove();
-	        this.shield = this.scene.Sprite(equipment.url);
-	        this.shield.position(160, 140);
-	        setTimeout(this.shield.update.bind(this.shield), 500);
-	      }
-	    } else {
-	      this.shield = this.scene.Sprite(equipment.url);
-	      this.shield.position(160, 140);
-	      //TODO hacky
-	      setTimeout(this.shield.update.bind(this.shield), 500);
-	    }
-	  },
-
-	  renderSword: function (equipment) {
-	    var avatarDiv = this.avatar;
-	    if (this.sword) {
-	      currUrl = this.sword.dom['style']['backgroundImage'];
-	      if (currUrl.indexOf(equipment.url) > -1) {
-	        return;
-	      } else {
-	        this.sword.remove();
-	        this.sword = this.scene.Sprite(equipment.url);
-	        setTimeout(this.sword.update.bind(this.sword), 500);
-	      }
-	      // if (this.hackySolution) {
-	      //   currUrl = this.sword.dom['style']['backgroundImage'];
-	      //   if ( currUrl.indexOf(equipment.url) > -1 ) {
-	      //     return;
-	      //   }
-	      //   this.sword.remove();
-	      //   this.sword = this.scene.Sprite(equipment.url);
-	      //   setTimeout(this.sword.update.bind(this.sword), 500);
-	      // } else {
-	      //   currUrl = this.sword.dom['style']['backgroundImage'];
-	      //   if ( currUrl.indexOf(equipment.url) > -1 ) {
-	      //     return;
-	      //   }
-	      //   this.hackySolution = true;
-	      //   this.sword.remove();
-	      //   this.sword = this.scene.Sprite(equipment.url)
-	      //   this.sword.update();
-	      //   this.renderSword(equipment);
-	      // }
-	    } else {
-	        this.sword = this.scene.Sprite(equipment.url);
-	        //TODO hacky
-	        setTimeout(this.sword.update.bind(this.sword), 500);
-	      }
-	  },
-
-	  componentDidMount: function () {
-	    AvatarStore.addListener(this._onChange);
-	    this.renderStickMan();
-	    ApiUtil.fetchAvatar();
-	  },
-
-	  componentWillUnmount: function () {
-	    AvatarStore.removeListener(this._onChange);
-	  },
-
-	  render: function () {
-	    var money;
-	    var Avatar = this.state.Avatar;
-	    if (Avatar) {
-	      money = Avatar.money;
-	    } else {
-	      money = 0;
-	    }
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement('div', { ref: 'avatarRef' }),
-	      React.createElement(
-	        'div',
-	        { className: 'current-money' },
-	        React.createElement('img', { className: 'current-gold-bar', src: '/assets/gold_bar.png' }),
-	        '  ',
-	        money
-	      )
-	    );
-	  }
-	});
-
-	module.exports = Avatar;
-
-/***/ },
-/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(213),
@@ -32030,7 +31902,7 @@
 	module.exports = AvatarStore;
 
 /***/ },
-/* 247 */
+/* 246 */
 /***/ function(module, exports) {
 
 	/*
@@ -33768,6 +33640,258 @@
 	})(this);
 
 	module.exports = this.sjs;
+
+/***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactDOM = __webpack_require__(158),
+	    AvatarStore = __webpack_require__(245),
+	    sjs = __webpack_require__(246),
+	    ApiUtil = __webpack_require__(211);
+
+	var Avatar = React.createClass({
+	  displayName: 'Avatar',
+
+	  getInitialState: function () {
+	    return { Avatar: AvatarStore.get() };
+	  },
+
+	  _onChange: function () {
+	    this.setState({ Avatar: AvatarStore.get() });
+	    this.renderEquipments();
+	  },
+
+	  renderStickMan: function () {
+	    this.avatar = ReactDOM.findDOMNode(this.refs.avatarRef);
+	    var sprite = document.querySelector('.sjs');
+	    if (this.avatar && !sprite) {
+	      this.scene = sjs.Scene({ parent: this.avatar, w: 300, h: 425 });
+	      var stick = this.scene.Sprite('assets/stick_man.png');
+	      stick.position(50, 100);
+	      //TODO hacky
+	      setTimeout(stick.update.bind(stick), 500);
+	    }
+	  },
+
+	  renderEquipments: function () {
+	    var Avatar = this.state.Avatar;
+	    if (Avatar) {
+	      Avatar.equipments.forEach((function (equipment) {
+	        this.handleEquipmentType(equipment);
+	      }).bind(this));
+	    }
+	  },
+
+	  handleEquipmentType: function (equipment) {
+	    switch (equipment.type_name) {
+	      case "sword":
+	        this.renderSword(equipment);
+	        break;
+	      case "shield":
+	        this.renderShield(equipment);
+	        break;
+	      case "hat":
+	        this.renderHat(equipment);
+	        break;
+	    }
+	  },
+
+	  renderHat: function (equipment) {
+	    var avatarDiv = this.avatar;
+	    if (this.hat) {
+	      currUrl = this.hat.dom['style']['backgroundImage'];
+	      if (currUrl.indexOf(equipment.url) > -1) {
+	        return;
+	      } else {
+	        this.hat.remove();
+	        this.hat = this.scene.Sprite(equipment.url);
+	        this.hat.position(45, -10);
+	        setTimeout(this.hat.update.bind(this.hat), 500);
+	      }
+	    } else {
+	      this.hat = this.scene.Sprite(equipment.url);
+	      this.hat.position(45, -10);
+	      //TODO hacky
+	      setTimeout(this.hat.update.bind(this.hat), 500);
+	    }
+	  },
+
+	  renderShield: function (equipment) {
+	    var avatarDiv = this.avatar;
+	    if (this.shield) {
+	      currUrl = this.shield.dom['style']['backgroundImage'];
+	      if (currUrl.indexOf(equipment.url) > -1) {
+	        return;
+	      } else {
+	        this.shield.remove();
+	        this.shield = this.scene.Sprite(equipment.url);
+	        this.shield.position(160, 180);
+	        setTimeout(this.shield.update.bind(this.shield), 500);
+	      }
+	    } else {
+	      this.shield = this.scene.Sprite(equipment.url);
+	      this.shield.position(160, 180);
+	      //TODO hacky
+	      setTimeout(this.shield.update.bind(this.shield), 500);
+	    }
+	  },
+
+	  renderSword: function (equipment) {
+	    var avatarDiv = this.avatar;
+	    if (this.sword) {
+	      currUrl = this.sword.dom['style']['backgroundImage'];
+	      if (currUrl.indexOf(equipment.url) > -1) {
+	        return;
+	      } else {
+	        this.sword.remove();
+	        this.sword = this.scene.Sprite(equipment.url);
+	        this.sword.position(0, 40);
+	        setTimeout(this.sword.update.bind(this.sword), 500);
+	      }
+	    } else {
+	      this.sword = this.scene.Sprite(equipment.url);
+	      this.sword.position(0, 40);
+	      //TODO hacky
+	      setTimeout(this.sword.update.bind(this.sword), 500);
+	    }
+	  },
+
+	  componentDidMount: function () {
+	    AvatarStore.addListener(this._onChange);
+	    this.renderStickMan();
+	    ApiUtil.fetchAvatar();
+	  },
+
+	  componentWillUnmount: function () {
+	    AvatarStore.removeListener(this._onChange);
+	  },
+
+	  render: function () {
+	    var money;
+	    var Avatar = this.state.Avatar;
+	    if (Avatar) {
+	      money = Avatar.money;
+	    } else {
+	      money = 0;
+	    }
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement('div', { ref: 'avatarRef' }),
+	      React.createElement(
+	        'div',
+	        { className: 'current-money' },
+	        React.createElement('img', { className: 'current-gold-bar', src: '/assets/gold_bar.png' }),
+	        ' ',
+	        money
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Avatar;
+
+/***/ },
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ApiUtil = __webpack_require__(211);
+
+	var NavBar = React.createClass({
+	  displayName: 'NavBar',
+
+	  handleSignOut: function (e) {
+	    e.preventDefault();
+	    ApiUtil.deleteSession();
+	  },
+
+	  render: function () {
+	    var rightButtons;
+	    if (this.props.loggedIn) {
+	      rightButtons = React.createElement(
+	        'ul',
+	        { className: 'nav navbar-nav pull-right' },
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { onClick: this.handleSignOut, href: '#' },
+	            'Sign Out'
+	          )
+	        )
+	      );
+	    } else {
+	      rightButtons = React.createElement(
+	        'ul',
+	        { className: 'nav navbar-nav pull-right' },
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { href: 'session/new' },
+	            'Sign In'
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { href: 'users/new' },
+	            'Sign Up'
+	          )
+	        )
+	      );
+	    }
+	    return React.createElement(
+	      'nav',
+	      { className: 'navbar navbar-default' },
+	      React.createElement(
+	        'div',
+	        { className: 'container-fluid' },
+	        React.createElement(
+	          'div',
+	          { className: 'navbar-header' },
+	          React.createElement(
+	            'button',
+	            { type: 'button', className: 'navbar-toggle collapsed',
+	              'data-toggle': 'collapse',
+	              'data-target': '#collapse-menu',
+	              'aria-expanded': 'false' },
+	            React.createElement('span', { className: 'icon-bar' }),
+	            React.createElement('span', { className: 'icon-bar' }),
+	            React.createElement('span', { className: 'icon-bar' })
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'collapse navbar-collapse', id: 'collapse-menu' },
+	          React.createElement(
+	            'ul',
+	            { className: 'nav navbar-nav pull-left' },
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '#' },
+	                'Home'
+	              )
+	            )
+	          ),
+	          rightButtons
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = NavBar;
 
 /***/ }
 /******/ ]);

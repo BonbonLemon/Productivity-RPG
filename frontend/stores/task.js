@@ -44,6 +44,13 @@ TaskStore.all = function () {
   return taskTypes;
 };
 
+TaskStore.find = function (task) {
+  var tasksArr = _taskTypes[task.type_id].tasks;
+  var taskIdx = findTaskIdx(tasksArr, task);
+
+  return tasksArr[taskIdx];
+};
+
 TaskStore.__onDispatch = function (payload) {
   switch (payload.actionType) {
     case TaskTypeConstants.TASKTYPES_RECEIVED:

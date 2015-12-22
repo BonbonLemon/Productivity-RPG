@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'bootstrap-sass'
 gem 'faker'
 gem 'better_errors'
 gem 'annotate'

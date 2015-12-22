@@ -4,7 +4,8 @@ var React = require('react'),
     TaskStore = require('./../stores/task'),
     TaskType = require('./taskType'),
     sjs = require('../util/sprite'),
-    Avatar = require('./avatar');
+    Avatar = require('./avatar'),
+    NavBar = require('./navBar');
 
 var Profile = React.createClass({
   getInitialState: function () {
@@ -14,21 +15,6 @@ var Profile = React.createClass({
   _onChange: function () {
     this.setState({ TaskTypes: TaskStore.all() })
   },
-
-  // componentDidUpdate: function () {
-  //   // try{
-  //     var profile = ReactDOM.findDOMNode(this.refs.profileRef);
-  //     var sprite = document.querySelector('.sjs');
-  //     if (profile && !sprite) {
-  //       var scene = sjs.Scene({parent: profile, w:300, h:380});
-  //       var stick = scene.Sprite('assets/stick_man.png');
-  //       stick.position(50, 60);
-  //       //TODO hacky
-  //       setTimeout(stick.update.bind(stick), 500);
-  //     }
-  //   // }
-  //   // catch(e) {}
-  // },
 
   componentDidMount: function () {
     TaskStore.addListener(this._onChange);
@@ -42,16 +28,19 @@ var Profile = React.createClass({
   render: function () {
     if (this.state.TaskTypes.length === 0) {
       return (
-        <div className="heartbeat-loader">
-          Loading…
+        <div>
+          <NavBar loggedIn={false}/>
+          <div className="heartbeat-loader">
+            Loading…
+          </div>
         </div>
       );
     } else {
-
       return (
-        <div>
-          <Avatar />
-          <div>
+        <div className="profile container">
+          <NavBar loggedIn={true}/>
+          <Avatar className="row"/>
+          <div className="task-block">
 
           {
             this.state.TaskTypes.map(function (taskType) {
