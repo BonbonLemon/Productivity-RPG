@@ -16,7 +16,7 @@ class Avatar < ActiveRecord::Base
   validates :user_id, :money, presence: true
   validates :user_id, uniqueness: true
 
-  belongs_to :user
+  belongs_to :user, dependent: :destroy
 
   has_many :equipments
 end

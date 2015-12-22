@@ -21,6 +21,11 @@ body {
   height: 3000px;
 }
 
+::-webkit-scrollbar {
+    /*display: none;*/
+
+}
+
 .current-money {
   background: #ACAEB7;
   color: white;

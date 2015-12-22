@@ -1,6 +1,6 @@
 <h1>Sign Up</h1>
 
-<form action="<%= users_url %>" method="post">
+<form action="<%= users_url %>" method="post" id="NewUserForm">
   <%= auth_token_input %>
 
   <label>
@@ -15,3 +15,9 @@
 
   <input type="submit" value="Sign Up">
 </form>
+
+<script type="text/javascript">
+  $('#NewUserForm').on('submit', function() {
+    document.write('<link rel="stylesheet" href="http://css-spinners.com/css/spinner/heartbeat.css" type="text/css"><div class="heartbeat-loader">Loading…</div><br/><br/><div>Your profile is being created...</div>');
+  });
+</script>

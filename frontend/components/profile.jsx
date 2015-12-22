@@ -42,7 +42,9 @@ var Profile = React.createClass({
   render: function () {
     if (this.state.TaskTypes.length === 0) {
       return (
-        <div>Welcome!</div>
+        <div className="heartbeat-loader">
+          Loading…
+        </div>
       );
     } else {
 

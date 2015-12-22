@@ -24471,8 +24471,8 @@
 	    if (this.state.TaskTypes.length === 0) {
 	      return React.createElement(
 	        'div',
-	        null,
-	        'Welcome!'
+	        { className: 'heartbeat-loader' },
+	        'Loading…'
 	      );
 	    } else {
 
