@@ -3,16 +3,6 @@ var TaskActions = require('./../actions/taskActions'),
     AvatarActions = require('./../actions/avatarActions');
 
 var ApiUtil = {
-  deleteSession: function () {
-    $.ajax({
-      url: "session/",
-      method: "DELETE",
-      success: function () {
-        
-      }
-    })
-  },
-
   fetchAllTaskTypes: function() {
     $.ajax({
       url: "api/task_types/",

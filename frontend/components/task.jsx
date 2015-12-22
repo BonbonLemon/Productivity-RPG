@@ -38,8 +38,8 @@ var Task = React.createClass({
         //     e.currentTarget.disabled = false;
         //   }
         // }, 60000)
-        ApiUtil.updateAvatar(task);
         this.setState({disable: true});
+        ApiUtil.updateAvatar(task);
         break;
       case "To-dos":
         ApiUtil.updateAvatar(task, ApiUtil.deleteTask(task));

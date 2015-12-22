@@ -24496,14 +24496,6 @@
 	    AvatarActions = __webpack_require__(219);
 
 	var ApiUtil = {
-	  deleteSession: function () {
-	    $.ajax({
-	      url: "session/",
-	      method: "DELETE",
-	      success: function () {}
-	    });
-	  },
-
 	  fetchAllTaskTypes: function () {
 	    $.ajax({
 	      url: "api/task_types/",
@@ -31820,8 +31812,8 @@
 	        //     e.currentTarget.disabled = false;
 	        //   }
 	        // }, 60000)
-	        ApiUtil.updateAvatar(task);
 	        this.setState({ disable: true });
+	        ApiUtil.updateAvatar(task);
 	        break;
 	      case "To-dos":
 	        ApiUtil.updateAvatar(task, ApiUtil.deleteTask(task));
@@ -33805,7 +33797,13 @@
 
 	  handleSignOut: function (e) {
 	    e.preventDefault();
-	    ApiUtil.deleteSession();
+	    $.ajax({
+	      url: "/session/",
+	      method: "DELETE",
+	      success: function () {
+	        window.location = '/session/new';
+	      }
+	    });
 	  },
 
 	  render: function () {

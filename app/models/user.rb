@@ -91,6 +91,8 @@ class User < ActiveRecord::Base
     Equipment.create!(name: "Dagger", url: "assets/dagger.png", type_name: "sword", task_id: dagger_task.id)
     fire_sword_task = Task.create!(type_id: rewards.id, title: "Fire Sword", money_reward: 50)
     Equipment.create!(name: "Fire Sword", url: "assets/fire_sword.png", type_name: "sword", task_id: fire_sword_task.id)
+    light_saber_task = Task.create!(type_id: rewards.id, title: "Light Saber", money_reward: 75)
+    Equipment.create!(name: "Light Saber", url: "assets/light_saber.png", type_name: "sword", task_id: light_saber_task.id)
 
     # Shields
     wooden_shield_task = Task.create!(type_id: rewards.id, title: "Wooden Shield", money_reward: 10)

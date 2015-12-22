@@ -4,7 +4,13 @@ var React = require('react'),
 var NavBar = React.createClass({
   handleSignOut: function (e) {
     e.preventDefault();
-    ApiUtil.deleteSession();
+    $.ajax({
+      url: "/session/",
+      method: "DELETE",
+      success: function () {
+        window.location = '/session/new';
+      }
+    });
   },
 
   render: function () {
