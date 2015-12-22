@@ -58,10 +58,16 @@ ul {
   padding: inherit;
   outline: thin solid black;
   height: 400px;
+  padding-right: 15px;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .task-item {
+  width: 215px;
+}
+
+.task-item-descriptions {
   float: left;
   background: #FFEC44;
   font-size: 14px;
@@ -74,11 +80,11 @@ ul {
   display: table;
 }
 
-.task-item:hover {
+.task-item-descriptions:hover {
   background-color: #FF9E44;
 }
 
-.task-item:active {
+.task-item-descriptions:active {
   background-color: #CC8B4F;
 }
 
@@ -91,7 +97,8 @@ ul {
 }
 
 .task-description {
-  width: 120px;
+  width: 110px;
+  padding-left: 10px;
   display: table-cell;
   vertical-align: middle;
   text-align: left;

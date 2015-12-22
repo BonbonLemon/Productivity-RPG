@@ -74,6 +74,7 @@ class User < ActiveRecord::Base
     Task.create!(type_id: dailies.id, title: "Floss", money_reward: 2)
     Task.create!(type_id: todos.id, title: "Click on me!", money_reward: 2)
     Task.create!(type_id: rewards.id, title: "Spend gold and reward yourself!", money_reward: 0)
+    Task.create!(type_id: rewards.id, title: "Or customize your avatar!", money_reward: 0)
     Task.create!(type_id: rewards.id, title: "Candy bar", money_reward: 2)
     Task.create!(type_id: rewards.id, title: "30min of video games", money_reward: 2)
   end
@@ -81,13 +82,23 @@ class User < ActiveRecord::Base
   def create__equipment_rewards
     rewards = self.task_types[3]
 
+    # Swords
     banana_task = Task.create!(type_id: rewards.id, title: "Banana Sword", money_reward: 0)
     Equipment.create!(name: "Banana", url: "assets/banana.png", type_name: "sword", task_id: banana_task.id)
-    wooden_shield_task = Task.create!(type_id: rewards.id, title: "Wooden Shield", money_reward: 0)
-    Equipment.create!(name: "Wooden Shield", url: "assets/wooden_shield.png", type_name: "shield", task_id: wooden_shield_task.id)
-    shovel_task = Task.create!(type_id: rewards.id, title: "Shovel", money_reward: 0)
+    shovel_task = Task.create!(type_id: rewards.id, title: "Shovel", money_reward: 8)
     Equipment.create!(name: "Shovel", url: "assets/shovel.png", type_name: "sword", task_id: shovel_task.id)
-    gryffindor_shield_task = Task.create!(type_id: rewards.id, title: "Gryffindor Shield", money_reward: 0)
+    dagger_task = Task.create!(type_id: rewards.id, title: "Dagger", money_reward: 14)
+    Equipment.create!(name: "Dagger", url: "assets/dagger.png", type_name: "sword", task_id: dagger_task.id)
+    fire_sword_task = Task.create!(type_id: rewards.id, title: "Fire Sword", money_reward: 50)
+    Equipment.create!(name: "Fire Sword", url: "assets/fire_sword.png", type_name: "sword", task_id: fire_sword_task.id)
+
+    # Shields
+    wooden_shield_task = Task.create!(type_id: rewards.id, title: "Wooden Shield", money_reward: 10)
+    Equipment.create!(name: "Wooden Shield", url: "assets/wooden_shield.png", type_name: "shield", task_id: wooden_shield_task.id)
+    gryffindor_shield_task = Task.create!(type_id: rewards.id, title: "Gryffindor Shield", money_reward: 30)
     Equipment.create!(name: "Gryffindor Shield", url: "assets/gryffindor_shield.png", type_name: "shield", task_id: gryffindor_shield_task.id)
+    cap_shield_task = Task.create!(type_id: rewards.id, title: "Captain America Shield", money_reward: 40)
+    Equipment.create!(name: "Captain America Shield", url: "assets/cap_shield.png", type_name: "shield", task_id: cap_shield_task.id)
+
   end
 end

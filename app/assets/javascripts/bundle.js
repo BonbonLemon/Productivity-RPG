@@ -31823,10 +31823,10 @@
 	    var task = this.props.task;
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'task-item' },
 	      React.createElement(
 	        'button',
-	        { className: 'task-item', disabled: this.state.disable, onClick: this.handleClickComplete },
+	        { className: 'task-item-descriptions', disabled: this.state.disable, onClick: this.handleClickComplete },
 	        React.createElement(
 	          'div',
 	          { className: 'task-reward' },

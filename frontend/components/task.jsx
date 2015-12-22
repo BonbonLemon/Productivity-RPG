@@ -46,8 +46,8 @@ var Task = React.createClass({
   render: function () {
     var task = this.props.task;
     return (
-      <div>
-        <button className="task-item" disabled={this.state.disable} onClick={this.handleClickComplete}>
+      <div className="task-item">
+        <button className="task-item-descriptions" disabled={this.state.disable} onClick={this.handleClickComplete}>
           <div className="task-reward">
             <img className="gold-bar" src="/assets/gold_bar.png" /> {task.money_reward}
           </div>
