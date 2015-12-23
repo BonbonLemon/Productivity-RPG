@@ -50,17 +50,16 @@ var Task = React.createClass({
         } else {
           ApiUtil.updateAvatar(task);
         }
-        // ApiUtil.updateAvatar(task, ApiUtil.deleteTask(task));
         break;
     }
   },
 
   componentDidMount: function () {
-    AvatarStore.addListener(this._onChange);
+    this.listener = AvatarStore.addListener(this._onChange);
   },
 
   componentWillUnmount: function () {
-    AvatarStore.removeListener(this._onChange);
+    this.listener.remove();
   },
 
   render: function () {
