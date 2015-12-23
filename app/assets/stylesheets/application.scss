@@ -20,12 +20,11 @@
 body {
   background: #ACAEB7;
   height: 1200px;
+  padding-top: 70px;
 }
 
 .current-money {
-  background: #ACAEB7;
   color: white;
-  width: 900px;
   height: 40px;
   font-weight: bold;
   text-indent: 10px;
@@ -38,86 +37,74 @@ body {
 }
 
 .task-block {
-  width: 900px;
+  // width: 900px;
 }
 
-.task-type {
+.task-type-name {
   background: #090940;
   color: white;
-  float: left;
-  width: 225px;
   text-align: center;
-  margin: auto;
-  font-size: 16px;
   text-indent: 10px;
   outline: thin solid black;
 }
 
 .task-box {
   background: #090940;
-  margin: inherit;
-  padding: inherit;
   outline: thin solid black;
   height: 400px;
-  padding-right: 15px;
   overflow-y: auto;
-  overflow-x: hidden;
 }
 
 .task-item {
-  width: 225px;
-  color: black;
+  height: 50px;
 }
 
-.task-item-descriptions {
-  float: left;
+button[disabled], button[disabled]:hover {
+  background: #cccccc;
+  text-shadow: 0px 1px 0px white;
+  color: #E5E5E5;
+}
+
+.task-item-description-button {
   background: #FFEC44;
-  font-size: 14px;
-  width: 195px;
-  height: 45px;
+  height: 50px;
   padding: 0px;
+  padding-top: 1px;
   border: 0px;
   outline: 1px solid black;
   cursor: pointer;
-  display: table;
 }
 
-.task-item-descriptions:hover {
+.task-item-description-button:hover {
   background-color: #FF9E44;
 }
 
-.task-item-descriptions:active {
+.task-item-description-button:active {
   background-color: #CC8B4F;
 }
 
-.task-reward {
-  display: table-cell;
-  width: 50px;
+.task-item-description {
   height: inherit;
-  vertical-align: middle;
-  text-indent: 5px;
+}
+
+.task-reward {
+  padding: 0px;
 }
 
 .task-description {
-  width: 110px;
-  padding-left: 10px;
-  display: table-cell;
-  vertical-align: middle;
+  padding-left: 0px;
   text-align: left;
-  text-indent: 0px;
 }
 
 .delete-task-button {
-  float: left;
   background: #C50000;
-  width: 30px;
-  height: 45px;
   color: white;
   outline: 1px solid black;
-  font-size: 24px;
-  line-height: 45px;
+  padding: 0px;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 50px;
   text-align: center;
-  text-indent: 0px;
 }
 
 .delete-task-button:before {
@@ -133,11 +120,8 @@ body {
   color: black;
   text-align: center;
   text-indent: 0px;
-  width: inherit;
   outline: thin solid black;
   padding-bottom: 10px;
-  /*border-top: 1px solid black;*/
-  /*margin-top: 1px;*/
 }
 
 #task-text-box {
@@ -160,7 +144,6 @@ body {
 
 .gold-bar {
   height: 25px;
-  vertical-align: middle;
   max-height: 18px;
 }
 

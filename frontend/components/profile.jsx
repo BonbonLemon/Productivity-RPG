@@ -37,10 +37,10 @@ var Profile = React.createClass({
       );
     } else {
       return (
-        <div className="profile container">
+        <div className="profile container-fluid">
           <NavBar loggedIn={true}/>
           <Avatar className="row"/>
-          <div className="task-block">
+          <div className="task-block row">
 
           {
             this.state.TaskTypes.map(function (taskType) {

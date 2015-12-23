@@ -8,9 +8,7 @@ var Router = require('react-router').Router,
 var Profile = require('./components/profile');
 
 var routes = (
-  <Route path="/" component={Profile}>
-
-  </Route>
+  <Route path="/" component={Profile} />
 )
 
 document.addEventListener("DOMContentLoaded", function () {

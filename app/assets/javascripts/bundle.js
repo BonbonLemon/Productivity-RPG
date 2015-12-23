@@ -24468,12 +24468,12 @@
 	    } else {
 	      return React.createElement(
 	        'div',
-	        { className: 'profile container' },
+	        { className: 'profile container-fluid' },
 	        React.createElement(NavBar, { loggedIn: true }),
 	        React.createElement(Avatar, { className: 'row' }),
 	        React.createElement(
 	          'div',
-	          { className: 'task-block' },
+	          { className: 'task-block row' },
 	          this.state.TaskTypes.map(function (taskType) {
 	            return React.createElement(TaskType, { key: taskType.id, taskType: taskType });
 	          })
@@ -31404,12 +31404,16 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'task-type' },
-	      this.props.taskType.type_name,
+	      { className: 'task-type col-xs-3 container-fluid' },
+	      React.createElement(
+	        'div',
+	        { className: 'task-type-name row' },
+	        this.props.taskType.type_name
+	      ),
 	      React.createElement(TaskForm, { taskType: this.props.taskType }),
 	      React.createElement(
-	        'ul',
-	        { className: 'task-box' },
+	        'div',
+	        { className: 'task-box row' },
 	        this.props.taskType.tasks.map(function (task, idx) {
 	          return React.createElement(Task, { key: idx, task: task });
 	        })
@@ -31485,7 +31489,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'form',
-	      { id: 'newTaskForm', onSubmit: this.handleSubmit },
+	      { className: 'row', id: 'newTaskForm', onSubmit: this.handleSubmit },
 	      'Create new ',
 	      this.props.taskType.type_name,
 	      React.createElement('br', null),
@@ -31840,22 +31844,34 @@
 	    var task = this.props.task;
 	    return React.createElement(
 	      'div',
-	      { className: 'task-item' },
-	      React.createElement('div', { className: 'delete-task-button', onClick: this.handleClickDelete }),
+	      { className: 'task-item container-fluid' },
 	      React.createElement(
-	        'button',
-	        { className: 'task-item-descriptions', disabled: this.state.disable, onClick: this.handleClickComplete },
+	        'div',
+	        { className: 'row' },
+	        React.createElement('div', { className: 'delete-task-button col-xs-1', onClick: this.handleClickDelete }),
 	        React.createElement(
-	          'div',
-	          { className: 'task-reward' },
-	          React.createElement('img', { className: 'gold-bar', src: '/assets/gold_bar.png' }),
-	          ' ',
-	          task.money_reward
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'task-description' },
-	          task.title
+	          'button',
+	          { className: 'task-item-description-button col-xs-11', disabled: this.state.disable, onClick: this.handleClickComplete },
+	          React.createElement(
+	            'div',
+	            { className: 'task-item-description container-fluid' },
+	            React.createElement(
+	              'div',
+	              { className: 'task-item-description row' },
+	              React.createElement(
+	                'div',
+	                { className: 'task-reward col-xs-3' },
+	                React.createElement('img', { className: 'gold-bar', src: '/assets/gold_bar.png' }),
+	                ' ',
+	                task.money_reward
+	              ),
+	              React.createElement(
+	                'div',
+	                { className: 'task-description col-xs-9' },
+	                task.title
+	              )
+	            )
+	          )
 	        )
 	      )
 	    );
@@ -33793,10 +33809,13 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    ApiUtil = __webpack_require__(211);
+	    ApiUtil = __webpack_require__(211),
+	    History = __webpack_require__(159).History;
 
 	var NavBar = React.createClass({
 	  displayName: 'NavBar',
+
+	  mixins: [History],
 
 	  handleSignOut: function (e) {
 	    e.preventDefault();
@@ -33820,7 +33839,7 @@
 	          null,
 	          React.createElement(
 	            'a',
-	            { onClick: this.handleSignOut, href: '#' },
+	            { onClick: this.handleSignOut, href: '/#' },
 	            'Sign Out'
 	          )
 	        )
@@ -33834,7 +33853,7 @@
 	          null,
 	          React.createElement(
 	            'a',
-	            { href: 'session/new' },
+	            { href: '/session/new' },
 	            'Sign In'
 	          )
 	        ),
@@ -33843,7 +33862,7 @@
 	          null,
 	          React.createElement(
 	            'a',
-	            { href: 'users/new' },
+	            { href: '/users/new' },
 	            'Sign Up'
 	          )
 	        )
@@ -33851,7 +33870,7 @@
 	    }
 	    return React.createElement(
 	      'nav',
-	      { className: 'navbar navbar-default' },
+	      { className: 'navbar navbar-default navbar-fixed-top' },
 	      React.createElement(
 	        'div',
 	        { className: 'container-fluid' },
@@ -33880,7 +33899,7 @@
 	              null,
 	              React.createElement(
 	                'a',
-	                { href: '#' },
+	                { href: '/#' },
 	                'Home'
 	              )
 	            )

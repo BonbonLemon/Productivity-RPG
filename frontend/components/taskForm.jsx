@@ -56,7 +56,7 @@ var TaskForm = React.createClass({
 
   render: function () {
     return (
-      <form id="newTaskForm" onSubmit={this.handleSubmit}>
+      <form className="row" id="newTaskForm" onSubmit={this.handleSubmit}>
         Create new {this.props.taskType.type_name}
         <br/><br/>
         <input type="text"

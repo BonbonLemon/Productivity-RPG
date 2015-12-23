@@ -1,7 +1,10 @@
 var React = require('react'),
-    ApiUtil = require('./../util/api_util');
+    ApiUtil = require('./../util/api_util'),
+    History = require('react-router').History;
 
 var NavBar = React.createClass({
+  mixins: [History],
+
   handleSignOut: function (e) {
     e.preventDefault();
     $.ajax({
@@ -18,19 +21,19 @@ var NavBar = React.createClass({
     if (this.props.loggedIn) {
       rightButtons = (
         <ul className="nav navbar-nav pull-right">
-          <li><a onClick={this.handleSignOut} href="#">Sign Out</a></li>
+          <li><a onClick={this.handleSignOut} href="/#">Sign Out</a></li>
         </ul>
       );
     } else {
       rightButtons = (
         <ul className="nav navbar-nav pull-right">
-          <li><a href="session/new">Sign In</a></li>
-          <li><a href="users/new">Sign Up</a></li>
+          <li><a href="/session/new">Sign In</a></li>
+          <li><a href="/users/new">Sign Up</a></li>
         </ul>
       );
     }
     return (
-      <nav className="navbar navbar-default">
+      <nav className="navbar navbar-default navbar-fixed-top">
         <div className="container-fluid">
 
           <div className="navbar-header">
@@ -46,7 +49,7 @@ var NavBar = React.createClass({
 
           <div className="collapse navbar-collapse" id="collapse-menu">
             <ul className="nav navbar-nav pull-left">
-              <li><a href="#">Home</a></li>
+              <li><a href="/#">Home</a></li>
             </ul>
             {rightButtons}
           </div>

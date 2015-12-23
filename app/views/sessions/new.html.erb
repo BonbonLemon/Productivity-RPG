@@ -14,7 +14,8 @@
 
     <div class="collapse navbar-collapse" id="collapse-menu">
       <ul class="nav navbar-nav pull-left">
-        <li><%= link_to("Home", root_url) %></li>
+        <!-- <%= link_to "Home", root_url %> -->
+        <li><a href="/" onClick={window.location.pathname = '/'}>Home</a></li>
       </ul>
       <ul class="nav navbar-nav pull-right">
         <li><%= link_to("Sign In", new_session_url) %></li>
