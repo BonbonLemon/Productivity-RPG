@@ -59,6 +59,10 @@ var Task = React.createClass({
     AvatarStore.addListener(this._onChange);
   },
 
+  componentWillUnmount: function () {
+    AvatarStore.removeListener(this._onChange);
+  },
+
   render: function () {
     var task = this.props.task;
     return (

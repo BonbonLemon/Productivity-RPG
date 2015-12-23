@@ -31833,6 +31833,10 @@
 	    AvatarStore.addListener(this._onChange);
 	  },
 
+	  componentWillUnmount: function () {
+	    AvatarStore.removeListener(this._onChange);
+	  },
+
 	  render: function () {
 	    var task = this.props.task;
 	    return React.createElement(
