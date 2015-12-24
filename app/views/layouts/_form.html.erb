@@ -9,4 +9,12 @@
   <input type="password" class="form-control" name="user[password]">
 </div>
 
-<input type="submit" class="btn btn-primary" value="<%= @button %>">
+<input type="submit" class="btn btn-primary" data-toggle="modal" data-target="#myModal" value="<%= @button %>">
+
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog modal-sm">
+    <div class="heartbeat-loader">Loading…</div>
+    <br/><br/>
+    <span>Your profile is being setup...</span>
+  </div>
+</div>
