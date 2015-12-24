@@ -35,6 +35,13 @@ var ApiUtil = {
     })
   },
 
+  updateUser: function (id) {
+    $.ajax({
+      url: "/users/" + id,
+      method: "PATCH"
+    })
+  },
+
   fetchAvatar: function () {
     $.ajax({
       url: "api/avatar/",

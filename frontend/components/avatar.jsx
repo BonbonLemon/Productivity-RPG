@@ -134,7 +134,8 @@ var Avatar = React.createClass({
           <div className="col-xs-8"></div>
         </div>
         <div className="current-money row">
-          <img className="current-gold-bar" src="/assets/gold_bar.png" /> {money}
+          <img className="current-gold-bar col" src="/assets/gold_bar.png" />
+          <span className="current-money-text col"> {money} </span>
         </div>
       </div>
     );

@@ -6,7 +6,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
-    if @user.username == "Guest"
+    if @user.username == "Guest" && @user.is_password?("n3k8c0sap19")
       User.find_by(username: "Guest").try(:delete)
     end
 
@@ -21,6 +21,12 @@ class UsersController < ApplicationController
       flash.now[:errors] = @user.errors.full_messages
       render :new
     end
+  end
+
+  def update
+    @user = current_user
+    @user.update(tutorial: true)
+    render json: @user
   end
 
   private

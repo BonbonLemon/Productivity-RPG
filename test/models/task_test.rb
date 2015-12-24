@@ -8,7 +8,6 @@
 #  money_reward :integer          not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
-#  equipment_id :integer
 #
 
 require 'test_helper'
