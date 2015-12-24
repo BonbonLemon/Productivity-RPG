@@ -24543,7 +24543,7 @@
 	      });
 
 	      tour.addStep('rewards-step', {
-	        text: 'You can spend your gold<br/>' + 'to reward yourself or<br/>' + 'customize me with equipment.',
+	        text: 'You can spend your gold to<br/>' + 'reward yourself or customize<br/>' + 'me with equipment.',
 	        attachTo: '.Rewards top',
 	        buttons: [{
 	          text: 'Back',

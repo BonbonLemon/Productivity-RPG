@@ -67,32 +67,29 @@ class User < ActiveRecord::Base
     todos = types[2]
     rewards = types[3]
 
-    Task.create!(type_id: habits.id, title: "Complete tasks by clicking!", money_reward: 2)
-    Task.create!(type_id: habits.id, title: "Habits will exist until deleted", money_reward: 2)
     Task.create!(type_id: habits.id, title: "Eat a fruit", money_reward: 3)
-    Task.create!(type_id: habits.id, title: "Use the stairs", money_reward: 3)
-    Task.create!(type_id: dailies.id, title: "Create tasks above", money_reward: 2)
-    Task.create!(type_id: dailies.id, title: "Floss", money_reward: 2)
-    Task.create!(type_id: todos.id, title: "Click on me!", money_reward: 2)
-    Task.create!(type_id: rewards.id, title: "Spend gold and reward yourself!", money_reward: 0)
-    Task.create!(type_id: rewards.id, title: "Or customize your avatar!", money_reward: 0)
-    Task.create!(type_id: rewards.id, title: "Candy bar", money_reward: 2)
-    Task.create!(type_id: rewards.id, title: "30min of video games", money_reward: 2)
+    Task.create!(type_id: habits.id, title: "Use the stairs", money_reward: 2)
+    Task.create!(type_id: habits.id, title: "Use the elevator", money_reward: -3)
+    Task.create!(type_id: dailies.id, title: "Floss", money_reward: 3)
+    Task.create!(type_id: dailies.id, title: "Walk the dog", money_reward: 2)
+    Task.create!(type_id: todos.id, title: "Complete the tutorial!", money_reward: 2)
+    Task.create!(type_id: rewards.id, title: "Candy bar", money_reward: 5)
+    Task.create!(type_id: rewards.id, title: "30min of video games", money_reward: 10)
   end
 
   def create__equipment_rewards
     rewards = self.task_types[3]
 
     # Swords
-    banana_task = Task.create!(type_id: rewards.id, title: "Banana Sword", money_reward: 0)
+    banana_task = Task.create!(type_id: rewards.id, title: "Banana Sword", money_reward: 5)
     Equipment.create!(name: "Banana", url: "assets/banana.png", type_name: "sword", task_id: banana_task.id)
-    shovel_task = Task.create!(type_id: rewards.id, title: "Shovel", money_reward: 8)
+    shovel_task = Task.create!(type_id: rewards.id, title: "Shovel", money_reward: 12)
     Equipment.create!(name: "Shovel", url: "assets/shovel.png", type_name: "sword", task_id: shovel_task.id)
-    dagger_task = Task.create!(type_id: rewards.id, title: "Dagger", money_reward: 14)
+    dagger_task = Task.create!(type_id: rewards.id, title: "Dagger", money_reward: 18)
     Equipment.create!(name: "Dagger", url: "assets/dagger.png", type_name: "sword", task_id: dagger_task.id)
-    fire_sword_task = Task.create!(type_id: rewards.id, title: "Fire Sword", money_reward: 50)
+    fire_sword_task = Task.create!(type_id: rewards.id, title: "Fire Sword", money_reward: 60)
     Equipment.create!(name: "Fire Sword", url: "assets/fire_sword.png", type_name: "sword", task_id: fire_sword_task.id)
-    light_saber_task = Task.create!(type_id: rewards.id, title: "Light Saber", money_reward: 75)
+    light_saber_task = Task.create!(type_id: rewards.id, title: "Light Saber", money_reward: 60)
     Equipment.create!(name: "Light Saber", url: "assets/light_saber.png", type_name: "sword", task_id: light_saber_task.id)
 
     # Shields
