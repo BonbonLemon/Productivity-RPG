@@ -24453,6 +24453,7 @@
 
 	    if (!currentUser.tutorial) {
 	      ApiUtil.updateUser(currentUser.id);
+	      currentUser.tutorial = true;
 
 	      var tour = new Shepherd.Tour({
 	        defaults: {
