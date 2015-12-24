@@ -6,6 +6,10 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
+    if @user.username == "Guest"
+      User.find_by(username: "Guest").try(:delete)
+    end
+
     if @user.save
       @user.create_profile_items
       @user.create_tutorial_tasks

@@ -110,13 +110,13 @@ var Avatar = React.createClass({
   },
 
   componentDidMount: function () {
-    AvatarStore.addListener(this._onChange);
+    this.listener = AvatarStore.addListener(this._onChange);
     this.renderStickMan();
     ApiUtil.fetchAvatar();
   },
 
   componentWillUnmount: function () {
-    AvatarStore.removeListener(this._onChange);
+    this.listener.remove();
   },
 
   render: function () {
@@ -128,9 +128,12 @@ var Avatar = React.createClass({
       money = 0;
     }
     return (
-      <div>
-        <div ref="avatarRef"/>
-        <div className="current-money">
+      <div className="container-fluid">
+        <div className="row">
+          <div ref="avatarRef" className="col-xs-4"/>
+          <div className="col-xs-8"></div>
+        </div>
+        <div className="current-money row">
           <img className="current-gold-bar" src="/assets/gold_bar.png" /> {money}
         </div>
       </div>

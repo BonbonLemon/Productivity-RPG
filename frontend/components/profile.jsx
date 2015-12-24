@@ -17,12 +17,12 @@ var Profile = React.createClass({
   },
 
   componentDidMount: function () {
-    TaskStore.addListener(this._onChange);
+    this.listener = TaskStore.addListener(this._onChange);
     ApiUtil.fetchAllTaskTypes();
   },
 
   componentWillUnmount: function () {
-    TaskStore.removeListener(this._onChange);
+    this.listener.remove();
   },
 
   render: function () {
@@ -39,7 +39,7 @@ var Profile = React.createClass({
       return (
         <div className="profile container-fluid">
           <NavBar loggedIn={true}/>
-          <Avatar className="row"/>
+          <Avatar/>
           <div className="task-block row">
 
           {

@@ -24445,12 +24445,12 @@
 	  },
 
 	  componentDidMount: function () {
-	    TaskStore.addListener(this._onChange);
+	    this.listener = TaskStore.addListener(this._onChange);
 	    ApiUtil.fetchAllTaskTypes();
 	  },
 
 	  componentWillUnmount: function () {
-	    TaskStore.removeListener(this._onChange);
+	    this.listener.remove();
 	  },
 
 	  render: function () {
@@ -24470,7 +24470,7 @@
 	        'div',
 	        { className: 'profile container-fluid' },
 	        React.createElement(NavBar, { loggedIn: true }),
-	        React.createElement(Avatar, { className: 'row' }),
+	        React.createElement(Avatar, null),
 	        React.createElement(
 	          'div',
 	          { className: 'task-block row' },
@@ -33770,13 +33770,13 @@
 	  },
 
 	  componentDidMount: function () {
-	    AvatarStore.addListener(this._onChange);
+	    this.listener = AvatarStore.addListener(this._onChange);
 	    this.renderStickMan();
 	    ApiUtil.fetchAvatar();
 	  },
 
 	  componentWillUnmount: function () {
-	    AvatarStore.removeListener(this._onChange);
+	    this.listener.remove();
 	  },
 
 	  render: function () {
@@ -33789,11 +33789,16 @@
 	    }
 	    return React.createElement(
 	      'div',
-	      null,
-	      React.createElement('div', { ref: 'avatarRef' }),
+	      { className: 'container-fluid' },
 	      React.createElement(
 	        'div',
-	        { className: 'current-money' },
+	        { className: 'row' },
+	        React.createElement('div', { ref: 'avatarRef', className: 'col-xs-4' }),
+	        React.createElement('div', { className: 'col-xs-8' })
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'current-money row' },
 	        React.createElement('img', { className: 'current-gold-bar', src: '/assets/gold_bar.png' }),
 	        ' ',
 	        money

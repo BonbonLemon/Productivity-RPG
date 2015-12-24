@@ -1,4 +1,4 @@
-<form class="guest-auth" action="<%= session_url %>" method="post">
+<form class="guest-auth" action="<%= users_url %>" method="post">
     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
     <input type="hidden" name=user[username] value="Guest">
     <input type="hidden" name=user[password] value="n3k8c0sap19">

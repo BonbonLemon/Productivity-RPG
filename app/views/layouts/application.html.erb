@@ -20,7 +20,7 @@
 
   <div class="container">
     <% if signed_in? %>
-      <span class="welcome">Welcome, <%= current_user.username %>!</span>
+      <span class="welcome">Greetings, <%= current_user.username %>!</span>
     <% end %>
     <%= yield %>
   </div>
