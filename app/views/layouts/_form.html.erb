@@ -1,14 +1,12 @@
-<form action="<%= users_url %>" method="post" id="NewUserForm">
-  <%= auth_token_input %>
-  <div class="form-group">
-    <label>Username</label>
-    <input type="text" class="form-control" name="user[username]" value="<%= @user.username %>">
-  </div>
+<%= auth_token_input %>
+<div class="form-group">
+  <label>Username</label>
+  <input type="text" class="form-control" name="user[username]" value="<%= @user.username %>">
+</div>
 
-  <div class="form-group">
-    <label>Password</label>
-    <input type="password" class="form-control" name="user[password]">
-  </div>
+<div class="form-group">
+  <label>Password</label>
+  <input type="password" class="form-control" name="user[password]">
+</div>
 
-  <input type="submit" class="btn btn-primary" value="<%= @button %>">
-</form>
+<input type="submit" class="btn btn-primary" value="<%= @button %>">

@@ -30,8 +30,8 @@ var Profile = React.createClass({
       return (
         <div>
           <NavBar loggedIn={false}/>
-          <div className="heartbeat-loader">
-            Loading…
+          <div className="row">
+            <img className="col-xs-8 col-xs-offset-2" src="/assets/logo.png" />
           </div>
         </div>
       );

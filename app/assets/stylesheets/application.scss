@@ -37,7 +37,7 @@ body {
 }
 
 .task-block {
-  // width: 900px;
+  min-width: 850px;
 }
 
 .task-type-name {
@@ -92,8 +92,10 @@ button[disabled], button[disabled]:hover {
 }
 
 .task-description {
-  padding-left: 0px;
+  padding-left: 2px;
+  padding-right: 5px;
   text-align: left;
+  font-weight: bold;
 }
 
 .delete-task-button {

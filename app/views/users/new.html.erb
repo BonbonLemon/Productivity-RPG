@@ -1,36 +1,15 @@
-<nav class="navbar navbar-default">
-  <div class="container-fluid">
-
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed"
-              data-toggle="collapse"
-              data-target="#collapse-menu"
-              aria-expanded="false">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-    </div>
-
-    <div class="collapse navbar-collapse" id="collapse-menu">
-      <ul class="nav navbar-nav pull-left">
-        <li><%= link_to("Home", root_url) %></li>
-      </ul>
-      <ul class="nav navbar-nav pull-right">
-        <li><%= link_to("Sign In", new_session_url) %></li>
-        <li><%= link_to("Sign Up", new_user_url) %></li>
-      </ul>
-    </div>
-
-  </div>
-</nav>
+<%= render partial: "layouts/nav" %>
 
 <div class="row">
   <div class="col-xs-4 col-xs-offset-1">
     <h1>Sign Up</h1>
 
-    <% @button = "Sign Up" %>
-    <%= render partial: "layouts/form" %>
+    <form class="" action="<%= users_url %>" method="post">
+      <% @button = "Sign Up" %>
+      <%= render partial: "layouts/form" %>
+    </form>
+    or
+    <%= render partial: "layouts/guest" %>
 
   </div>
 </div>

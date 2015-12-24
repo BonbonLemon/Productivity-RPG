@@ -24461,8 +24461,8 @@
 	        React.createElement(NavBar, { loggedIn: false }),
 	        React.createElement(
 	          'div',
-	          { className: 'heartbeat-loader' },
-	          'Loading…'
+	          { className: 'row' },
+	          React.createElement('img', { className: 'col-xs-8 col-xs-offset-2', src: '/assets/logo.png' })
 	        )
 	      );
 	    } else {
