@@ -80,6 +80,16 @@ class User < ActiveRecord::Base
   def create__equipment_rewards
     rewards = self.task_types[3]
 
+    # Hats
+    party_hat_task = Task.create!(type_id: rewards.id, title: "Party Hat", money_reward: 0)
+    Equipment.create!(name: "Party Hat", url: "assets/party_hat.png", type_name: "hat", task_id: party_hat_task.id)
+    propeller_hat_task = Task.create!(type_id: rewards.id, title: "Propeller Hat", money_reward: 10)
+    Equipment.create!(name: "Propeller Hat", url: "assets/propeller_hat.png", type_name: "hat", task_id: propeller_hat_task.id)
+    construction_helmet_task = Task.create!(type_id: rewards.id, title: "Construction Helmet", money_reward: 20)
+    Equipment.create!(name: "Construction Helmet", url: "assets/construction_helmet.png", type_name: "hat", task_id: construction_helmet_task.id)
+    viking_helmet_task = Task.create!(type_id: rewards.id, title: "Viking Helmet", money_reward: 35)
+    Equipment.create!(name: "Viking Helmet", url: "assets/viking_helmet.png", type_name: "hat", task_id: viking_helmet_task.id)
+
     # Swords
     banana_task = Task.create!(type_id: rewards.id, title: "Banana Sword", money_reward: 5)
     Equipment.create!(name: "Banana", url: "assets/banana.png", type_name: "sword", task_id: banana_task.id)
@@ -99,15 +109,5 @@ class User < ActiveRecord::Base
     Equipment.create!(name: "Gryffindor Shield", url: "assets/gryffindor_shield.png", type_name: "shield", task_id: gryffindor_shield_task.id)
     cap_shield_task = Task.create!(type_id: rewards.id, title: "Captain America Shield", money_reward: 40)
     Equipment.create!(name: "Captain America Shield", url: "assets/cap_shield.png", type_name: "shield", task_id: cap_shield_task.id)
-
-    # Hats
-    party_hat_task = Task.create!(type_id: rewards.id, title: "Party Hat", money_reward: 0)
-    Equipment.create!(name: "Party Hat", url: "assets/party_hat.png", type_name: "hat", task_id: party_hat_task.id)
-    propeller_hat_task = Task.create!(type_id: rewards.id, title: "Propeller Hat", money_reward: 10)
-    Equipment.create!(name: "Propeller Hat", url: "assets/propeller_hat.png", type_name: "hat", task_id: propeller_hat_task.id)
-    construction_helmet_task = Task.create!(type_id: rewards.id, title: "Construction Helmet", money_reward: 20)
-    Equipment.create!(name: "Construction Helmet", url: "assets/construction_helmet.png", type_name: "hat", task_id: construction_helmet_task.id)
-    viking_helmet_task = Task.create!(type_id: rewards.id, title: "Viking Helmet", money_reward: 35)
-    Equipment.create!(name: "Viking Helmet", url: "assets/viking_helmet.png", type_name: "hat", task_id: viking_helmet_task.id)
   end
 end
