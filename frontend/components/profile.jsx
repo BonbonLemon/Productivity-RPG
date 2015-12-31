@@ -18,7 +18,8 @@ var Profile = React.createClass({
     this.setState({ TaskTypes: TaskStore.all() });
     var currentUser = this.state.TaskTypes[0].user;
 
-    if (!currentUser.tutorial) {
+    // if (!currentUser.tutorial) {
+    if (true) {
       ApiUtil.updateUser(currentUser.id);
       currentUser.tutorial = true;
 
@@ -64,6 +65,23 @@ var Profile = React.createClass({
               "It will increase whenever<br/>" +
               "you complete a task.",
         attachTo: '.current-money-text right',
+        buttons: [
+          {
+            text: 'Back',
+            action: tour.back
+          },
+          {
+            text: 'Next',
+            action: tour.next
+          }
+        ]
+      });
+
+      tour.addStep('item-shop-step', {
+        text: 'This is the item shop, where<br/>' +
+              'you can spend money to<br/>' +
+              'customize the way I look.',
+        attachTo: '.Items left',
         buttons: [
           {
             text: 'Back',
@@ -142,8 +160,8 @@ var Profile = React.createClass({
 
       tour.addStep('rewards-step', {
         text: 'You can spend your gold to<br/>' +
-              'reward yourself or customize<br/>' +
-              'me with equipment.',
+              'reward yourself. Rewards<br/>' +
+              'are deleted on purchase.',
         attachTo: '.Rewards top',
         buttons: [
           {
@@ -175,8 +193,8 @@ var Profile = React.createClass({
 
       tour.addStep('completed-step', {
         text: "And that's it! Now go find the free<br/>" +
-              "'Party Hat' in the rewards section<br/>" +
-              "so we can get this productivity party<br/>" +
+              "'Party Hat' in the item shop so we<br/>" +
+              "can get this productivity party<br/>" +
               "started!",
         attachTo: '.sjs right',
         buttons: [
