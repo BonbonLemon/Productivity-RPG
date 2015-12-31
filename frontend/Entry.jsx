@@ -18,8 +18,3 @@ document.addEventListener("DOMContentLoaded", function () {
     ReactDOM.render(<Router>{routes}</Router>, root);
   }
 })
-
-var http = require("http");
-setInterval(function() {
-    http.get("http://productivity-rpg.herokuapp.com");
-}, 300000); // every 5 minutes (300000)
