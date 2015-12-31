@@ -48,8 +48,11 @@ var Task = React.createClass({
         if (task.money_reward > this.state.Avatar.money) {
           alert("You don't have enough money for that! :(")
         } else {
-          ApiUtil.updateAvatar(task);
+          ApiUtil.updateAvatar(task, ApiUtil.deleteTask(task));
         }
+        break;
+      case "Items":
+        ApiUtil.updateAvatar(task);
         break;
     }
   },

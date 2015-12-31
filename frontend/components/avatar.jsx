@@ -1,6 +1,7 @@
 var React = require('react'),
     ReactDOM = require('react-dom'),
     AvatarStore = require('./../stores/avatar'),
+    ItemShop = require('./itemShop'),
     sjs = require('../util/sprite'),
     ApiUtil = require('./../util/api_util');
 
@@ -131,7 +132,7 @@ var Avatar = React.createClass({
       <div className="container-fluid">
         <div className="row">
           <div ref="avatarRef" className="col-xs-4"/>
-          <div className="col-xs-8"></div>
+          <ItemShop/>
         </div>
         <div className="current-money row">
           <img className="current-gold-bar col" src="/assets/gold_bar.png" />

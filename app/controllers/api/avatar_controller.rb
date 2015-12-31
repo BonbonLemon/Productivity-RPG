@@ -11,7 +11,8 @@ class Api::AvatarController < ApplicationController
   def update
     @avatar = current_user.avatar
     reward_money = task_params['money_reward'].to_i
-    if task_params['task_type']['type_name'] == "Rewards"
+    if task_params['task_type']['type_name'] == "Rewards" ||
+       task_params['task_type']['type_name'] == "Items"
       current_money = @avatar.money - reward_money
     else
       current_money = @avatar.money + reward_money

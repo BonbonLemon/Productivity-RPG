@@ -57,6 +57,7 @@ class User < ActiveRecord::Base
     TaskType.create(user_id: self.id, type_name: "Dailies")
     TaskType.create(user_id: self.id, type_name: "To-dos")
     TaskType.create(user_id: self.id, type_name: "Rewards")
+    TaskType.create(user_id: self.id, type_name: "Items")
     Avatar.create(user_id: self.id)
   end
 
@@ -78,36 +79,36 @@ class User < ActiveRecord::Base
   end
 
   def create__equipment_rewards
-    rewards = self.task_types[3]
+    items = self.task_types[4]
 
     # Hats
-    party_hat_task = Task.create!(type_id: rewards.id, title: "Party Hat", money_reward: 0)
+    party_hat_task = Task.create!(type_id: items.id, title: "Party Hat", money_reward: 0)
     Equipment.create!(name: "Party Hat", url: "assets/party_hat.png", type_name: "hat", task_id: party_hat_task.id)
-    propeller_hat_task = Task.create!(type_id: rewards.id, title: "Propeller Hat", money_reward: 10)
+    propeller_hat_task = Task.create!(type_id: items.id, title: "Propeller Hat", money_reward: 10)
     Equipment.create!(name: "Propeller Hat", url: "assets/propeller_hat.png", type_name: "hat", task_id: propeller_hat_task.id)
-    construction_helmet_task = Task.create!(type_id: rewards.id, title: "Construction Helmet", money_reward: 20)
+    construction_helmet_task = Task.create!(type_id: items.id, title: "Construction Helmet", money_reward: 20)
     Equipment.create!(name: "Construction Helmet", url: "assets/construction_helmet.png", type_name: "hat", task_id: construction_helmet_task.id)
-    viking_helmet_task = Task.create!(type_id: rewards.id, title: "Viking Helmet", money_reward: 35)
+    viking_helmet_task = Task.create!(type_id: items.id, title: "Viking Helmet", money_reward: 35)
     Equipment.create!(name: "Viking Helmet", url: "assets/viking_helmet.png", type_name: "hat", task_id: viking_helmet_task.id)
 
     # Swords
-    banana_task = Task.create!(type_id: rewards.id, title: "Banana Sword", money_reward: 5)
+    banana_task = Task.create!(type_id: items.id, title: "Banana Sword", money_reward: 5)
     Equipment.create!(name: "Banana", url: "assets/banana.png", type_name: "sword", task_id: banana_task.id)
-    shovel_task = Task.create!(type_id: rewards.id, title: "Shovel", money_reward: 12)
+    shovel_task = Task.create!(type_id: items.id, title: "Shovel", money_reward: 12)
     Equipment.create!(name: "Shovel", url: "assets/shovel.png", type_name: "sword", task_id: shovel_task.id)
-    dagger_task = Task.create!(type_id: rewards.id, title: "Dagger", money_reward: 18)
+    dagger_task = Task.create!(type_id: items.id, title: "Dagger", money_reward: 18)
     Equipment.create!(name: "Dagger", url: "assets/dagger.png", type_name: "sword", task_id: dagger_task.id)
-    fire_sword_task = Task.create!(type_id: rewards.id, title: "Fire Sword", money_reward: 60)
+    fire_sword_task = Task.create!(type_id: items.id, title: "Fire Sword", money_reward: 60)
     Equipment.create!(name: "Fire Sword", url: "assets/fire_sword.png", type_name: "sword", task_id: fire_sword_task.id)
-    light_saber_task = Task.create!(type_id: rewards.id, title: "Light Saber", money_reward: 60)
+    light_saber_task = Task.create!(type_id: items.id, title: "Light Saber", money_reward: 60)
     Equipment.create!(name: "Light Saber", url: "assets/light_saber.png", type_name: "sword", task_id: light_saber_task.id)
 
     # Shields
-    wooden_shield_task = Task.create!(type_id: rewards.id, title: "Wooden Shield", money_reward: 10)
+    wooden_shield_task = Task.create!(type_id: items.id, title: "Wooden Shield", money_reward: 10)
     Equipment.create!(name: "Wooden Shield", url: "assets/wooden_shield.png", type_name: "shield", task_id: wooden_shield_task.id)
-    gryffindor_shield_task = Task.create!(type_id: rewards.id, title: "Gryffindor Shield", money_reward: 30)
+    gryffindor_shield_task = Task.create!(type_id: items.id, title: "Gryffindor Shield", money_reward: 30)
     Equipment.create!(name: "Gryffindor Shield", url: "assets/gryffindor_shield.png", type_name: "shield", task_id: gryffindor_shield_task.id)
-    cap_shield_task = Task.create!(type_id: rewards.id, title: "Captain America Shield", money_reward: 40)
+    cap_shield_task = Task.create!(type_id: items.id, title: "Captain America Shield", money_reward: 40)
     Equipment.create!(name: "Captain America Shield", url: "assets/cap_shield.png", type_name: "shield", task_id: cap_shield_task.id)
   end
 end

@@ -220,12 +220,15 @@ var Profile = React.createClass({
           <NavBar loggedIn={true}/>
           <Avatar/>
           <div className="task-block row">
-
-          {
-            this.state.TaskTypes.map(function (taskType) {
-              return <TaskType key={taskType.id} taskType={taskType} />;
-            })
-          }
+            {
+              this.state.TaskTypes.map(function (taskType) {
+                if (taskType.type_name === "Items") {
+                  return;
+                } else {
+                  return <TaskType key={taskType.id} taskType={taskType} />;
+                }
+              })
+            }
           </div>
         </div>
       );
