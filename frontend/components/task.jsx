@@ -52,7 +52,11 @@ var Task = React.createClass({
         }
         break;
       case "Items":
-        ApiUtil.updateAvatar(task);
+        if (task.money_reward > this.state.Avatar.money) {
+          alert("You don't have enough money for that! :(")
+        } else {
+          ApiUtil.updateAvatar(task);
+        }
         break;
     }
   },

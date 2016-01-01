@@ -24431,9 +24431,9 @@
 	    TaskType = __webpack_require__(238),
 	    sjs = __webpack_require__(246),
 	    Avatar = __webpack_require__(247),
-	    NavBar = __webpack_require__(248);
+	    NavBar = __webpack_require__(249);
 
-	var Shepherd = __webpack_require__(249);
+	var Shepherd = __webpack_require__(250);
 
 	var Profile = React.createClass({
 	  displayName: 'Profile',
@@ -32027,7 +32027,11 @@
 	        }
 	        break;
 	      case "Items":
-	        ApiUtil.updateAvatar(task);
+	        if (task.money_reward > this.state.Avatar.money) {
+	          alert("You don't have enough money for that! :(");
+	        } else {
+	          ApiUtil.updateAvatar(task);
+	        }
 	        break;
 	    }
 	  },
@@ -33859,7 +33863,7 @@
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
 	    AvatarStore = __webpack_require__(245),
-	    ItemShop = __webpack_require__(288),
+	    ItemShop = __webpack_require__(248),
 	    sjs = __webpack_require__(246),
 	    ApiUtil = __webpack_require__(211);
 
@@ -34021,6 +34025,57 @@
 
 	var React = __webpack_require__(1),
 	    ApiUtil = __webpack_require__(211),
+	    Task = __webpack_require__(244);
+
+	var ItemShop = React.createClass({
+	  displayName: 'ItemShop',
+
+	  getInitialState: function () {
+	    return { items: [] };
+	  },
+
+	  getItems: function () {
+	    $.ajax({
+	      url: "api/task_types/",
+	      method: "GET",
+	      success: (function (taskTypes) {
+	        this.setState({ items: taskTypes[4].tasks });
+	      }).bind(this)
+	    });
+	  },
+
+	  componentDidMount: function () {
+	    this.getItems();
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'task-type Items col-xs-3 col-xs-offset-2 container-fluid' },
+	      React.createElement(
+	        'div',
+	        { className: 'task-type-name row' },
+	        'Item Shop'
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'task-box row' },
+	        this.state.items.map(function (item, idx) {
+	          return React.createElement(Task, { key: idx, task: item });
+	        })
+	      )
+	    );
+	  }
+	});
+
+	module.exports = ItemShop;
+
+/***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ApiUtil = __webpack_require__(211),
 	    History = __webpack_require__(159).History;
 
 	var NavBar = React.createClass({
@@ -34125,14 +34180,14 @@
 	module.exports = NavBar;
 
 /***/ },
-/* 249 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether-shepherd 1.2.0 */
 
 	(function(root, factory) {
 	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(250)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(251)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	  } else if (typeof exports === 'object') {
 	    module.exports = factory(require('tether'));
 	  } else {
@@ -34777,7 +34832,7 @@
 
 
 /***/ },
-/* 250 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.1.0 */
@@ -36496,94 +36551,6 @@
 
 	}));
 
-
-/***/ },
-/* 251 */,
-/* 252 */,
-/* 253 */,
-/* 254 */,
-/* 255 */,
-/* 256 */,
-/* 257 */,
-/* 258 */,
-/* 259 */,
-/* 260 */,
-/* 261 */,
-/* 262 */,
-/* 263 */,
-/* 264 */,
-/* 265 */,
-/* 266 */,
-/* 267 */,
-/* 268 */,
-/* 269 */,
-/* 270 */,
-/* 271 */,
-/* 272 */,
-/* 273 */,
-/* 274 */,
-/* 275 */,
-/* 276 */,
-/* 277 */,
-/* 278 */,
-/* 279 */,
-/* 280 */,
-/* 281 */,
-/* 282 */,
-/* 283 */,
-/* 284 */,
-/* 285 */,
-/* 286 */,
-/* 287 */,
-/* 288 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    ApiUtil = __webpack_require__(211),
-	    Task = __webpack_require__(244);
-
-	var ItemShop = React.createClass({
-	  displayName: 'ItemShop',
-
-	  getInitialState: function () {
-	    return { items: [] };
-	  },
-
-	  getItems: function () {
-	    $.ajax({
-	      url: "api/task_types/",
-	      method: "GET",
-	      success: (function (taskTypes) {
-	        this.setState({ items: taskTypes[4].tasks });
-	      }).bind(this)
-	    });
-	  },
-
-	  componentDidMount: function () {
-	    this.getItems();
-	  },
-
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'task-type Items col-xs-3 col-xs-offset-2 container-fluid' },
-	      React.createElement(
-	        'div',
-	        { className: 'task-type-name row' },
-	        'Item Shop'
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'task-box row' },
-	        this.state.items.map(function (item, idx) {
-	          return React.createElement(Task, { key: idx, task: item });
-	        })
-	      )
-	    );
-	  }
-	});
-
-	module.exports = ItemShop;
 
 /***/ }
 /******/ ]);
