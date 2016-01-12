@@ -34051,7 +34051,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'task-type Items col-xs-3 col-xs-offset-2 container-fluid' },
+	      { className: 'task-type Items col-xs-3 col-xs-offset-5 container-fluid' },
 	      React.createElement(
 	        'div',
 	        { className: 'task-type-name row' },

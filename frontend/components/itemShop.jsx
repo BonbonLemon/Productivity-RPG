@@ -23,7 +23,7 @@ var ItemShop = React.createClass({
 
   render: function () {
     return (
-      <div className="task-type Items col-xs-3 col-xs-offset-2 container-fluid">
+      <div className="task-type Items col-xs-3 col-xs-offset-5 container-fluid">
         <div className="task-type-name row">Item Shop</div>
         <div className="task-box row">
           {
