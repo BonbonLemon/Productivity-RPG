@@ -31,7 +31,8 @@ var Profile = React.createClass({
     var tour = new Shepherd.Tour({
       defaults: {
         classes: 'shepherd-theme-arrows',
-        showCancelLink: true
+        showCancelLink: true,
+        scrollTo: true
       }
     });
 
@@ -66,7 +67,7 @@ var Profile = React.createClass({
     });
 
     tour.addStep('money-step', {
-      text: "This is your current money.<br/>" +
+      text: "This is your current gold.<br/>" +
             "It will increase whenever<br/>" +
             "you complete a task.",
       attachTo: '.current-money-text right',
@@ -119,7 +120,9 @@ var Profile = React.createClass({
     });
 
     tour.addStep('habits-step', {
-      text: 'Habits reward you everytime you do it.',
+      text: 'Habits reward you everytime you do it.<br/>' +
+            'Try clicking on "Eat a fruit" and gain<br/>' +
+            '3 gold!',
       attachTo: '.Habits top',
       buttons: [
         {
@@ -134,7 +137,9 @@ var Profile = React.createClass({
     });
 
     tour.addStep('dailies-step', {
-      text: 'Dailies can be done once a day.',
+      text: 'Dailies can be done once a day. Click<br/>' +
+            '"Floss." Notice how you can\'t click it<br/>' +
+            'twice.',
       attachTo: '.Dailies top',
       buttons: [
         {
@@ -149,7 +154,9 @@ var Profile = React.createClass({
     });
 
     tour.addStep('todos-step', {
-      text: 'To-dos are deleted upon completion.',
+      text: 'To-dos are deleted upon completion.<br/>' +
+            'Click "Learn to click" and notice how<br/>' +
+            'it disappears after you click it.',
       attachTo: '.To-dos top',
       buttons: [
         {
@@ -166,7 +173,10 @@ var Profile = React.createClass({
     tour.addStep('rewards-step', {
       text: 'You can spend your gold to<br/>' +
             'reward yourself. Rewards<br/>' +
-            'are deleted on purchase.',
+            'are also deleted on purchase.<br/>' +
+            'Go ahead and reward yourself<br/>' +
+            'with a pat on the back for<br/>' +
+            'getting this far in the tutorial!',
       attachTo: '.Rewards top',
       buttons: [
         {
@@ -182,7 +192,10 @@ var Profile = React.createClass({
 
     tour.addStep('form-step', {
       text: 'Create custom tasks and<br/>' +
-            'rewards using these forms.',
+            'rewards using these forms.<br/>' +
+            'Try creating a "Clean room"<br/>' +
+            'Habits task that awards you 2<br/>' +
+            'gold.',
       attachTo: '#newTaskForm right',
       buttons: [
         {

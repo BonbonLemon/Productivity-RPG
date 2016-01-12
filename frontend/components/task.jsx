@@ -71,23 +71,45 @@ var Task = React.createClass({
 
   render: function () {
     var task = this.props.task;
-    return (
-      <div className="task-item container-fluid">
-        <div className="row">
-          <div className="delete-task-button col-xs-1" onClick={this.handleClickDelete} />
-          <button className="task-item-description-button col-xs-11" disabled={this.state.disable} onClick={this.handleClickComplete}>
-            <div className="task-item-description container-fluid">
-              <div className="task-item-description row">
-                <div className="task-reward col-xs-3">
-                  <img className="gold-bar" src="/assets/gold_bar.png" /> {task.money_reward}
+    // debugger;
+    if (task.task_type.type_name === "Items") {
+      return (
+        <div className="task-item container-fluid">
+          <div className="row">
+            <div className="delete-task-button col-xs-1" onClick={this.handleClickDelete} />
+            <button className="task-item-description-button col-xs-11" disabled={this.state.disable} onClick={this.handleClickComplete}>
+              <div className="task-item-description container-fluid">
+                <div className="task-item-description row">
+                  <div className="task-reward col-xs-3">
+                    <img className="gold-bar" src="/assets/gold_bar.png" /> {task.money_reward}
+                  </div>
+                  <div className="task-description col-xs-6">{task.title}</div>
+                  <img className="item-image" src={task.equipment.url}/>
                 </div>
-                <div className="task-description col-xs-9">{task.title}</div>
               </div>
-            </div>
-          </button>
+            </button>
+          </div>
         </div>
-      </div>
-    );
+      )
+    } else {
+      return (
+        <div className="task-item container-fluid">
+          <div className="row">
+            <div className="delete-task-button col-xs-1" onClick={this.handleClickDelete} />
+            <button className="task-item-description-button col-xs-11" disabled={this.state.disable} onClick={this.handleClickComplete}>
+              <div className="task-item-description container-fluid">
+                <div className="task-item-description row">
+                  <div className="task-reward col-xs-3">
+                    <img className="gold-bar" src="/assets/gold_bar.png" /> {task.money_reward}
+                  </div>
+                  <div className="task-description col-xs-9">{task.title}</div>
+                </div>
+              </div>
+            </button>
+          </div>
+        </div>
+      );
+    }
   }
 });
 

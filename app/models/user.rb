@@ -71,10 +71,15 @@ class User < ActiveRecord::Base
     Task.create!(type_id: habits.id, title: "Eat a fruit", money_reward: 3)
     Task.create!(type_id: habits.id, title: "Use the stairs", money_reward: 2)
     Task.create!(type_id: habits.id, title: "Use the elevator", money_reward: -3)
+
     Task.create!(type_id: dailies.id, title: "Floss", money_reward: 3)
     Task.create!(type_id: dailies.id, title: "Walk the dog", money_reward: 2)
+
     Task.create!(type_id: todos.id, title: "Complete the tutorial!", money_reward: 2)
+    Task.create!(type_id: todos.id, title: "Learn to click", money_reward: 2)
+
     Task.create!(type_id: rewards.id, title: "Candy bar", money_reward: 5)
+    Task.create!(type_id: rewards.id, title: "Pat on the back", money_reward: 1)
     Task.create!(type_id: rewards.id, title: "30min of video games", money_reward: 10)
   end
 

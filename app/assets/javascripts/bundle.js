@@ -24459,7 +24459,8 @@
 	    var tour = new Shepherd.Tour({
 	      defaults: {
 	        classes: 'shepherd-theme-arrows',
-	        showCancelLink: true
+	        showCancelLink: true,
+	        scrollTo: true
 	      }
 	    });
 
@@ -24485,7 +24486,7 @@
 	    });
 
 	    tour.addStep('money-step', {
-	      text: "This is your current money.<br/>" + "It will increase whenever<br/>" + "you complete a task.",
+	      text: "This is your current gold.<br/>" + "It will increase whenever<br/>" + "you complete a task.",
 	      attachTo: '.current-money-text right',
 	      buttons: [{
 	        text: 'Back',
@@ -24521,7 +24522,7 @@
 	    });
 
 	    tour.addStep('habits-step', {
-	      text: 'Habits reward you everytime you do it.',
+	      text: 'Habits reward you everytime you do it.<br/>' + 'Try clicking on "Eat a fruit" and gain<br/>' + '3 gold!',
 	      attachTo: '.Habits top',
 	      buttons: [{
 	        text: 'Back',
@@ -24533,7 +24534,7 @@
 	    });
 
 	    tour.addStep('dailies-step', {
-	      text: 'Dailies can be done once a day.',
+	      text: 'Dailies can be done once a day. Click<br/>' + '"Floss." Notice how you can\'t click it<br/>' + 'twice.',
 	      attachTo: '.Dailies top',
 	      buttons: [{
 	        text: 'Back',
@@ -24545,7 +24546,7 @@
 	    });
 
 	    tour.addStep('todos-step', {
-	      text: 'To-dos are deleted upon completion.',
+	      text: 'To-dos are deleted upon completion.<br/>' + 'Click "Learn to click" and notice how<br/>' + 'it disappears after you click it.',
 	      attachTo: '.To-dos top',
 	      buttons: [{
 	        text: 'Back',
@@ -24557,7 +24558,7 @@
 	    });
 
 	    tour.addStep('rewards-step', {
-	      text: 'You can spend your gold to<br/>' + 'reward yourself. Rewards<br/>' + 'are deleted on purchase.',
+	      text: 'You can spend your gold to<br/>' + 'reward yourself. Rewards<br/>' + 'are also deleted on purchase.<br/>' + 'Go ahead and reward yourself<br/>' + 'with a pat on the back for<br/>' + 'getting this far in the tutorial!',
 	      attachTo: '.Rewards top',
 	      buttons: [{
 	        text: 'Back',
@@ -24569,7 +24570,7 @@
 	    });
 
 	    tour.addStep('form-step', {
-	      text: 'Create custom tasks and<br/>' + 'rewards using these forms.',
+	      text: 'Create custom tasks and<br/>' + 'rewards using these forms.<br/>' + 'Try creating a "Clean room"<br/>' + 'Habits task that awards you 2<br/>' + 'gold.',
 	      attachTo: '#newTaskForm right',
 	      buttons: [{
 	        text: 'Back',
@@ -32046,39 +32047,77 @@
 
 	  render: function () {
 	    var task = this.props.task;
-	    return React.createElement(
-	      'div',
-	      { className: 'task-item container-fluid' },
-	      React.createElement(
+	    // debugger;
+	    if (task.task_type.type_name === "Items") {
+	      return React.createElement(
 	        'div',
-	        { className: 'row' },
-	        React.createElement('div', { className: 'delete-task-button col-xs-1', onClick: this.handleClickDelete }),
+	        { className: 'task-item container-fluid' },
 	        React.createElement(
-	          'button',
-	          { className: 'task-item-description-button col-xs-11', disabled: this.state.disable, onClick: this.handleClickComplete },
+	          'div',
+	          { className: 'row' },
+	          React.createElement('div', { className: 'delete-task-button col-xs-1', onClick: this.handleClickDelete }),
 	          React.createElement(
-	            'div',
-	            { className: 'task-item-description container-fluid' },
+	            'button',
+	            { className: 'task-item-description-button col-xs-11', disabled: this.state.disable, onClick: this.handleClickComplete },
 	            React.createElement(
 	              'div',
-	              { className: 'task-item-description row' },
+	              { className: 'task-item-description container-fluid' },
 	              React.createElement(
 	                'div',
-	                { className: 'task-reward col-xs-3' },
-	                React.createElement('img', { className: 'gold-bar', src: '/assets/gold_bar.png' }),
-	                ' ',
-	                task.money_reward
-	              ),
-	              React.createElement(
-	                'div',
-	                { className: 'task-description col-xs-9' },
-	                task.title
+	                { className: 'task-item-description row' },
+	                React.createElement(
+	                  'div',
+	                  { className: 'task-reward col-xs-3' },
+	                  React.createElement('img', { className: 'gold-bar', src: '/assets/gold_bar.png' }),
+	                  ' ',
+	                  task.money_reward
+	                ),
+	                React.createElement(
+	                  'div',
+	                  { className: 'task-description col-xs-6' },
+	                  task.title
+	                ),
+	                React.createElement('img', { className: 'item-image', src: task.equipment.url })
 	              )
 	            )
 	          )
 	        )
-	      )
-	    );
+	      );
+	    } else {
+	      return React.createElement(
+	        'div',
+	        { className: 'task-item container-fluid' },
+	        React.createElement(
+	          'div',
+	          { className: 'row' },
+	          React.createElement('div', { className: 'delete-task-button col-xs-1', onClick: this.handleClickDelete }),
+	          React.createElement(
+	            'button',
+	            { className: 'task-item-description-button col-xs-11', disabled: this.state.disable, onClick: this.handleClickComplete },
+	            React.createElement(
+	              'div',
+	              { className: 'task-item-description container-fluid' },
+	              React.createElement(
+	                'div',
+	                { className: 'task-item-description row' },
+	                React.createElement(
+	                  'div',
+	                  { className: 'task-reward col-xs-3' },
+	                  React.createElement('img', { className: 'gold-bar', src: '/assets/gold_bar.png' }),
+	                  ' ',
+	                  task.money_reward
+	                ),
+	                React.createElement(
+	                  'div',
+	                  { className: 'task-description col-xs-9' },
+	                  task.title
+	                )
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
 	  }
 	});
 
@@ -34051,7 +34090,7 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'task-type Items col-xs-3 col-xs-offset-5 container-fluid' },
+	      { className: 'task-type Items col-xs-4 col-xs-offset-4 container-fluid' },
 	      React.createElement(
 	        'div',
 	        { className: 'task-type-name row' },
