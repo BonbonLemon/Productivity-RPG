@@ -23,7 +23,10 @@
 }
 
 body {
-  background: #ACAEB7;
+  background-image: url(background.png);
+  background-position: center center;
+  background-size: cover;
+  // background: #ACAEB7;
   height: 1200px;
   padding-top: 70px;
 }
