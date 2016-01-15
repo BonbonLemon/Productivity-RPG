@@ -17,12 +17,14 @@
  @import "bootstrap-sprockets";
  @import "bootstrap";
 
-
 .shepherd-step {
   z-index: 2;
 }
 
 body {
+  font-family: 'SFPixelateRegular';
+  font-weight: bold;
+  font-style: normal;
   background-image: url(background.png);
   background-position: center center;
   background-size: cover;
