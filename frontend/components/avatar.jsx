@@ -19,11 +19,34 @@ var Avatar = React.createClass({
     this.avatar = ReactDOM.findDOMNode(this.refs.avatarRef);
     var sprite = document.querySelector('.sjs');
     if (this.avatar && !sprite) {
-      this.scene = sjs.Scene({parent: this.avatar, w:300, h:425});
-      var stick = this.scene.Sprite('assets/stick_man.png');
-      stick.position(50, 100);
-      //TODO hacky
-      setTimeout(stick.update.bind(stick), 500);
+      // NOTE: Hacky solution
+      // setTimeout(stick.update.bind(stick), 500);
+
+      // NOTE: Doesn't work...
+      // var p2 = new Promise(function(resolve, reject) {
+      //   // this.scene = sjs.Scene({parent: this.avatar, w:300, h:425});
+      //   resolve(this.scene = sjs.Scene({parent: this.avatar, w:300, h:425}));
+      // }.bind(this));
+
+      // p2.then(function() {
+      //   debugger;
+      //   this.stick = this.scene.Sprite('assets/stick_man.png');
+      // }.bind(this)).then(function() {
+      //   this.stick.position(50, 100);
+      // }.bind(this)).then(function () {
+      //   debugger;
+      //   this.stick.update()
+      // }.bind(this));
+
+      var that = this;
+      $.when($.ajax(function () {
+        that.scene = sjs.Scene({parent: that.avatar, w:300, h:425});
+        that.stick = that.scene.Sprite('assets/stick_man.png');
+        that.stick.position(50, 100);
+      }())).then(function () {
+        // NOTE: Hacky
+        setTimeout(that.stick.update.bind(that.stick), 500);
+      });
     }
   },
 
@@ -58,16 +81,15 @@ var Avatar = React.createClass({
         return;
       } else {
         this.hat.remove();
-        this.hat = this.scene.Sprite(equipment.url);
-        this.hat.position(45, -10);
-        setTimeout(this.hat.update.bind(this.hat), 500);
       }
-    } else {
-      this.hat = this.scene.Sprite(equipment.url);
-      this.hat.position(45, -10);
-      //TODO hacky
-      setTimeout(this.hat.update.bind(this.hat), 500);
     }
+    var that = this;
+    $.when($.ajax(function () {
+      that.hat = that.scene.Sprite(equipment.url);
+      that.hat.position(45, -10);
+    }())).then(function () {
+      setTimeout(that.hat.update.bind(that.hat), 500);
+    });
   },
 
   renderShield: function (equipment) {
@@ -78,16 +100,15 @@ var Avatar = React.createClass({
         return;
       } else {
         this.shield.remove();
-        this.shield = this.scene.Sprite(equipment.url);
-        this.shield.position(160, 180);
-        setTimeout(this.shield.update.bind(this.shield), 500);
       }
-    } else {
-      this.shield = this.scene.Sprite(equipment.url);
-      this.shield.position(160, 180);
-      //TODO hacky
-      setTimeout(this.shield.update.bind(this.shield), 500);
     }
+    var that = this;
+    $.when($.ajax(function () {
+      that.shield = that.scene.Sprite(equipment.url);
+      that.shield.position(160, 180);
+    }())).then(function () {
+      setTimeout(that.shield.update.bind(that.shield), 500);
+    });
   },
 
   renderSword: function (equipment) {
@@ -98,16 +119,15 @@ var Avatar = React.createClass({
         return;
       } else {
         this.sword.remove();
-        this.sword = this.scene.Sprite(equipment.url);
-        this.sword.position(0, 40);
-        setTimeout(this.sword.update.bind(this.sword), 500);
       }
-    } else {
-      this.sword = this.scene.Sprite(equipment.url);
-      this.sword.position(0, 40);
-      //TODO hacky
-      setTimeout(this.sword.update.bind(this.sword), 500);
     }
+    var that = this;
+    $.when($.ajax(function () {
+      that.sword = that.scene.Sprite(equipment.url);
+      that.sword.position(0, 40);
+    }())).then(function () {
+      setTimeout(that.sword.update.bind(that.sword), 500);
+    });
   },
 
   componentDidMount: function () {
