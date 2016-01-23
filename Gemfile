@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'newrelic_rpm'
 gem 'bootstrap-sass'
 gem 'faker'
 gem 'better_errors'
