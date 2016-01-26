@@ -75,7 +75,7 @@ class User < ActiveRecord::Base
     Task.create!(type_id: dailies.id, title: "Floss", money_reward: 3)
     Task.create!(type_id: dailies.id, title: "Walk the dog", money_reward: 2)
 
-    Task.create!(type_id: todos.id, title: "Complete the tutorial!", money_reward: 2)
+    Task.create!(type_id: todos.id, title: "Create an account!", money_reward: 2)
     Task.create!(type_id: todos.id, title: "Learn to click", money_reward: 2)
 
     Task.create!(type_id: rewards.id, title: "Candy bar", money_reward: 5)

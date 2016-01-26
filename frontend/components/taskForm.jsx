@@ -57,16 +57,16 @@ var TaskForm = React.createClass({
   render: function () {
     return (
       <form className="row" id="newTaskForm" onSubmit={this.handleSubmit}>
-        Create new {this.props.taskType.type_name}
-        <br/><br/>
+        <br/>
         <input type="text"
                id="task-text-box"
                className="task-form-text"
                value={this.state.title}
                onChange={this.handleTitleChange}
+               placeholder={"Create " + this.props.taskType.type_name}
         />
         <input type="submit"
-               className="task-form-text"
+               className="task-form-text plus-minus-sign"
                value="+"
         />
         <br/>
@@ -81,13 +81,13 @@ var TaskForm = React.createClass({
           />
           <input type="button"
                  value="-"
-                 className="qtyminus"
+                 className="qtyminus plus-minus-sign"
                  field="quantity"
                  onClick={this.handleMinus}
           />
           <input type="button"
                  value="+"
-                 className="qtyplus"
+                 className="qtyplus plus-minus-sign"
                  field="quantity"
                  onClick={this.handlePlus}
           />

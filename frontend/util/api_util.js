@@ -58,6 +58,7 @@ var ApiUtil = {
       method: "PATCH",
       data: {task: task},
       success: function (avatar) {
+        // debugger;
         AvatarActions.receiveAvatar(avatar);
         callback;
       }

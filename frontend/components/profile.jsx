@@ -30,17 +30,21 @@ var Profile = React.createClass({
   giveTour: function () {
     var tour = new Shepherd.Tour({
       defaults: {
-        classes: 'shepherd-theme-arrows',
-        showCancelLink: true,
-        scrollTo: true
+        classes: 'shepherd-theme-default',
+        showCancelLink: true
       }
     });
 
     tour.addStep('introduction-step', {
-      text: 'Welcome to Productivity-RPG, the<br/>' +
-            'to-do list app that turns your life<br/>' +
-            'into a game! Let me give you a tour!',
+      title: 'Welcome!',
+      text: 'Welcome to Productivity-RPG!<br/>' +
+            'Let me give you a tour!',
       attachTo: '.sjs right',
+      when: {
+        show: function () {
+          window.scrollTo(0, 0);
+        }
+      },
       buttons: [
         {
           text: 'Next',
@@ -50,97 +54,10 @@ var Profile = React.createClass({
     });
 
     tour.addStep('avatar-step', {
-      text: "I'm your personal avatar! Think of<br/>" +
-            "me as a representation of how well<br/>" +
-            "you're doing in with all your tasks.",
+      title: 'Customize Your Avatar',
+      text: "I'm your personal avatar! I will " +
+            "represent you as you progress.",
       attachTo: '.sjs right',
-      buttons: [
-        {
-          text: 'Back',
-          action: tour.back
-        },
-        {
-          text: 'Next',
-          action: tour.next
-        }
-      ]
-    });
-
-    tour.addStep('money-step', {
-      text: "This is your current gold.<br/>" +
-            "It will increase whenever<br/>" +
-            "you complete a task.",
-      attachTo: '.current-money-text right',
-      buttons: [
-        {
-          text: 'Back',
-          action: tour.back
-        },
-        {
-          text: 'Next',
-          action: tour.next
-        }
-      ]
-    });
-
-    tour.addStep('item-shop-step', {
-      text: 'This is the item shop, where<br/>' +
-            'you can spend money to<br/>' +
-            'customize the way I look.',
-      attachTo: '.Items left',
-      buttons: [
-        {
-          text: 'Back',
-          action: tour.back
-        },
-        {
-          text: 'Next',
-          action: tour.next
-        }
-      ]
-    });
-
-    tour.addStep('task-block-step', {
-      text: 'This is your tasks block, where you<br/>' +
-            'can create and complete tasks. You<br/>' +
-            'can buy rewards here as well. Complete<br/>' +
-            'tasks and buy rewards by clicking on<br/>' +
-            'them! I split your tasks into 3 categories:',
-      attachTo: '.task-block top',
-      buttons: [
-        {
-          text: 'Back',
-          action: tour.back
-        },
-        {
-          text: 'Next',
-          action: tour.next
-        }
-      ]
-    });
-
-    tour.addStep('habits-step', {
-      text: 'Habits reward you everytime you do it.<br/>' +
-            'Try clicking on "Eat a fruit" and gain<br/>' +
-            '3 gold!',
-      attachTo: '.Habits top',
-      buttons: [
-        {
-          text: 'Back',
-          action: tour.back
-        },
-        {
-          text: 'Next',
-          action: tour.next
-        }
-      ]
-    });
-
-    tour.addStep('dailies-step', {
-      text: 'Dailies can be done once a day. Click<br/>' +
-            '"Floss." Notice how you can\'t click it<br/>' +
-            'twice.',
-      attachTo: '.Dailies top',
       buttons: [
         {
           text: 'Back',
@@ -154,10 +71,70 @@ var Profile = React.createClass({
     });
 
     tour.addStep('todos-step', {
-      text: 'To-dos are deleted upon completion.<br/>' +
-            'Click "Learn to click" and notice how<br/>' +
-            'it disappears after you click it.',
+      title: 'To-Do List',
+      text: 'Check off To-Dos by clicking them ' +
+            'to earn gold!',
       attachTo: '.To-dos top',
+      when: {
+        show: function () {
+          window.scrollTo(0, 150);
+        }
+      },
+      buttons: [
+        {
+          text: 'Back',
+          action: tour.back
+        },
+        {
+          text: 'Next',
+          action: tour.next
+        }
+      ]
+    });
+
+    tour.addStep('dailies-step', {
+      title: 'Daily Tasks',
+      text: 'Dailies repeat every day.',
+      attachTo: '.Dailies top',
+      buttons: [
+        {
+          text: 'Back',
+          action: tour.back
+        },
+        {
+          text: 'Next',
+          action: tour.next
+        }
+      ]
+    });
+
+    tour.addStep('habits-step', {
+      title: 'Good & Bad Habits',
+      text: 'Habits reward you everytime you do it. ' +
+            'Bad habits will punish you.',
+      attachTo: '.Habits top',
+      buttons: [
+        {
+          text: 'Back',
+          action: tour.back
+        },
+        {
+          text: 'Next',
+          action: tour.next
+        }
+      ]
+    });
+
+    tour.addStep('item-shop-step', {
+      title: 'Item Shop',
+      text: 'Spend your hard-earned gold here! ' +
+            'Purchase equipment for your avatar!',
+      attachTo: '.Items left',
+      when: {
+        show: function () {
+          window.scrollTo(0, 0);
+        }
+      },
       buttons: [
         {
           text: 'Back',
@@ -171,12 +148,8 @@ var Profile = React.createClass({
     });
 
     tour.addStep('rewards-step', {
-      text: 'You can spend your gold to<br/>' +
-            'reward yourself. Rewards<br/>' +
-            'are also deleted on purchase.<br/>' +
-            'Go ahead and reward yourself<br/>' +
-            'with a pat on the back for<br/>' +
-            'getting this far in the tutorial!',
+      title: 'Reward List',
+      text: 'Or set custom rewards for yourself.',
       attachTo: '.Rewards top',
       buttons: [
         {
@@ -191,12 +164,15 @@ var Profile = React.createClass({
     });
 
     tour.addStep('form-step', {
-      text: 'Create custom tasks and<br/>' +
-            'rewards using these forms.<br/>' +
-            'Try creating a "Clean room"<br/>' +
-            'Habits task that awards you 2<br/>' +
-            'gold.',
+      title: 'Create Custom Tasks',
+      text: 'create tasks and rewards with ' +
+            'these forms. Set custom names and gold rewards.',
       attachTo: '#newTaskForm right',
+      when: {
+        show: function () {
+          window.scrollTo(0, 200);
+        }
+      },
       buttons: [
         {
           text: 'Back',
@@ -210,11 +186,17 @@ var Profile = React.createClass({
     });
 
     tour.addStep('completed-step', {
-      text: "And that's it! Now go find the free<br/>" +
-            "'Party Hat' in the item shop so we<br/>" +
-            "can get this productivity party<br/>" +
+      title: 'The End!',
+      text: "And that's it! Now go find the free " +
+            "'Party Hat' in the item shop so we " +
+            "can get this productivity party " +
             "started!",
       attachTo: '.sjs right',
+      when: {
+        show: function () {
+          window.scrollTo(0, 0);
+        }
+      },
       buttons: [
         {
           text: 'Back',

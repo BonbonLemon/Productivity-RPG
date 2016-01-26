@@ -23,6 +23,7 @@
 
 body {
   font-family: 'SFPixelateRegular';
+  // font-family: 'VT323';
   font-weight: bold;
   font-style: normal;
   background-image: url(background.png);
@@ -57,6 +58,7 @@ body {
 .task-type-name {
   background: #090940;
   color: white;
+  font-size: large;
   text-align: center;
   text-indent: 10px;
   outline: thin solid black;
@@ -74,7 +76,7 @@ body {
 }
 
 button[disabled], button[disabled]:hover {
-  background: #cccccc;
+  background: #00FF01;
   text-shadow: 0px 1px 0px white;
   color: #E5E5E5;
 }
@@ -124,7 +126,7 @@ button[disabled], button[disabled]:hover {
 }
 
 .delete-task-button:before {
-    content: "×";
+    content: "x";
 }
 
 .delete-task-button:active {
@@ -145,11 +147,16 @@ button[disabled], button[disabled]:hover {
 }
 
 #task-text-box {
-  width: 100px;
+  width: 150px;
 }
 
 .task-form-text {
   position: relative;
+}
+
+.plus-minus-sign {
+  font: message-box;
+  top: 2px;
 }
 
 #moneyRewardForm {
@@ -167,8 +174,8 @@ button[disabled], button[disabled]:hover {
   max-height: 18px;
 }
 
-input.qtyplus { width: 25px; height: 25px;}
-input.qtyminus { width: 25px; height: 25px;}
+input.qtyplus { width: 25px; height: 25px; font: message-box;}
+input.qtyminus { width: 25px; height: 25px; font: message-box;}
 
 @-moz-keyframes heartbeat-loader {
   0% {
@@ -1047,7 +1054,7 @@ input.qtyminus { width: 25px; height: 25px;}
                           .shepherd-element.shepherd-theme-default .shepherd-content footer {
                             padding: 0 1em 1em; }
                             .shepherd-element.shepherd-theme-default .shepherd-content footer .shepherd-buttons {
-                              text-align: right;
+                              text-align: center;
                               list-style: none;
                               padding: 0;
                               margin: 0; }
@@ -1261,7 +1268,7 @@ input.qtyminus { width: 25px; height: 25px;}
                             .shepherd-element.shepherd-theme-square-dark .shepherd-content footer {
                               padding: 0 1em 1em; }
                               .shepherd-element.shepherd-theme-square-dark .shepherd-content footer .shepherd-buttons {
-                                text-align: right;
+                                text-align: center;
                                 list-style: none;
                                 padding: 0;
                                 margin: 0; }

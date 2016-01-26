@@ -20,6 +20,7 @@ var Task = React.createClass({
 
   handleClickDelete: function () {
     ApiUtil.deleteTask(this.props.task);
+    this.setState({disable: false});
   },
 
   handleTaskType: function () {
@@ -42,7 +43,12 @@ var Task = React.createClass({
         ApiUtil.updateAvatar(task);
         break;
       case "To-dos":
-        ApiUtil.updateAvatar(task, ApiUtil.deleteTask(task));
+        this.setState({disable: true});
+        ApiUtil.updateAvatar(task);
+        setTimeout(function () {
+          ApiUtil.deleteTask(task);
+          this.setState({disable: false});
+        }.bind(this), 1000);
         break;
       case "Rewards":
         if (task.money_reward > this.state.Avatar.money) {
@@ -71,7 +77,6 @@ var Task = React.createClass({
 
   render: function () {
     var task = this.props.task;
-    // debugger;
     if (task.task_type.type_name === "Items") {
       return (
         <div className="task-item container-fluid">
