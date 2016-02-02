@@ -31618,12 +31618,12 @@
 	        { className: 'task-type col-xs-12' },
 	        React.createElement(
 	          'h2',
-	          { className: 'task-type-name row' },
+	          { className: 'task-type-name' },
 	          this.props.taskType.type_name
 	        ),
 	        React.createElement(TaskForm, { taskType: this.props.taskType }),
 	        React.createElement(
-	          'div',
+	          'ul',
 	          { className: 'task-box row' },
 	          this.props.taskType.tasks.map(function (task, idx) {
 	            return React.createElement(Task, { key: idx, task: task });
@@ -32067,7 +32067,7 @@
 	    var task = this.props.task;
 	    if (task.task_type.type_name === "Items") {
 	      return React.createElement(
-	        'div',
+	        'li',
 	        { className: 'task-item container-fluid' },
 	        React.createElement(
 	          'div',
@@ -32102,7 +32102,7 @@
 	      );
 	    } else {
 	      return React.createElement(
-	        'div',
+	        'li',
 	        { className: 'task-item container-fluid' },
 	        React.createElement(
 	          'div',
@@ -34129,7 +34129,7 @@
 	      'div',
 	      { className: 'task-type Items col-xs-4 col-xs-offset-4 container-fluid' },
 	      React.createElement(
-	        'div',
+	        'h2',
 	        { className: 'task-type-name row' },
 	        'Item Shop'
 	      ),

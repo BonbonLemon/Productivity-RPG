@@ -35,6 +35,16 @@ body {
   padding-top: 70px;
 }
 
+ul {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+
+li {
+  list-style: none;
+}
+
 .modal-dialog {
   text-align: center;
 }
@@ -84,20 +94,23 @@ body {
   margin: 0px;
   padding: 0px;
   font-weight: 300;
+  color: #4c666e;
   // text-align: center;
   // text-indent: 10px;
   // outline: thin solid black;
 }
 
 .task-box {
-  background: #090940;
-  outline: thin solid black;
-  height: 400px;
+  // background: #090940;
+  // outline: thin solid black;
+  // height: 400px;
   overflow-y: auto;
 }
 
 .task-item {
   height: 50px;
+  border: 1px solid #c3d2bd;
+  margin-bottom: .75em;
 }
 
 button[disabled], button[disabled]:hover {
