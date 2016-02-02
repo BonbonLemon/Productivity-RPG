@@ -5,9 +5,9 @@ var React = require('react'),
 var TaskType = React.createClass({
   render: function () {
     return (
-      <div className={"task-type col-xs-3 "+ this.props.taskType.type_name}>
-        <div className="col-xs-12">
-          <div className="task-type-name row">{this.props.taskType.type_name}</div>
+      <div className={"task-type-container col-xs-3 "+ this.props.taskType.type_name}>
+        <div className="task-type col-xs-12">
+          <h2 className="task-type-name row">{this.props.taskType.type_name}</h2>
           <TaskForm taskType={this.props.taskType} />
           <div className="task-box row">
             {

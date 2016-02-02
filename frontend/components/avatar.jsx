@@ -149,9 +149,9 @@ var Avatar = React.createClass({
       money = 0;
     }
     return (
-      <div>
-        <div className="row">
-          <div ref="avatarRef" className="col-xs-4"/>
+      <div className="row">
+        <div className="avatar-row row">
+          <div ref="avatarRef" className="avatar col-xs-4"/>
           <ItemShop/>
         </div>
         <div className="current-money row">

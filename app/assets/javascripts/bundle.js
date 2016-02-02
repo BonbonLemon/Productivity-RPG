@@ -31612,12 +31612,12 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: "task-type col-xs-3 " + this.props.taskType.type_name },
+	      { className: "task-type-container col-xs-3 " + this.props.taskType.type_name },
 	      React.createElement(
 	        'div',
-	        { className: 'col-xs-12' },
+	        { className: 'task-type col-xs-12' },
 	        React.createElement(
-	          'div',
+	          'h2',
 	          { className: 'task-type-name row' },
 	          this.props.taskType.type_name
 	        ),
@@ -34070,11 +34070,11 @@
 	    }
 	    return React.createElement(
 	      'div',
-	      null,
+	      { className: 'row' },
 	      React.createElement(
 	        'div',
-	        { className: 'row' },
-	        React.createElement('div', { ref: 'avatarRef', className: 'col-xs-4' }),
+	        { className: 'avatar-row row' },
+	        React.createElement('div', { ref: 'avatarRef', className: 'avatar col-xs-4' }),
 	        React.createElement(ItemShop, null)
 	      ),
 	      React.createElement(
