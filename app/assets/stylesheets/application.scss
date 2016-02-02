@@ -23,8 +23,9 @@
 
 body {
   // font-family: 'SFPixelateRegular';
-  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   // font-family: 'VT323';
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+  // font-family: Lato, sans-serif;
   font-weight: bold;
   font-style: normal;
   // background-image: url(background.png);
@@ -73,6 +74,7 @@ li {
 
 .task-block {
   min-width: 850px;
+  font-family: Lato, sans-serif;
 }
 
 .task-type-container {
@@ -104,13 +106,13 @@ li {
   // background: #090940;
   // outline: thin solid black;
   // height: 400px;
-  overflow-y: auto;
+  // overflow-y: auto;
 }
 
 .task-item {
   height: 50px;
   border: 1px solid #c3d2bd;
-  margin-bottom: .75em;
+  margin-top: .75em;
 }
 
 button[disabled], button[disabled]:hover {
