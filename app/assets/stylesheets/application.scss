@@ -22,7 +22,8 @@
 }
 
 body {
-  font-family: 'SFPixelateRegular';
+  // font-family: 'SFPixelateRegular';
+  font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
   // font-family: 'VT323';
   font-weight: bold;
   font-style: normal;
@@ -53,6 +54,12 @@ body {
 
 .task-block {
   min-width: 850px;
+}
+
+.task-type {
+  // padding: auto 10px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .task-type-name {

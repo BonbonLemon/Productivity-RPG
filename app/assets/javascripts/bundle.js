@@ -31612,19 +31612,23 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: "task-type col-xs-3 container-fluid " + this.props.taskType.type_name },
+	      { className: "task-type col-xs-3 " + this.props.taskType.type_name },
 	      React.createElement(
 	        'div',
-	        { className: 'task-type-name row' },
-	        this.props.taskType.type_name
-	      ),
-	      React.createElement(TaskForm, { taskType: this.props.taskType }),
-	      React.createElement(
-	        'div',
-	        { className: 'task-box row' },
-	        this.props.taskType.tasks.map(function (task, idx) {
-	          return React.createElement(Task, { key: idx, task: task });
-	        })
+	        { className: 'col-xs-12' },
+	        React.createElement(
+	          'div',
+	          { className: 'task-type-name row' },
+	          this.props.taskType.type_name
+	        ),
+	        React.createElement(TaskForm, { taskType: this.props.taskType }),
+	        React.createElement(
+	          'div',
+	          { className: 'task-box row' },
+	          this.props.taskType.tasks.map(function (task, idx) {
+	            return React.createElement(Task, { key: idx, task: task });
+	          })
+	        )
 	      )
 	    );
 	  }
@@ -34066,7 +34070,7 @@
 	    }
 	    return React.createElement(
 	      'div',
-	      { className: 'container-fluid' },
+	      null,
 	      React.createElement(
 	        'div',
 	        { className: 'row' },

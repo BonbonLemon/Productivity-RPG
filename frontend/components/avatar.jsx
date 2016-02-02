@@ -149,7 +149,7 @@ var Avatar = React.createClass({
       money = 0;
     }
     return (
-      <div className="container-fluid">
+      <div>
         <div className="row">
           <div ref="avatarRef" className="col-xs-4"/>
           <ItemShop/>
