@@ -34073,23 +34073,35 @@
 	      { className: 'row' },
 	      React.createElement(
 	        'div',
-	        { className: 'avatar-row row' },
-	        React.createElement('div', { ref: 'avatarRef', className: 'avatar col-xs-4' }),
-	        React.createElement(ItemShop, null)
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'current-money row' },
-	        React.createElement('img', { className: 'current-gold-bar col', src: '/assets/gold_bar.png' }),
+	        { className: 'col-xs-12' },
 	        React.createElement(
-	          'span',
-	          { className: 'current-money-text col' },
-	          ' ',
-	          money,
-	          ' '
+	          'div',
+	          { className: 'avatar-row row' },
+	          React.createElement(
+	            'div',
+	            { className: 'col-xs-4 container-fluid avatar-n-money' },
+	            React.createElement('div', { ref: 'avatarRef', className: 'avatar row' }),
+	            React.createElement(
+	              'div',
+	              { className: 'current-money row' },
+	              React.createElement('img', { className: 'current-gold-bar col', src: '/assets/gold_bar.png' }),
+	              React.createElement(
+	                'span',
+	                { className: 'current-money-text col' },
+	                ' ',
+	                money,
+	                ' '
+	              )
+	            )
+	          ),
+	          React.createElement(ItemShop, null)
 	        )
 	      )
 	    );
+	    // <div className="current-money row">
+	    //   <img className="current-gold-bar col" src="/assets/gold_bar.png" />
+	    //   <span className="current-money-text col"> {money} </span>
+	    // </div>
 	  }
 	});
 
@@ -34135,7 +34147,7 @@
 	      ),
 	      React.createElement(
 	        'div',
-	        { className: 'task-box row' },
+	        { className: 'items-task-box row' },
 	        this.state.items.map(function (item, idx) {
 	          return React.createElement(Task, { key: idx, task: item });
 	        })

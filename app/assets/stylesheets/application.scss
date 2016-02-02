@@ -56,14 +56,20 @@ li {
 }
 
 .avatar {
+  height: 450px;
+}
+
+.avatar-n-money {
   background: #c5d3d6;
+  padding-left: 30px;
 }
 
 .current-money {
-  color: white;
-  height: 40px;
+  // color: white;
+  // background: #c5d3d6;
+  height: 50px;
   font-weight: bold;
-  text-indent: 10px;
+  // text-indent: 10px;
   font-size: 30px;
 }
 
@@ -107,6 +113,15 @@ li {
   // outline: thin solid black;
   // height: 400px;
   // overflow-y: auto;
+}
+
+.items-task-box {
+  height: 400px;
+  overflow-y: auto;
+}
+
+.Items {
+  height: 500px;
 }
 
 .task-item {

@@ -25,7 +25,7 @@ var ItemShop = React.createClass({
     return (
       <div className="task-type Items col-xs-4 col-xs-offset-4 container-fluid">
         <h2 className="task-type-name row">Item Shop</h2>
-        <div className="task-box row">
+        <div className="items-task-box row">
           {
             this.state.items.map(function (item, idx) {
               return (

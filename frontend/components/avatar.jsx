@@ -150,16 +150,24 @@ var Avatar = React.createClass({
     }
     return (
       <div className="row">
-        <div className="avatar-row row">
-          <div ref="avatarRef" className="avatar col-xs-4"/>
-          <ItemShop/>
-        </div>
-        <div className="current-money row">
-          <img className="current-gold-bar col" src="/assets/gold_bar.png" />
-          <span className="current-money-text col"> {money} </span>
+        <div className="col-xs-12">
+          <div className="avatar-row row">
+            <div className="col-xs-4 container-fluid avatar-n-money">
+              <div ref="avatarRef" className="avatar row"></div>
+              <div className="current-money row">
+                <img className="current-gold-bar col" src="/assets/gold_bar.png" />
+                <span className="current-money-text col"> {money} </span>
+              </div>
+            </div>
+            <ItemShop/>
+          </div>
         </div>
       </div>
     );
+        // <div className="current-money row">
+        //   <img className="current-gold-bar col" src="/assets/gold_bar.png" />
+        //   <span className="current-money-text col"> {money} </span>
+        // </div>
   }
 });
 
