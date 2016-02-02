@@ -32065,6 +32065,7 @@
 
 	  render: function () {
 	    var task = this.props.task;
+	    // <div className="delete-task-button col-xs-1" onClick={this.handleClickDelete} />
 	    if (task.task_type.type_name === "Items") {
 	      return React.createElement(
 	        'li',
@@ -32072,10 +32073,9 @@
 	        React.createElement(
 	          'div',
 	          { className: 'row' },
-	          React.createElement('div', { className: 'delete-task-button col-xs-1', onClick: this.handleClickDelete }),
 	          React.createElement(
 	            'button',
-	            { className: 'task-item-description-button col-xs-11', disabled: this.state.disable, onClick: this.handleClickComplete },
+	            { className: 'task-item-description-button col-xs-12', disabled: this.state.disable, onClick: this.handleClickComplete },
 	            React.createElement(
 	              'div',
 	              { className: 'task-item-description container-fluid' },
@@ -32101,16 +32101,16 @@
 	        )
 	      );
 	    } else {
+	      // <div className="delete-task-button col-xs-1" onClick={this.handleClickDelete} />
 	      return React.createElement(
 	        'li',
 	        { className: 'task-item container-fluid' },
 	        React.createElement(
 	          'div',
 	          { className: 'row' },
-	          React.createElement('div', { className: 'delete-task-button col-xs-1', onClick: this.handleClickDelete }),
 	          React.createElement(
 	            'button',
-	            { className: 'task-item-description-button col-xs-11', disabled: this.state.disable, onClick: this.handleClickComplete },
+	            { className: 'task-item-description-button col-xs-12', disabled: this.state.disable, onClick: this.handleClickComplete },
 	            React.createElement(
 	              'div',
 	              { className: 'task-item-description container-fluid' },

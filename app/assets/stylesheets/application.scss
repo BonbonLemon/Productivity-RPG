@@ -111,7 +111,7 @@ li {
 
 .task-item {
   height: 50px;
-  border: 1px solid #c3d2bd;
+  border: 1px solid #e5d9b7;
   margin-top: .75em;
 }
 
@@ -125,9 +125,9 @@ button[disabled], button[disabled]:hover {
   background: #FFEC44;
   height: 50px;
   padding: 0px;
-  padding-top: 1px;
+  // padding-top: 1px;
   border: 0px;
-  outline: 1px solid black;
+  // outline: 1px solid black;
   cursor: pointer;
 }
 
@@ -141,10 +141,13 @@ button[disabled], button[disabled]:hover {
 
 .task-item-description {
   height: inherit;
+  background: #fff2cc;
 }
 
 .task-reward {
   padding: 0px;
+  height: inherit;
+  background: #ffcf42;
 }
 
 .task-description {

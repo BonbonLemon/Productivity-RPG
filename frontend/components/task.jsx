@@ -77,12 +77,12 @@ var Task = React.createClass({
 
   render: function () {
     var task = this.props.task;
+            // <div className="delete-task-button col-xs-1" onClick={this.handleClickDelete} />
     if (task.task_type.type_name === "Items") {
       return (
         <li className="task-item container-fluid">
           <div className="row">
-            <div className="delete-task-button col-xs-1" onClick={this.handleClickDelete} />
-            <button className="task-item-description-button col-xs-11" disabled={this.state.disable} onClick={this.handleClickComplete}>
+            <button className="task-item-description-button col-xs-12" disabled={this.state.disable} onClick={this.handleClickComplete}>
               <div className="task-item-description container-fluid">
                 <div className="task-item-description row">
                   <div className="task-reward col-xs-3">
@@ -97,11 +97,11 @@ var Task = React.createClass({
         </li>
       )
     } else {
+            // <div className="delete-task-button col-xs-1" onClick={this.handleClickDelete} />
       return (
         <li className="task-item container-fluid">
           <div className="row">
-            <div className="delete-task-button col-xs-1" onClick={this.handleClickDelete} />
-            <button className="task-item-description-button col-xs-11" disabled={this.state.disable} onClick={this.handleClickComplete}>
+            <button className="task-item-description-button col-xs-12" disabled={this.state.disable} onClick={this.handleClickComplete}>
               <div className="task-item-description container-fluid">
                 <div className="task-item-description row">
                   <div className="task-reward col-xs-3">
