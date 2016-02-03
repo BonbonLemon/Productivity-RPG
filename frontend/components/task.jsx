@@ -18,7 +18,8 @@ var Task = React.createClass({
     this.handleTaskType();
   },
 
-  handleClickDelete: function () {
+  handleClickDelete: function (e) {
+    e.stopPropagation();
     ApiUtil.deleteTask(this.props.task);
     this.setState({disable: false});
   },
