@@ -107,7 +107,16 @@ var Task = React.createClass({
                   <div className="task-reward col-xs-3">
                     <img className="gold-bar" src="/assets/gold_bar.png" /> {task.money_reward}
                   </div>
-                  <div className="task-description col-xs-9">{task.title}</div>
+                  <div className="task-description col-xs-9">
+                    <div className="container-fluid">
+                      <div className="row">
+                        <p className="col-xs-9">{task.title}</p>
+                        <div className="col-xs-1">
+                          <i className="fa fa-trash-o" onClick={this.handleClickDelete}></i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </button>

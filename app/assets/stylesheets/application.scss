@@ -173,10 +173,23 @@ button[disabled], button[disabled]:hover {
   // background: #fff2cc;
 }
 
+.fa {
+  color: #333;
+  font-size: x-large;
+  opacity: 0.6;
+  cursor: pointer;
+}
+
+.fa:hover {
+  opacity: 1;
+}
+
 .task-reward {
   padding: 0px;
   height: inherit;
   background: #ffcf42;
+  text-align: left;
+  text-indent: 5px;
 }
 
 .task-description {

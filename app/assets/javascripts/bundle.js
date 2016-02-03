@@ -51,9 +51,9 @@
 	    Route = __webpack_require__(159).Route,
 	    IndexRoute = __webpack_require__(159).IndexRoute;
 
-	var App = __webpack_require__(253),
-	    Home = __webpack_require__(254),
-	    Profile = __webpack_require__(210);
+	var App = __webpack_require__(210),
+	    Home = __webpack_require__(238),
+	    Profile = __webpack_require__(240);
 
 	var routes = React.createElement(
 	  Route,
@@ -24432,21 +24432,15 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    ReactDOM = __webpack_require__(158),
-	    ApiUtil = __webpack_require__(211),
-	    TaskStore = __webpack_require__(221),
-	    TaskType = __webpack_require__(238),
-	    sjs = __webpack_require__(246),
-	    Avatar = __webpack_require__(247),
-	    NavBar = __webpack_require__(249),
-	    Footer = __webpack_require__(250);
+	    TaskStore = __webpack_require__(211),
+	    ApiUtil = __webpack_require__(234);
 
 	var History = __webpack_require__(159).History;
 
-	var Shepherd = __webpack_require__(251);
+	var App = React.createClass({
+	  displayName: 'App',
 
-	var Profile = React.createClass({
-	  displayName: 'Profile',
+	  mixins: [History],
 
 	  getInitialState: function () {
 	    return { TaskTypes: TaskStore.all() };
@@ -24455,164 +24449,10 @@
 	  _onChange: function () {
 	    this.setState({ TaskTypes: TaskStore.all() });
 	    if (this.state.TaskTypes[0]) {
-	      var currentUser = this.state.TaskTypes[0].user;
-
-	      if (!currentUser.tutorial) {
-	        ApiUtil.updateUser(currentUser.id);
-	        currentUser.tutorial = true;
-	        this.giveTour();
-	      }
+	      this.history.pushState(null, '/tasks', {});
+	    } else {
+	      this.history.pushState(null, '/home', {});
 	    }
-	  },
-
-	  giveTour: function () {
-	    var tour = new Shepherd.Tour({
-	      defaults: {
-	        classes: 'shepherd-theme-default',
-	        showCancelLink: true
-	      }
-	    });
-
-	    tour.addStep('introduction-step', {
-	      title: 'Welcome!',
-	      text: 'Welcome to Productivity-RPG!<br/>' + 'Let me give you a tour!',
-	      attachTo: '.sjs right',
-	      when: {
-	        show: function () {
-	          window.scrollTo(0, 0);
-	        }
-	      },
-	      buttons: [{
-	        text: 'Next',
-	        action: tour.next
-	      }]
-	    });
-
-	    tour.addStep('avatar-step', {
-	      title: 'Customize Your Avatar',
-	      text: "I'm your personal avatar! I will " + "represent you as you progress.",
-	      attachTo: '.sjs right',
-	      buttons: [{
-	        text: 'Back',
-	        action: tour.back
-	      }, {
-	        text: 'Next',
-	        action: tour.next
-	      }]
-	    });
-
-	    tour.addStep('todos-step', {
-	      title: 'To-Do List',
-	      text: 'Check off To-Dos by clicking them ' + 'to earn gold!',
-	      attachTo: '.To-dos top',
-	      when: {
-	        show: function () {
-	          window.scrollTo(0, 150);
-	        }
-	      },
-	      buttons: [{
-	        text: 'Back',
-	        action: tour.back
-	      }, {
-	        text: 'Next',
-	        action: tour.next
-	      }]
-	    });
-
-	    tour.addStep('dailies-step', {
-	      title: 'Daily Tasks',
-	      text: 'Dailies repeat every day.',
-	      attachTo: '.Dailies top',
-	      buttons: [{
-	        text: 'Back',
-	        action: tour.back
-	      }, {
-	        text: 'Next',
-	        action: tour.next
-	      }]
-	    });
-
-	    tour.addStep('habits-step', {
-	      title: 'Good & Bad Habits',
-	      text: 'Habits reward you everytime you do it. ' + 'Bad habits will punish you.',
-	      attachTo: '.Habits top',
-	      buttons: [{
-	        text: 'Back',
-	        action: tour.back
-	      }, {
-	        text: 'Next',
-	        action: tour.next
-	      }]
-	    });
-
-	    tour.addStep('item-shop-step', {
-	      title: 'Item Shop',
-	      text: 'Spend your hard-earned gold here! ' + 'Purchase equipment for your avatar!',
-	      attachTo: '.Items left',
-	      when: {
-	        show: function () {
-	          window.scrollTo(0, 0);
-	        }
-	      },
-	      buttons: [{
-	        text: 'Back',
-	        action: tour.back
-	      }, {
-	        text: 'Next',
-	        action: tour.next
-	      }]
-	    });
-
-	    tour.addStep('rewards-step', {
-	      title: 'Reward List',
-	      text: 'Or set custom rewards for yourself.',
-	      attachTo: '.Rewards top',
-	      buttons: [{
-	        text: 'Back',
-	        action: tour.back
-	      }, {
-	        text: 'Next',
-	        action: tour.next
-	      }]
-	    });
-
-	    tour.addStep('form-step', {
-	      title: 'Create Custom Tasks',
-	      text: 'create tasks and rewards with ' + 'these forms. Set custom names and gold rewards.',
-	      attachTo: '#newTaskForm right',
-	      when: {
-	        show: function () {
-	          window.scrollTo(0, 200);
-	        }
-	      },
-	      buttons: [{
-	        text: 'Back',
-	        action: tour.back
-	      }, {
-	        text: 'Next',
-	        action: tour.next
-	      }]
-	    });
-
-	    tour.addStep('completed-step', {
-	      title: 'The End!',
-	      text: "And that's it! Now go find the free " + "'Party Hat' in the item shop so we " + "can get this productivity party " + "started!",
-	      attachTo: '.sjs right',
-	      when: {
-	        show: function () {
-	          window.scrollTo(0, 0);
-	        }
-	      },
-	      buttons: [{
-	        text: 'Back',
-	        action: tour.back
-	      }, {
-	        text: 'Finish',
-	        action: tour.next
-	      }]
-	    });
-
-	    tour.start();
 	  },
 
 	  componentDidMount: function () {
@@ -24627,142 +24467,100 @@
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'profile container-fluid' },
-	      React.createElement(NavBar, { loggedIn: true }),
-	      React.createElement(Avatar, null),
-	      React.createElement(
-	        'div',
-	        { className: 'task-block row' },
-	        this.state.TaskTypes.map(function (taskType) {
-	          if (taskType.type_name === "Items") {
-	            return;
-	          } else {
-	            return React.createElement(TaskType, { key: taskType.id, taskType: taskType });
-	          }
-	        })
-	      )
+	      null,
+	      this.props.children
 	    );
 	  }
 	});
 
-	module.exports = Profile;
+	module.exports = App;
 
 /***/ },
 /* 211 */
 /***/ function(module, exports, __webpack_require__) {
 
-	//util/api_util.js
-	var TaskActions = __webpack_require__(212),
-	    AvatarActions = __webpack_require__(219);
+	var AppDispatcher = __webpack_require__(212),
+	    Store = __webpack_require__(216).Store,
+	    TaskTypeConstants = __webpack_require__(232),
+	    TaskConstants = __webpack_require__(233);
 
-	var ApiUtil = {
-	  fetchAllTaskTypes: function () {
-	    $.ajax({
-	      url: "api/task_types/",
-	      method: "GET",
-	      success: function (taskTypes) {
-	        TaskActions.receiveAllTaskTypes(taskTypes);
-	      }
-	    });
-	  },
+	var TaskStore = new Store(AppDispatcher);
 
-	  createTask: function (task) {
-	    $.ajax({
-	      url: "api/tasks/",
-	      method: "POST",
-	      data: { task: task },
-	      success: function (task) {
-	        TaskActions.receiveSingleTask(task);
-	      }
-	    });
-	  },
+	var _taskTypes = {};
 
-	  deleteTask: function (task) {
-	    $.ajax({
-	      url: "api/tasks/" + task.id,
-	      method: "DELETE",
-	      data: { task: task },
-	      success: function (task) {
-	        TaskActions.removeSingleTask(task);
-	      }
-	    });
-	  },
+	var resetTaskTypes = function (taskTypes) {
+	  _taskTypes = {};
+	  taskTypes.forEach(function (taskType) {
+	    _taskTypes[taskType.id] = taskType;
+	  });
+	};
 
-	  updateUser: function (id) {
-	    $.ajax({
-	      url: "/users/" + id,
-	      method: "PATCH"
-	    });
-	  },
+	var addTask = function (task) {
+	  _taskTypes[task.type_id].tasks.push(task);
+	};
 
-	  fetchAvatar: function () {
-	    $.ajax({
-	      url: "api/avatar/",
-	      method: "GET",
-	      success: function (avatar) {
-	        AvatarActions.receiveAvatar(avatar);
-	      }
-	    });
-	  },
+	var findTaskIdx = function (tasksArr, task) {
+	  var idx;
+	  tasksArr.forEach(function (taskEl, i) {
+	    if (taskEl.id === task.id) {
+	      idx = i;
+	      return;
+	    }
+	  });
+	  return idx;
+	};
 
-	  updateAvatar: function (task, callback) {
-	    $.ajax({
-	      url: "api/avatar/" + task.avatar.id,
-	      method: "PATCH",
-	      data: { task: task },
-	      success: function (avatar) {
-	        // debugger;
-	        AvatarActions.receiveAvatar(avatar);
-	        callback;
-	      }
-	    });
+	var removeTask = function (task) {
+	  var tasksArr = _taskTypes[task.type_id].tasks;
+	  var taskIdx = findTaskIdx(tasksArr, task);
+
+	  tasksArr.splice(taskIdx, 1);
+	};
+
+	TaskStore.all = function () {
+	  taskTypes = [];
+	  for (var id in _taskTypes) {
+	    taskTypes.push(_taskTypes[id]);
+	  }
+	  return taskTypes;
+	};
+
+	TaskStore.find = function (task) {
+	  var tasksArr = _taskTypes[task.type_id].tasks;
+	  var taskIdx = findTaskIdx(tasksArr, task);
+
+	  return tasksArr[taskIdx];
+	};
+
+	TaskStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case TaskTypeConstants.TASKTYPES_RECEIVED:
+	      resetTaskTypes(payload.taskTypes);
+	      TaskStore.__emitChange();
+	      break;
+	    case TaskConstants.TASK_RECEIVED:
+	      addTask(payload.task);
+	      TaskStore.__emitChange();
+	      break;
+	    case TaskConstants.TASK_REMOVED:
+	      removeTask(payload.task);
+	      TaskStore.__emitChange();
+	      break;
 	  }
 	};
 
-	module.exports = ApiUtil;
+	module.exports = TaskStore;
 
 /***/ },
 /* 212 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var Dispatcher = __webpack_require__(213),
-	    TaskTypeConstants = __webpack_require__(217);
-	TaskConstants = __webpack_require__(218);
-
-	module.exports = {
-	  receiveAllTaskTypes: function (taskTypes) {
-	    Dispatcher.dispatch({
-	      actionType: TaskTypeConstants.TASKTYPES_RECEIVED,
-	      taskTypes: taskTypes
-	    });
-	  },
-
-	  // Task Actions
-	  receiveSingleTask: function (task) {
-	    Dispatcher.dispatch({
-	      actionType: TaskConstants.TASK_RECEIVED,
-	      task: task
-	    });
-	  },
-
-	  removeSingleTask: function (task) {
-	    Dispatcher.dispatch({
-	      actionType: TaskConstants.TASK_REMOVED,
-	      task: task
-	    });
-	  }
-	};
-
-/***/ },
-/* 213 */
-/***/ function(module, exports, __webpack_require__) {
-
 	//dispatcher/Dispatcher.js
-	var Dispatcher = __webpack_require__(214).Dispatcher;
+	var Dispatcher = __webpack_require__(213).Dispatcher;
 	module.exports = new Dispatcher();
 
 /***/ },
-/* 214 */
+/* 213 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -24774,11 +24572,11 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 
-	module.exports.Dispatcher = __webpack_require__(215);
+	module.exports.Dispatcher = __webpack_require__(214);
 
 
 /***/ },
-/* 215 */
+/* 214 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -24800,7 +24598,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var invariant = __webpack_require__(216);
+	var invariant = __webpack_require__(215);
 
 	var _prefix = 'ID_';
 
@@ -25015,7 +24813,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 216 */
+/* 215 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25070,124 +24868,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 217 */
-/***/ function(module, exports) {
-
-	module.exports = {
-	  TASKTYPES_RECEIVED: "TASKTYPES_RECEIVED"
-	};
-
-/***/ },
-/* 218 */
-/***/ function(module, exports) {
-
-	module.exports = {
-	  TASK_RECEIVED: "TASK_RECEIVED",
-	  TASK_REMOVED: "TASK_REMOVED"
-	};
-
-/***/ },
-/* 219 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var Dispatcher = __webpack_require__(213),
-	    AvatarConstants = __webpack_require__(220);
-
-	module.exports = {
-	  receiveAvatar: function (avatar) {
-	    Dispatcher.dispatch({
-	      actionType: AvatarConstants.AVATAR_RECEIVED,
-	      avatar: avatar
-	    });
-	  }
-	};
-
-/***/ },
-/* 220 */
-/***/ function(module, exports) {
-
-	module.exports = {
-	  AVATAR_RECEIVED: "AVATAR_RECEIVED"
-	};
-
-/***/ },
-/* 221 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(213),
-	    Store = __webpack_require__(222).Store,
-	    TaskTypeConstants = __webpack_require__(217),
-	    TaskConstants = __webpack_require__(218);
-
-	var TaskStore = new Store(AppDispatcher);
-
-	var _taskTypes = {};
-
-	var resetTaskTypes = function (taskTypes) {
-	  _taskTypes = {};
-	  taskTypes.forEach(function (taskType) {
-	    _taskTypes[taskType.id] = taskType;
-	  });
-	};
-
-	var addTask = function (task) {
-	  _taskTypes[task.type_id].tasks.push(task);
-	};
-
-	var findTaskIdx = function (tasksArr, task) {
-	  var idx;
-	  tasksArr.forEach(function (taskEl, i) {
-	    if (taskEl.id === task.id) {
-	      idx = i;
-	      return;
-	    }
-	  });
-	  return idx;
-	};
-
-	var removeTask = function (task) {
-	  var tasksArr = _taskTypes[task.type_id].tasks;
-	  var taskIdx = findTaskIdx(tasksArr, task);
-
-	  tasksArr.splice(taskIdx, 1);
-	};
-
-	TaskStore.all = function () {
-	  taskTypes = [];
-	  for (var id in _taskTypes) {
-	    taskTypes.push(_taskTypes[id]);
-	  }
-	  return taskTypes;
-	};
-
-	TaskStore.find = function (task) {
-	  var tasksArr = _taskTypes[task.type_id].tasks;
-	  var taskIdx = findTaskIdx(tasksArr, task);
-
-	  return tasksArr[taskIdx];
-	};
-
-	TaskStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case TaskTypeConstants.TASKTYPES_RECEIVED:
-	      resetTaskTypes(payload.taskTypes);
-	      TaskStore.__emitChange();
-	      break;
-	    case TaskConstants.TASK_RECEIVED:
-	      addTask(payload.task);
-	      TaskStore.__emitChange();
-	      break;
-	    case TaskConstants.TASK_REMOVED:
-	      removeTask(payload.task);
-	      TaskStore.__emitChange();
-	      break;
-	  }
-	};
-
-	module.exports = TaskStore;
-
-/***/ },
-/* 222 */
+/* 216 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25199,15 +24880,15 @@
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
 
-	module.exports.Container = __webpack_require__(223);
-	module.exports.MapStore = __webpack_require__(226);
-	module.exports.Mixin = __webpack_require__(237);
-	module.exports.ReduceStore = __webpack_require__(227);
-	module.exports.Store = __webpack_require__(228);
+	module.exports.Container = __webpack_require__(217);
+	module.exports.MapStore = __webpack_require__(220);
+	module.exports.Mixin = __webpack_require__(231);
+	module.exports.ReduceStore = __webpack_require__(221);
+	module.exports.Store = __webpack_require__(222);
 
 
 /***/ },
-/* 223 */
+/* 217 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25229,10 +24910,10 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var FluxStoreGroup = __webpack_require__(224);
+	var FluxStoreGroup = __webpack_require__(218);
 
-	var invariant = __webpack_require__(216);
-	var shallowEqual = __webpack_require__(225);
+	var invariant = __webpack_require__(215);
+	var shallowEqual = __webpack_require__(219);
 
 	var DEFAULT_OPTIONS = {
 	  pure: true,
@@ -25390,7 +25071,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 224 */
+/* 218 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25409,7 +25090,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var invariant = __webpack_require__(216);
+	var invariant = __webpack_require__(215);
 
 	/**
 	 * FluxStoreGroup allows you to execute a callback on every dispatch after
@@ -25471,7 +25152,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 225 */
+/* 219 */
 /***/ function(module, exports) {
 
 	/**
@@ -25526,7 +25207,7 @@
 	module.exports = shallowEqual;
 
 /***/ },
-/* 226 */
+/* 220 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25547,10 +25228,10 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var FluxReduceStore = __webpack_require__(227);
-	var Immutable = __webpack_require__(236);
+	var FluxReduceStore = __webpack_require__(221);
+	var Immutable = __webpack_require__(230);
 
-	var invariant = __webpack_require__(216);
+	var invariant = __webpack_require__(215);
 
 	/**
 	 * This is a simple store. It allows caching key value pairs. An implementation
@@ -25676,7 +25357,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 227 */
+/* 221 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25697,10 +25378,10 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var FluxStore = __webpack_require__(228);
+	var FluxStore = __webpack_require__(222);
 
-	var abstractMethod = __webpack_require__(235);
-	var invariant = __webpack_require__(216);
+	var abstractMethod = __webpack_require__(229);
+	var invariant = __webpack_require__(215);
 
 	var FluxReduceStore = (function (_FluxStore) {
 	  _inherits(FluxReduceStore, _FluxStore);
@@ -25783,7 +25464,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 228 */
+/* 222 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -25802,11 +25483,11 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var _require = __webpack_require__(229);
+	var _require = __webpack_require__(223);
 
 	var EventEmitter = _require.EventEmitter;
 
-	var invariant = __webpack_require__(216);
+	var invariant = __webpack_require__(215);
 
 	/**
 	 * This class should be extended by the stores in your application, like so:
@@ -25966,7 +25647,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 229 */
+/* 223 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25979,14 +25660,14 @@
 	 */
 
 	var fbemitter = {
-	  EventEmitter: __webpack_require__(230)
+	  EventEmitter: __webpack_require__(224)
 	};
 
 	module.exports = fbemitter;
 
 
 /***/ },
-/* 230 */
+/* 224 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26005,11 +25686,11 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var EmitterSubscription = __webpack_require__(231);
-	var EventSubscriptionVendor = __webpack_require__(233);
+	var EmitterSubscription = __webpack_require__(225);
+	var EventSubscriptionVendor = __webpack_require__(227);
 
-	var emptyFunction = __webpack_require__(234);
-	var invariant = __webpack_require__(216);
+	var emptyFunction = __webpack_require__(228);
+	var invariant = __webpack_require__(215);
 
 	/**
 	 * @class BaseEventEmitter
@@ -26183,7 +25864,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 231 */
+/* 225 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -26204,7 +25885,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== 'function' && superClass !== null) { throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var EventSubscription = __webpack_require__(232);
+	var EventSubscription = __webpack_require__(226);
 
 	/**
 	 * EmitterSubscription represents a subscription with listener and context data.
@@ -26236,7 +25917,7 @@
 	module.exports = EmitterSubscription;
 
 /***/ },
-/* 232 */
+/* 226 */
 /***/ function(module, exports) {
 
 	/**
@@ -26287,7 +25968,7 @@
 	module.exports = EventSubscription;
 
 /***/ },
-/* 233 */
+/* 227 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26306,7 +25987,7 @@
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
-	var invariant = __webpack_require__(216);
+	var invariant = __webpack_require__(215);
 
 	/**
 	 * EventSubscriptionVendor stores a set of EventSubscriptions that are
@@ -26396,7 +26077,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 234 */
+/* 228 */
 /***/ function(module, exports) {
 
 	/**
@@ -26439,7 +26120,7 @@
 	module.exports = emptyFunction;
 
 /***/ },
-/* 235 */
+/* 229 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -26456,7 +26137,7 @@
 
 	'use strict';
 
-	var invariant = __webpack_require__(216);
+	var invariant = __webpack_require__(215);
 
 	function abstractMethod(className, methodName) {
 	   true ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Subclasses of %s must override %s() with their own implementation.', className, methodName) : invariant(false) : undefined;
@@ -26466,7 +26147,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
-/* 236 */
+/* 230 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31431,7 +31112,7 @@
 	}));
 
 /***/ },
-/* 237 */
+/* 231 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -31448,9 +31129,9 @@
 
 	'use strict';
 
-	var FluxStoreGroup = __webpack_require__(224);
+	var FluxStoreGroup = __webpack_require__(218);
 
-	var invariant = __webpack_require__(216);
+	var invariant = __webpack_require__(215);
 
 	/**
 	 * `FluxContainer` should be preferred over this mixin, but it requires using
@@ -31554,12 +31235,554 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
 
 /***/ },
+/* 232 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  TASKTYPES_RECEIVED: "TASKTYPES_RECEIVED"
+	};
+
+/***/ },
+/* 233 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  TASK_RECEIVED: "TASK_RECEIVED",
+	  TASK_REMOVED: "TASK_REMOVED"
+	};
+
+/***/ },
+/* 234 */
+/***/ function(module, exports, __webpack_require__) {
+
+	//util/api_util.js
+	var TaskActions = __webpack_require__(235),
+	    AvatarActions = __webpack_require__(236);
+
+	var ApiUtil = {
+	  fetchAllTaskTypes: function () {
+	    $.ajax({
+	      url: "api/task_types/",
+	      method: "GET",
+	      success: function (taskTypes) {
+	        TaskActions.receiveAllTaskTypes(taskTypes);
+	      }
+	    });
+	  },
+
+	  createTask: function (task) {
+	    $.ajax({
+	      url: "api/tasks/",
+	      method: "POST",
+	      data: { task: task },
+	      success: function (task) {
+	        TaskActions.receiveSingleTask(task);
+	      }
+	    });
+	  },
+
+	  deleteTask: function (task) {
+	    $.ajax({
+	      url: "api/tasks/" + task.id,
+	      method: "DELETE",
+	      data: { task: task },
+	      success: function (task) {
+	        TaskActions.removeSingleTask(task);
+	      }
+	    });
+	  },
+
+	  updateUser: function (id) {
+	    $.ajax({
+	      url: "/users/" + id,
+	      method: "PATCH"
+	    });
+	  },
+
+	  fetchAvatar: function () {
+	    $.ajax({
+	      url: "api/avatar/",
+	      method: "GET",
+	      success: function (avatar) {
+	        AvatarActions.receiveAvatar(avatar);
+	      }
+	    });
+	  },
+
+	  updateAvatar: function (task, callback) {
+	    $.ajax({
+	      url: "api/avatar/" + task.avatar.id,
+	      method: "PATCH",
+	      data: { task: task },
+	      success: function (avatar) {
+	        // debugger;
+	        AvatarActions.receiveAvatar(avatar);
+	        callback;
+	      }
+	    });
+	  }
+	};
+
+	module.exports = ApiUtil;
+
+/***/ },
+/* 235 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(212),
+	    TaskTypeConstants = __webpack_require__(232);
+	TaskConstants = __webpack_require__(233);
+
+	module.exports = {
+	  receiveAllTaskTypes: function (taskTypes) {
+	    Dispatcher.dispatch({
+	      actionType: TaskTypeConstants.TASKTYPES_RECEIVED,
+	      taskTypes: taskTypes
+	    });
+	  },
+
+	  // Task Actions
+	  receiveSingleTask: function (task) {
+	    Dispatcher.dispatch({
+	      actionType: TaskConstants.TASK_RECEIVED,
+	      task: task
+	    });
+	  },
+
+	  removeSingleTask: function (task) {
+	    Dispatcher.dispatch({
+	      actionType: TaskConstants.TASK_REMOVED,
+	      task: task
+	    });
+	  }
+	};
+
+/***/ },
+/* 236 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var Dispatcher = __webpack_require__(212),
+	    AvatarConstants = __webpack_require__(237);
+
+	module.exports = {
+	  receiveAvatar: function (avatar) {
+	    Dispatcher.dispatch({
+	      actionType: AvatarConstants.AVATAR_RECEIVED,
+	      avatar: avatar
+	    });
+	  }
+	};
+
+/***/ },
+/* 237 */
+/***/ function(module, exports) {
+
+	module.exports = {
+	  AVATAR_RECEIVED: "AVATAR_RECEIVED"
+	};
+
+/***/ },
 /* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    TaskForm = __webpack_require__(239),
-	    Task = __webpack_require__(244);
+	    NavBar = __webpack_require__(239);
+
+	var Home = React.createClass({
+	  displayName: 'Home',
+
+	  onClick: function () {
+	    $.ajax({
+	      url: "/users/",
+	      method: "POST",
+	      data: { user: { username: "Guest", password: "n3k8c0sap19" } },
+	      success: function () {
+	        window.location = '/';
+	      }
+	    });
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(NavBar, { loggedIn: false }),
+	      React.createElement(
+	        'div',
+	        { className: 'modal fade', id: 'myModal', role: 'dialog' },
+	        React.createElement(
+	          'div',
+	          { className: 'modal-dialog modal-sm' },
+	          React.createElement(
+	            'div',
+	            { className: 'heartbeat-loader' },
+	            'Loading…'
+	          ),
+	          React.createElement('br', null),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'span',
+	            null,
+	            'Your profile is being setup...'
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement('img', { className: 'col-xs-8 col-xs-offset-2', src: '/assets/logo.png' })
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement(
+	          'button',
+	          { className: 'col-xs-2 col-xs-offset-5 col-centered', 'data-toggle': 'modal', 'data-target': '#myModal', onClick: this.onClick },
+	          'Sign in as guest'
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Home;
+
+/***/ },
+/* 239 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ApiUtil = __webpack_require__(234),
+	    History = __webpack_require__(159).History;
+
+	var NavBar = React.createClass({
+	  displayName: 'NavBar',
+
+	  mixins: [History],
+
+	  handleSignOut: function (e) {
+	    e.preventDefault();
+	    $.ajax({
+	      url: "/session/",
+	      method: "DELETE",
+	      success: function () {
+	        window.location = '/session/new';
+	      }
+	    });
+	  },
+
+	  render: function () {
+	    var rightButtons;
+	    if (this.props.loggedIn) {
+	      rightButtons = React.createElement(
+	        'ul',
+	        { className: 'nav navbar-nav pull-right' },
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { onClick: this.handleSignOut, href: '/#' },
+	            'Sign Out'
+	          )
+	        )
+	      );
+	    } else {
+	      rightButtons = React.createElement(
+	        'ul',
+	        { className: 'nav navbar-nav pull-right' },
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { href: '/session/new' },
+	            'Sign In'
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { href: '/users/new' },
+	            'Sign Up'
+	          )
+	        )
+	      );
+	    }
+	    return React.createElement(
+	      'nav',
+	      { className: 'navbar navbar-default navbar-fixed-top' },
+	      React.createElement(
+	        'div',
+	        { className: 'container-fluid' },
+	        React.createElement(
+	          'div',
+	          { className: 'navbar-header' },
+	          React.createElement(
+	            'button',
+	            { type: 'button', className: 'navbar-toggle collapsed',
+	              'data-toggle': 'collapse',
+	              'data-target': '#collapse-menu',
+	              'aria-expanded': 'false' },
+	            React.createElement('span', { className: 'icon-bar' }),
+	            React.createElement('span', { className: 'icon-bar' }),
+	            React.createElement('span', { className: 'icon-bar' })
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'collapse navbar-collapse', id: 'collapse-menu' },
+	          React.createElement(
+	            'ul',
+	            { className: 'nav navbar-nav pull-left' },
+	            React.createElement(
+	              'li',
+	              null,
+	              React.createElement(
+	                'a',
+	                { href: '/#' },
+	                'Home'
+	              )
+	            )
+	          ),
+	          rightButtons
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = NavBar;
+
+/***/ },
+/* 240 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ReactDOM = __webpack_require__(158),
+	    ApiUtil = __webpack_require__(234),
+	    TaskStore = __webpack_require__(211),
+	    TaskType = __webpack_require__(241),
+	    sjs = __webpack_require__(249),
+	    Avatar = __webpack_require__(250),
+	    NavBar = __webpack_require__(239),
+	    Footer = __webpack_require__(252);
+
+	var History = __webpack_require__(159).History;
+
+	var Shepherd = __webpack_require__(253);
+
+	var Profile = React.createClass({
+	  displayName: 'Profile',
+
+	  getInitialState: function () {
+	    return { TaskTypes: TaskStore.all() };
+	  },
+
+	  _onChange: function () {
+	    this.setState({ TaskTypes: TaskStore.all() });
+	    if (this.state.TaskTypes[0]) {
+	      var currentUser = this.state.TaskTypes[0].user;
+
+	      if (!currentUser.tutorial) {
+	        ApiUtil.updateUser(currentUser.id);
+	        currentUser.tutorial = true;
+	        this.giveTour();
+	      }
+	    }
+	  },
+
+	  giveTour: function () {
+	    var tour = new Shepherd.Tour({
+	      defaults: {
+	        classes: 'shepherd-theme-default',
+	        showCancelLink: true
+	      }
+	    });
+
+	    tour.addStep('introduction-step', {
+	      title: 'Welcome!',
+	      text: 'Welcome to Productivity-RPG!<br/>' + 'Let me give you a tour!',
+	      attachTo: '.sjs right',
+	      when: {
+	        show: function () {
+	          window.scrollTo(0, 0);
+	        }
+	      },
+	      buttons: [{
+	        text: 'Next',
+	        action: tour.next
+	      }]
+	    });
+
+	    tour.addStep('avatar-step', {
+	      title: 'Customize Your Avatar',
+	      text: "I'm your personal avatar! I will " + "represent you as you progress.",
+	      attachTo: '.sjs right',
+	      buttons: [{
+	        text: 'Back',
+	        action: tour.back
+	      }, {
+	        text: 'Next',
+	        action: tour.next
+	      }]
+	    });
+
+	    tour.addStep('todos-step', {
+	      title: 'To-Do List',
+	      text: 'Check off To-Dos by clicking them ' + 'to earn gold!',
+	      attachTo: '.To-dos top',
+	      when: {
+	        show: function () {
+	          window.scrollTo(0, 150);
+	        }
+	      },
+	      buttons: [{
+	        text: 'Back',
+	        action: tour.back
+	      }, {
+	        text: 'Next',
+	        action: tour.next
+	      }]
+	    });
+
+	    tour.addStep('dailies-step', {
+	      title: 'Daily Tasks',
+	      text: 'Dailies repeat every day.',
+	      attachTo: '.Dailies top',
+	      buttons: [{
+	        text: 'Back',
+	        action: tour.back
+	      }, {
+	        text: 'Next',
+	        action: tour.next
+	      }]
+	    });
+
+	    tour.addStep('habits-step', {
+	      title: 'Good & Bad Habits',
+	      text: 'Habits reward you everytime you do it. ' + 'Bad habits will punish you.',
+	      attachTo: '.Habits top',
+	      buttons: [{
+	        text: 'Back',
+	        action: tour.back
+	      }, {
+	        text: 'Next',
+	        action: tour.next
+	      }]
+	    });
+
+	    tour.addStep('item-shop-step', {
+	      title: 'Item Shop',
+	      text: 'Spend your hard-earned gold here! ' + 'Purchase equipment for your avatar!',
+	      attachTo: '.Items left',
+	      when: {
+	        show: function () {
+	          window.scrollTo(0, 0);
+	        }
+	      },
+	      buttons: [{
+	        text: 'Back',
+	        action: tour.back
+	      }, {
+	        text: 'Next',
+	        action: tour.next
+	      }]
+	    });
+
+	    tour.addStep('rewards-step', {
+	      title: 'Reward List',
+	      text: 'Or set custom rewards for yourself.',
+	      attachTo: '.Rewards top',
+	      buttons: [{
+	        text: 'Back',
+	        action: tour.back
+	      }, {
+	        text: 'Next',
+	        action: tour.next
+	      }]
+	    });
+
+	    tour.addStep('form-step', {
+	      title: 'Create Custom Tasks',
+	      text: 'create tasks and rewards with ' + 'these forms. Set custom names and gold rewards.',
+	      attachTo: '#newTaskForm right',
+	      when: {
+	        show: function () {
+	          window.scrollTo(0, 200);
+	        }
+	      },
+	      buttons: [{
+	        text: 'Back',
+	        action: tour.back
+	      }, {
+	        text: 'Next',
+	        action: tour.next
+	      }]
+	    });
+
+	    tour.addStep('completed-step', {
+	      title: 'The End!',
+	      text: "And that's it! Now go find the free " + "'Party Hat' in the item shop so we " + "can get this productivity party " + "started!",
+	      attachTo: '.sjs right',
+	      when: {
+	        show: function () {
+	          window.scrollTo(0, 0);
+	        }
+	      },
+	      buttons: [{
+	        text: 'Back',
+	        action: tour.back
+	      }, {
+	        text: 'Finish',
+	        action: tour.next
+	      }]
+	    });
+
+	    tour.start();
+	  },
+
+	  componentDidMount: function () {
+	    this.listener = TaskStore.addListener(this._onChange);
+	    ApiUtil.fetchAllTaskTypes();
+	  },
+
+	  componentWillUnmount: function () {
+	    this.listener.remove();
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'profile container-fluid' },
+	      React.createElement(NavBar, { loggedIn: true }),
+	      React.createElement(Avatar, null),
+	      React.createElement(
+	        'div',
+	        { className: 'task-block row' },
+	        this.state.TaskTypes.map(function (taskType) {
+	          if (taskType.type_name === "Items") {
+	            return;
+	          } else {
+	            return React.createElement(TaskType, { key: taskType.id, taskType: taskType });
+	          }
+	        })
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Profile;
+
+/***/ },
+/* 241 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    TaskForm = __webpack_require__(242),
+	    Task = __webpack_require__(247);
 
 	var TaskType = React.createClass({
 	  displayName: 'TaskType',
@@ -31592,13 +31815,13 @@
 	module.exports = TaskType;
 
 /***/ },
-/* 239 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    ApiUtil = __webpack_require__(211),
+	    ApiUtil = __webpack_require__(234),
 	    History = __webpack_require__(159).History,
-	    LinkedStateMixin = __webpack_require__(240);
+	    LinkedStateMixin = __webpack_require__(243);
 
 	var TaskForm = React.createClass({
 	  displayName: 'TaskForm',
@@ -31706,13 +31929,13 @@
 	module.exports = TaskForm;
 
 /***/ },
-/* 240 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(241);
+	module.exports = __webpack_require__(244);
 
 /***/ },
-/* 241 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31729,8 +31952,8 @@
 
 	'use strict';
 
-	var ReactLink = __webpack_require__(242);
-	var ReactStateSetters = __webpack_require__(243);
+	var ReactLink = __webpack_require__(245);
+	var ReactStateSetters = __webpack_require__(246);
 
 	/**
 	 * A simple mixin around ReactLink.forState().
@@ -31753,7 +31976,7 @@
 	module.exports = LinkedStateMixin;
 
 /***/ },
-/* 242 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -31827,7 +32050,7 @@
 	module.exports = ReactLink;
 
 /***/ },
-/* 243 */
+/* 246 */
 /***/ function(module, exports) {
 
 	/**
@@ -31936,12 +32159,12 @@
 	module.exports = ReactStateSetters;
 
 /***/ },
-/* 244 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    AvatarStore = __webpack_require__(245),
-	    ApiUtil = __webpack_require__(211);
+	    AvatarStore = __webpack_require__(248),
+	    ApiUtil = __webpack_require__(234);
 
 	var Task = React.createClass({
 	  displayName: 'Task',
@@ -32082,7 +32305,24 @@
 	                React.createElement(
 	                  'div',
 	                  { className: 'task-description col-xs-9' },
-	                  task.title
+	                  React.createElement(
+	                    'div',
+	                    { className: 'container-fluid' },
+	                    React.createElement(
+	                      'div',
+	                      { className: 'row' },
+	                      React.createElement(
+	                        'p',
+	                        { className: 'col-xs-9' },
+	                        task.title
+	                      ),
+	                      React.createElement(
+	                        'div',
+	                        { className: 'col-xs-1' },
+	                        React.createElement('i', { className: 'fa fa-trash-o', onClick: this.handleClickDelete })
+	                      )
+	                    )
+	                  )
 	                )
 	              )
 	            )
@@ -32096,12 +32336,12 @@
 	module.exports = Task;
 
 /***/ },
-/* 245 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var AppDispatcher = __webpack_require__(213),
-	    Store = __webpack_require__(222).Store,
-	    AvatarConstants = __webpack_require__(220);
+	var AppDispatcher = __webpack_require__(212),
+	    Store = __webpack_require__(216).Store,
+	    AvatarConstants = __webpack_require__(237);
 
 	var AvatarStore = new Store(AppDispatcher);
 
@@ -32128,7 +32368,7 @@
 	module.exports = AvatarStore;
 
 /***/ },
-/* 246 */
+/* 249 */
 /***/ function(module, exports) {
 
 	/*
@@ -33868,15 +34108,15 @@
 	module.exports = this.sjs;
 
 /***/ },
-/* 247 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
-	    AvatarStore = __webpack_require__(245),
-	    ItemShop = __webpack_require__(248),
-	    sjs = __webpack_require__(246),
-	    ApiUtil = __webpack_require__(211);
+	    AvatarStore = __webpack_require__(248),
+	    ItemShop = __webpack_require__(251),
+	    sjs = __webpack_require__(249),
+	    ApiUtil = __webpack_require__(234);
 
 	var Avatar = React.createClass({
 	  displayName: 'Avatar',
@@ -34063,12 +34303,12 @@
 	module.exports = Avatar;
 
 /***/ },
-/* 248 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    ApiUtil = __webpack_require__(211),
-	    Task = __webpack_require__(244);
+	    ApiUtil = __webpack_require__(234),
+	    Task = __webpack_require__(247);
 
 	var ItemShop = React.createClass({
 	  displayName: 'ItemShop',
@@ -34114,120 +34354,11 @@
 	module.exports = ItemShop;
 
 /***/ },
-/* 249 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    ApiUtil = __webpack_require__(211),
-	    History = __webpack_require__(159).History;
-
-	var NavBar = React.createClass({
-	  displayName: 'NavBar',
-
-	  mixins: [History],
-
-	  handleSignOut: function (e) {
-	    e.preventDefault();
-	    $.ajax({
-	      url: "/session/",
-	      method: "DELETE",
-	      success: function () {
-	        window.location = '/session/new';
-	      }
-	    });
-	  },
-
-	  render: function () {
-	    var rightButtons;
-	    if (this.props.loggedIn) {
-	      rightButtons = React.createElement(
-	        'ul',
-	        { className: 'nav navbar-nav pull-right' },
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            'a',
-	            { onClick: this.handleSignOut, href: '/#' },
-	            'Sign Out'
-	          )
-	        )
-	      );
-	    } else {
-	      rightButtons = React.createElement(
-	        'ul',
-	        { className: 'nav navbar-nav pull-right' },
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            'a',
-	            { href: '/session/new' },
-	            'Sign In'
-	          )
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            'a',
-	            { href: '/users/new' },
-	            'Sign Up'
-	          )
-	        )
-	      );
-	    }
-	    return React.createElement(
-	      'nav',
-	      { className: 'navbar navbar-default navbar-fixed-top' },
-	      React.createElement(
-	        'div',
-	        { className: 'container-fluid' },
-	        React.createElement(
-	          'div',
-	          { className: 'navbar-header' },
-	          React.createElement(
-	            'button',
-	            { type: 'button', className: 'navbar-toggle collapsed',
-	              'data-toggle': 'collapse',
-	              'data-target': '#collapse-menu',
-	              'aria-expanded': 'false' },
-	            React.createElement('span', { className: 'icon-bar' }),
-	            React.createElement('span', { className: 'icon-bar' }),
-	            React.createElement('span', { className: 'icon-bar' })
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'collapse navbar-collapse', id: 'collapse-menu' },
-	          React.createElement(
-	            'ul',
-	            { className: 'nav navbar-nav pull-left' },
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'a',
-	                { href: '/#' },
-	                'Home'
-	              )
-	            )
-	          ),
-	          rightButtons
-	        )
-	      )
-	    );
-	  }
-	});
-
-	module.exports = NavBar;
-
-/***/ },
-/* 250 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    ApiUtil = __webpack_require__(211);
+	    ApiUtil = __webpack_require__(234);
 
 	var Footer = React.createClass({
 	  displayName: 'Footer',
@@ -34244,14 +34375,14 @@
 	module.exports = Footer;
 
 /***/ },
-/* 251 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether-shepherd 1.2.0 */
 
 	(function(root, factory) {
 	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(252)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(254)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	  } else if (typeof exports === 'object') {
 	    module.exports = factory(require('tether'));
 	  } else {
@@ -34896,7 +35027,7 @@
 
 
 /***/ },
-/* 252 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.1.0 */
@@ -36615,120 +36746,6 @@
 
 	}));
 
-
-/***/ },
-/* 253 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    TaskStore = __webpack_require__(221),
-	    ApiUtil = __webpack_require__(211);
-
-	var History = __webpack_require__(159).History;
-
-	var App = React.createClass({
-	  displayName: 'App',
-
-	  mixins: [History],
-
-	  getInitialState: function () {
-	    return { TaskTypes: TaskStore.all() };
-	  },
-
-	  _onChange: function () {
-	    this.setState({ TaskTypes: TaskStore.all() });
-	    if (this.state.TaskTypes[0]) {
-	      this.history.pushState(null, '/tasks', {});
-	    } else {
-	      this.history.pushState(null, '/home', {});
-	    }
-	  },
-
-	  componentDidMount: function () {
-	    this.listener = TaskStore.addListener(this._onChange);
-	    ApiUtil.fetchAllTaskTypes();
-	  },
-
-	  componentWillUnmount: function () {
-	    this.listener.remove();
-	  },
-
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      this.props.children
-	    );
-	  }
-	});
-
-	module.exports = App;
-
-/***/ },
-/* 254 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    NavBar = __webpack_require__(249);
-
-	var Home = React.createClass({
-	  displayName: 'Home',
-
-	  onClick: function () {
-	    $.ajax({
-	      url: "/users/",
-	      method: "POST",
-	      data: { user: { username: "Guest", password: "n3k8c0sap19" } },
-	      success: function () {
-	        window.location = '/';
-	      }
-	    });
-	  },
-
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      null,
-	      React.createElement(NavBar, { loggedIn: false }),
-	      React.createElement(
-	        'div',
-	        { className: 'modal fade', id: 'myModal', role: 'dialog' },
-	        React.createElement(
-	          'div',
-	          { className: 'modal-dialog modal-sm' },
-	          React.createElement(
-	            'div',
-	            { className: 'heartbeat-loader' },
-	            'Loading…'
-	          ),
-	          React.createElement('br', null),
-	          React.createElement('br', null),
-	          React.createElement(
-	            'span',
-	            null,
-	            'Your profile is being setup...'
-	          )
-	        )
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'row' },
-	        React.createElement('img', { className: 'col-xs-8 col-xs-offset-2', src: '/assets/logo.png' })
-	      ),
-	      React.createElement(
-	        'div',
-	        { className: 'row' },
-	        React.createElement(
-	          'button',
-	          { className: 'col-xs-2 col-xs-offset-5 col-centered', 'data-toggle': 'modal', 'data-target': '#myModal', onClick: this.onClick },
-	          'Sign in as guest'
-	        )
-	      )
-	    );
-	  }
-	});
-
-	module.exports = Home;
 
 /***/ }
 /******/ ]);
