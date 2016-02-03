@@ -51,9 +51,16 @@
 	    Route = __webpack_require__(159).Route,
 	    IndexRoute = __webpack_require__(159).IndexRoute;
 
-	var Profile = __webpack_require__(210);
+	var App = __webpack_require__(253),
+	    Home = __webpack_require__(254),
+	    Profile = __webpack_require__(210);
 
-	var routes = React.createElement(Route, { path: '/', component: Profile });
+	var routes = React.createElement(
+	  Route,
+	  { path: '/', component: App },
+	  React.createElement(Route, { path: 'home', component: Home }),
+	  React.createElement(Route, { path: 'profile', component: Profile })
+	);
 
 	document.addEventListener("DOMContentLoaded", function () {
 	  var root = document.querySelector('#root');
@@ -24434,6 +24441,8 @@
 	    NavBar = __webpack_require__(249),
 	    Footer = __webpack_require__(250);
 
+	var History = __webpack_require__(159).History;
+
 	var Shepherd = __webpack_require__(251);
 
 	var Profile = React.createClass({
@@ -36661,6 +36670,110 @@
 
 	}));
 
+
+/***/ },
+/* 253 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    TaskStore = __webpack_require__(221),
+	    ApiUtil = __webpack_require__(211);
+
+	var History = __webpack_require__(159).History;
+
+	var App = React.createClass({
+	  displayName: 'App',
+
+	  mixins: [History],
+
+	  getInitialState: function () {
+	    return { TaskTypes: TaskStore.all() };
+	  },
+
+	  _onChange: function () {
+	    this.setState({ TaskTypes: TaskStore.all() });
+	    if (this.state.TaskTypes[0]) {
+	      this.history.pushState(null, '/tasks', {});
+	    } else {
+	      this.history.pushState(null, '/home', {});
+	    }
+	  },
+
+	  componentDidMount: function () {
+	    this.listener = TaskStore.addListener(this._onChange);
+	    ApiUtil.fetchAllTaskTypes();
+	  },
+
+	  componentWillUnmount: function () {
+	    this.listener.remove();
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      'OHAI',
+	      this.props.children
+	    );
+	  }
+	});
+
+	module.exports = App;
+
+/***/ },
+/* 254 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    NavBar = __webpack_require__(249);
+
+	var Home = React.createClass({
+	  displayName: 'Home',
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(NavBar, { loggedIn: false }),
+	      React.createElement(
+	        'div',
+	        { className: 'modal fade', id: 'myModal', role: 'dialog' },
+	        React.createElement(
+	          'div',
+	          { className: 'modal-dialog modal-sm' },
+	          React.createElement(
+	            'div',
+	            { className: 'heartbeat-loader' },
+	            'Loading…'
+	          ),
+	          React.createElement('br', null),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'span',
+	            null,
+	            'Your profile is being setup...'
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement('img', { className: 'col-xs-8 col-xs-offset-2', src: '/assets/logo.png' })
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement(
+	          'button',
+	          { className: 'col-xs-2 col-xs-offset-5 col-centered', 'data-toggle': 'modal', 'data-target': '#myModal', onClick: this.onClick },
+	          'Sign in as guest'
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Home;
 
 /***/ }
 /******/ ]);

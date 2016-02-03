@@ -8,6 +8,8 @@ var React = require('react'),
     NavBar = require('./navBar'),
     Footer = require('./footer');
 
+var History = require('react-router').History;
+
 var Shepherd = require("tether-shepherd");
 
 var Profile = React.createClass({

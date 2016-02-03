@@ -5,11 +5,16 @@ var Router = require('react-router').Router,
     Route = require('react-router').Route,
     IndexRoute = require('react-router').IndexRoute;
 
-var Profile = require('./components/profile');
+var App = require('./components/app'),
+    Home = require('./components/home'),
+    Profile = require('./components/profile');
 
 var routes = (
-  <Route path="/" component={Profile} />
-)
+  <Route path="/" component={App}>
+    <Route path="home" component={Home}></Route>
+    <Route path="profile" component={Profile}></Route>
+  </Route>
+);
 
 document.addEventListener("DOMContentLoaded", function () {
   var root = document.querySelector('#root');
