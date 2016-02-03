@@ -15,7 +15,12 @@ var resetTaskTypes = function (taskTypes) {
 };
 
 var addTask = function (task) {
-  _taskTypes[task.type_id].tasks.push(task);
+  var oldTask = TaskStore.find(task);
+  if (oldTask) {
+    oldTask.completed = true;
+  } else {
+    _taskTypes[task.type_id].tasks.push(task);
+  }
 };
 
 var findTaskIdx = function (tasksArr, task) {

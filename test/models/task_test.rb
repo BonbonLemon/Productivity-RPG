@@ -8,6 +8,8 @@
 #  money_reward :integer          not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  inventory_id :integer
+#  completed    :boolean          default(FALSE)
 #
 
 require 'test_helper'

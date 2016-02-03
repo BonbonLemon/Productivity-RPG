@@ -16,9 +16,9 @@ class Api::TasksController < ApplicationController
   end
 
   def update
-    task = Task.find(params[:id])
-    task.update!(task_params)
-    render json: task
+    @task = Task.find(params[:id])
+    @task.update!(task_params)
+    render :show
   end
 
   def destroy
@@ -29,6 +29,6 @@ class Api::TasksController < ApplicationController
 
   private
   def task_params
-    params.require(:task).permit(:title, :money_reward, :type_id)
+    params.require(:task).permit(:title, :money_reward, :type_id, :completed)
   end
 end

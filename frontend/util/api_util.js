@@ -35,6 +35,17 @@ var ApiUtil = {
     })
   },
 
+  completeTask: function (task) {
+    $.ajax({
+      url: "api/tasks/" + task.id,
+      method: "PATCH",
+      data: {task: task},
+      success: function (task) {
+        TaskActions.receiveSingleTask(task);
+      }
+    })
+  },
+
   updateUser: function (id) {
     $.ajax({
       url: "/users/" + id,

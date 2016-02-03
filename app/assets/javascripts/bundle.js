@@ -24496,7 +24496,12 @@
 	};
 
 	var addTask = function (task) {
-	  _taskTypes[task.type_id].tasks.push(task);
+	  var oldTask = TaskStore.find(task);
+	  if (oldTask) {
+	    oldTask.completed = true;
+	  } else {
+	    _taskTypes[task.type_id].tasks.push(task);
+	  }
 	};
 
 	var findTaskIdx = function (tasksArr, task) {
@@ -31292,6 +31297,17 @@
 	    });
 	  },
 
+	  completeTask: function (task) {
+	    $.ajax({
+	      url: "api/tasks/" + task.id,
+	      method: "PATCH",
+	      data: { task: task },
+	      success: function (task) {
+	        TaskActions.receiveSingleTask(task);
+	      }
+	    });
+	  },
+
 	  updateUser: function (id) {
 	    $.ajax({
 	      url: "/users/" + id,
@@ -31804,7 +31820,9 @@
 	          'ul',
 	          { className: 'task-box row' },
 	          this.props.taskType.tasks.map(function (task, idx) {
-	            return React.createElement(Task, { key: idx, task: task });
+	            if (!task.completed) {
+	              return React.createElement(Task, { key: idx, task: task });
+	            }
 	          })
 	        )
 	      )
@@ -32213,7 +32231,8 @@
 	        this.setState({ disable: true });
 	        ApiUtil.updateAvatar(task);
 	        setTimeout((function () {
-	          ApiUtil.deleteTask(task);
+	          task.completed = true;
+	          ApiUtil.completeTask(task);
 	          this.setState({ disable: false });
 	        }).bind(this), 1000);
 	        break;
@@ -32228,6 +32247,7 @@
 	        if (task.money_reward > this.state.Avatar.money) {
 	          alert("You don't have enough money for that! :(");
 	        } else {
+	          debugger;
 	          ApiUtil.updateAvatar(task);
 	        }
 	        break;

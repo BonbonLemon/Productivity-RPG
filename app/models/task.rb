@@ -8,6 +8,8 @@
 #  money_reward :integer          not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  inventory_id :integer
+#  completed    :boolean          default(FALSE)
 #
 
 class Task < ActiveRecord::Base
@@ -17,6 +19,8 @@ class Task < ActiveRecord::Base
     class_name: "TaskType",
     foreign_key: :type_id,
     primary_key: :id
+
+  belongs_to :inventory
 
   has_one :user,
     through: :task_type,

@@ -12,9 +12,11 @@ var TaskType = React.createClass({
           <ul className="task-box row">
             {
               this.props.taskType.tasks.map(function (task, idx) {
-                return (
-                  <Task key={idx} task={task}/>
-                );
+                if (!task.completed) {
+                  return (
+                    <Task key={idx} task={task}/>
+                  );
+                }
               })
             }
           </ul>

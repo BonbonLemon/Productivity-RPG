@@ -11,13 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151224222907) do
+ActiveRecord::Schema.define(version: 20160203223821) do
 
   create_table "avatars", force: :cascade do |t|
-    t.integer  "user_id",                null: false
-    t.integer  "money",      default: 0, null: false
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.integer  "user_id",                 null: false
+    t.integer  "money",      default: 50, null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   add_index "avatars", ["user_id"], name: "index_avatars_on_user_id", unique: true
@@ -35,6 +35,12 @@ ActiveRecord::Schema.define(version: 20151224222907) do
   add_index "equipment", ["avatar_id"], name: "index_equipment_on_avatar_id"
   add_index "equipment", ["task_id"], name: "index_equipment_on_task_id", unique: true
 
+  create_table "inventories", force: :cascade do |t|
+    t.integer  "user_id",    null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "task_types", force: :cascade do |t|
     t.integer  "user_id",    null: false
     t.string   "type_name",  null: false
@@ -45,11 +51,13 @@ ActiveRecord::Schema.define(version: 20151224222907) do
   add_index "task_types", ["user_id"], name: "index_task_types_on_user_id"
 
   create_table "tasks", force: :cascade do |t|
-    t.integer  "type_id",      null: false
-    t.string   "title",        null: false
-    t.integer  "money_reward", null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer  "type_id",                      null: false
+    t.string   "title",                        null: false
+    t.integer  "money_reward",                 null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.integer  "inventory_id"
+    t.boolean  "completed",    default: false
   end
 
   add_index "tasks", ["type_id"], name: "index_tasks_on_type_id"

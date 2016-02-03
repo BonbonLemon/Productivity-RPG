@@ -1,18 +1,17 @@
 # == Schema Information
 #
-# Table name: avatars
+# Table name: inventories
 #
 #  id         :integer          not null, primary key
 #  user_id    :integer          not null
-#  money      :integer          default(50), not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
-require 'test_helper'
+class Inventory < ActiveRecord::Base
+  validates :user_id, presence: true
 
-class AvatarTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  belongs_to :user
+
+  has_many :tasks
 end
