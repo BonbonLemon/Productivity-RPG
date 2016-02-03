@@ -24431,9 +24431,10 @@
 	    TaskType = __webpack_require__(238),
 	    sjs = __webpack_require__(246),
 	    Avatar = __webpack_require__(247),
-	    NavBar = __webpack_require__(249);
+	    NavBar = __webpack_require__(249),
+	    Footer = __webpack_require__(250);
 
-	var Shepherd = __webpack_require__(250);
+	var Shepherd = __webpack_require__(251);
 
 	var Profile = React.createClass({
 	  displayName: 'Profile',
@@ -34271,11 +34272,32 @@
 /* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var React = __webpack_require__(1),
+	    ApiUtil = __webpack_require__(211);
+
+	var Footer = React.createClass({
+	  displayName: 'Footer',
+
+	  render: function () {
+	    return React.createElement(
+	      'nav',
+	      { className: 'footer' },
+	      'Hello'
+	    );
+	  }
+	});
+
+	module.exports = Footer;
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether-shepherd 1.2.0 */
 
 	(function(root, factory) {
 	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(251)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(252)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	  } else if (typeof exports === 'object') {
 	    module.exports = factory(require('tether'));
 	  } else {
@@ -34920,7 +34942,7 @@
 
 
 /***/ },
-/* 251 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.1.0 */

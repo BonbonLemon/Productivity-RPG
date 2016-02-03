@@ -5,7 +5,8 @@ var React = require('react'),
     TaskType = require('./taskType'),
     sjs = require('../util/sprite'),
     Avatar = require('./avatar'),
-    NavBar = require('./navBar');
+    NavBar = require('./navBar'),
+    Footer = require('./footer');
 
 var Shepherd = require("tether-shepherd");
 
