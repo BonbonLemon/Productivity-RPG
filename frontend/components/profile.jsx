@@ -224,58 +224,24 @@ var Profile = React.createClass({
     this.listener.remove();
   },
 
-  onClick: function () {
-    $.ajax({
-      url: "/users/",
-      method: "POST",
-      data: {user: {username: "Guest", password: "n3k8c0sap19"}},
-      success: function () {
-        window.location = '/';
-      }
-    })
-  },
-
   render: function () {
-    if (this.state.TaskTypes.length === 0) {
-      return (
-        <div>
-          <NavBar loggedIn={false}/>
-          <div className="modal fade" id="myModal" role="dialog">
-            <div className="modal-dialog modal-sm">
-              <div className="heartbeat-loader">Loading…</div>
-              <br/><br/>
-              <span>Your profile is being setup...</span>
-            </div>
-          </div>
-          <div className="row">
-            <img className="col-xs-8 col-xs-offset-2" src="/assets/logo.png" />
-          </div>
-          <div className="row">
-            <button className="col-xs-2 col-xs-offset-5 col-centered" data-toggle="modal" data-target="#myModal" onClick={this.onClick}>Sign in as guest</button>
-          </div>
+    return (
+      <div className="profile container-fluid">
+        <NavBar loggedIn={true}/>
+        <Avatar/>
+        <div className="task-block row">
+          {
+            this.state.TaskTypes.map(function (taskType) {
+              if (taskType.type_name === "Items") {
+                return;
+              } else {
+                return <TaskType key={taskType.id} taskType={taskType} />;
+              }
+            })
+          }
         </div>
-      );
-    } else {
-      return (
-        <div className="profile container-fluid">
-          <NavBar loggedIn={true}/>
-          <Avatar/>
-          <div className="task-block row">
-            {
-              this.state.TaskTypes.map(function (taskType) {
-                if (taskType.type_name === "Items") {
-                  return;
-                } else {
-                  return <TaskType key={taskType.id} taskType={taskType} />;
-                }
-              })
-            }
-          </div>
-        </div>
-      );
-    }
-
-    return render;
+      </div>
+    );
   }
 })
 

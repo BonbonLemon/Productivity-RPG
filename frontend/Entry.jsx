@@ -12,7 +12,7 @@ var App = require('./components/app'),
 var routes = (
   <Route path="/" component={App}>
     <Route path="home" component={Home}></Route>
-    <Route path="profile" component={Profile}></Route>
+    <Route path="tasks" component={Profile}></Route>
   </Route>
 );
 

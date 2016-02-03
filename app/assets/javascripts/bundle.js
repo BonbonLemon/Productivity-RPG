@@ -59,7 +59,7 @@
 	  Route,
 	  { path: '/', component: App },
 	  React.createElement(Route, { path: 'home', component: Home }),
-	  React.createElement(Route, { path: 'profile', component: Profile })
+	  React.createElement(Route, { path: 'tasks', component: Profile })
 	);
 
 	document.addEventListener("DOMContentLoaded", function () {
@@ -24624,79 +24624,24 @@
 	    this.listener.remove();
 	  },
 
-	  onClick: function () {
-	    $.ajax({
-	      url: "/users/",
-	      method: "POST",
-	      data: { user: { username: "Guest", password: "n3k8c0sap19" } },
-	      success: function () {
-	        window.location = '/';
-	      }
-	    });
-	  },
-
 	  render: function () {
-	    if (this.state.TaskTypes.length === 0) {
-	      return React.createElement(
+	    return React.createElement(
+	      'div',
+	      { className: 'profile container-fluid' },
+	      React.createElement(NavBar, { loggedIn: true }),
+	      React.createElement(Avatar, null),
+	      React.createElement(
 	        'div',
-	        null,
-	        React.createElement(NavBar, { loggedIn: false }),
-	        React.createElement(
-	          'div',
-	          { className: 'modal fade', id: 'myModal', role: 'dialog' },
-	          React.createElement(
-	            'div',
-	            { className: 'modal-dialog modal-sm' },
-	            React.createElement(
-	              'div',
-	              { className: 'heartbeat-loader' },
-	              'Loading…'
-	            ),
-	            React.createElement('br', null),
-	            React.createElement('br', null),
-	            React.createElement(
-	              'span',
-	              null,
-	              'Your profile is being setup...'
-	            )
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'row' },
-	          React.createElement('img', { className: 'col-xs-8 col-xs-offset-2', src: '/assets/logo.png' })
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'row' },
-	          React.createElement(
-	            'button',
-	            { className: 'col-xs-2 col-xs-offset-5 col-centered', 'data-toggle': 'modal', 'data-target': '#myModal', onClick: this.onClick },
-	            'Sign in as guest'
-	          )
-	        )
-	      );
-	    } else {
-	      return React.createElement(
-	        'div',
-	        { className: 'profile container-fluid' },
-	        React.createElement(NavBar, { loggedIn: true }),
-	        React.createElement(Avatar, null),
-	        React.createElement(
-	          'div',
-	          { className: 'task-block row' },
-	          this.state.TaskTypes.map(function (taskType) {
-	            if (taskType.type_name === "Items") {
-	              return;
-	            } else {
-	              return React.createElement(TaskType, { key: taskType.id, taskType: taskType });
-	            }
-	          })
-	        )
-	      );
-	    }
-
-	    return render;
+	        { className: 'task-block row' },
+	        this.state.TaskTypes.map(function (taskType) {
+	          if (taskType.type_name === "Items") {
+	            return;
+	          } else {
+	            return React.createElement(TaskType, { key: taskType.id, taskType: taskType });
+	          }
+	        })
+	      )
+	    );
 	  }
 	});
 
@@ -36712,7 +36657,6 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      'OHAI',
 	      this.props.children
 	    );
 	  }
@@ -36729,6 +36673,17 @@
 
 	var Home = React.createClass({
 	  displayName: 'Home',
+
+	  onClick: function () {
+	    $.ajax({
+	      url: "/users/",
+	      method: "POST",
+	      data: { user: { username: "Guest", password: "n3k8c0sap19" } },
+	      success: function () {
+	        window.location = '/';
+	      }
+	    });
+	  },
 
 	  render: function () {
 	    return React.createElement(

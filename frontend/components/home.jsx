@@ -2,6 +2,17 @@ var React = require('react'),
     NavBar = require('./navBar');
 
 var Home = React.createClass({
+  onClick: function () {
+    $.ajax({
+      url: "/users/",
+      method: "POST",
+      data: {user: {username: "Guest", password: "n3k8c0sap19"}},
+      success: function () {
+        window.location = '/';
+      }
+    })
+  },
+
   render: function () {
     return (
       <div>
