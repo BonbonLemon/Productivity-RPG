@@ -35,7 +35,7 @@ var ApiUtil = {
     })
   },
 
-  completeTask: function (task) {
+  updateTask: function (task) {
     $.ajax({
       url: "api/tasks/" + task.id,
       method: "PATCH",

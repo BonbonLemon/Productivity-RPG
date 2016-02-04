@@ -31297,7 +31297,7 @@
 	    });
 	  },
 
-	  completeTask: function (task) {
+	  updateTask: function (task) {
 	    $.ajax({
 	      url: "api/tasks/" + task.id,
 	      method: "PATCH",
@@ -32232,7 +32232,7 @@
 	        ApiUtil.updateAvatar(task);
 	        setTimeout((function () {
 	          task.completed = true;
-	          ApiUtil.completeTask(task);
+	          ApiUtil.updateTask(task);
 	          this.setState({ disable: false });
 	        }).bind(this), 1000);
 	        break;
@@ -32247,7 +32247,8 @@
 	        if (task.money_reward > this.state.Avatar.money) {
 	          alert("You don't have enough money for that! :(");
 	        } else {
-	          debugger;
+	          task.inventory_id = this.state.Avatar.inventory.id;
+	          ApiUtil.updateTask(task);
 	          ApiUtil.updateAvatar(task);
 	        }
 	        break;
@@ -34365,7 +34366,9 @@
 	        'div',
 	        { className: 'items-task-box row' },
 	        this.state.items.map(function (item, idx) {
-	          return React.createElement(Task, { key: idx, task: item });
+	          if (!item.inventory_id) {
+	            return React.createElement(Task, { key: idx, task: item });
+	          }
 	        })
 	      )
 	    );

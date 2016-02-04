@@ -36,7 +36,7 @@ ActiveRecord::Schema.define(version: 20160203223821) do
   add_index "equipment", ["task_id"], name: "index_equipment_on_task_id", unique: true
 
   create_table "inventories", force: :cascade do |t|
-    t.integer  "user_id",    null: false
+    t.integer  "avatar_id",  null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

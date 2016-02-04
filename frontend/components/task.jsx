@@ -48,7 +48,7 @@ var Task = React.createClass({
         ApiUtil.updateAvatar(task);
         setTimeout(function () {
           task.completed = true;
-          ApiUtil.completeTask(task);
+          ApiUtil.updateTask(task);
           this.setState({disable: false});
         }.bind(this), 1000);
         break;
@@ -63,7 +63,8 @@ var Task = React.createClass({
         if (task.money_reward > this.state.Avatar.money) {
           alert("You don't have enough money for that! :(")
         } else {
-          debugger;
+          task.inventory_id = this.state.Avatar.inventory.id;
+          ApiUtil.updateTask(task);
           ApiUtil.updateAvatar(task);
         }
         break;

@@ -1,7 +1,7 @@
 class CreateInventories < ActiveRecord::Migration
   def change
     create_table :inventories do |t|
-      t.integer :user_id, null: false
+      t.integer :avatar_id, null: false
 
       t.timestamps null: false
     end

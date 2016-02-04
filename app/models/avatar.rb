@@ -15,5 +15,7 @@ class Avatar < ActiveRecord::Base
 
   belongs_to :user, dependent: :destroy
 
+  has_one :inventory
+
   has_many :equipments
 end

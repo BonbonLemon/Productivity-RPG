@@ -28,9 +28,11 @@ var ItemShop = React.createClass({
         <div className="items-task-box row">
           {
             this.state.items.map(function (item, idx) {
-              return (
-                <Task key={idx} task={item}/>
-              );
+              if (!item.inventory_id) {
+                return (
+                  <Task key={idx} task={item}/>
+                );
+              }
             })
           }
         </div>

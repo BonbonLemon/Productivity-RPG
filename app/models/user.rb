@@ -22,8 +22,6 @@ class User < ActiveRecord::Base
 
   has_one :avatar
 
-  has_one :inventory
-
   after_initialize :ensure_session_token
 
   def self.generate_session_token
@@ -61,7 +59,7 @@ class User < ActiveRecord::Base
     TaskType.create(user_id: self.id, type_name: "Rewards")
     TaskType.create(user_id: self.id, type_name: "Items")
     Avatar.create(user_id: self.id)
-    Inventory.create(user_id: self.id)
+    Inventory.create(avatar_id: self.avatar.id)
   end
 
   def create_tutorial_tasks

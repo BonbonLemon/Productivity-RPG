@@ -6,6 +6,7 @@ class Api::AvatarController < ApplicationController
 
   def show
     @avatar = current_user.avatar
+    debugger
   end
 
   def update
