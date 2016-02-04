@@ -6,7 +6,7 @@ var Task = React.createClass({
   getInitialState: function () {
     return ({
       Avatar: AvatarStore.get(),
-      disable: false
+      disable: this.props.task.completed
     });
   },
 
