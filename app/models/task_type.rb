@@ -12,11 +12,12 @@
 class TaskType < ActiveRecord::Base
   validates :user_id, :type_name, presence: true
 
-  belongs_to :user,
-    dependent: :destroy
+  belongs_to :user
 
   has_many :tasks,
     class_name: "Task",
     foreign_key: :type_id,
-    primary_key: :id
+    primary_key: :id,
+    dependent: :destroy
+
 end

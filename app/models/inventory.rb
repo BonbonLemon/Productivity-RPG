@@ -11,8 +11,7 @@
 class Inventory < ActiveRecord::Base
   validates :avatar_id, presence: true
 
-  belongs_to :avatar,
-    dependent: :destroy
+  belongs_to :avatar
 
   has_many :tasks
 end

@@ -24,8 +24,7 @@ class Task < ActiveRecord::Base
 
   has_one :user,
     through: :task_type,
-    source: :user,
-    dependent: :destroy
+    source: :user
 
   has_one :avatar,
     through: :user,

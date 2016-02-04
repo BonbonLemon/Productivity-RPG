@@ -7,7 +7,7 @@ class UsersController < ApplicationController
     @user = User.new(user_params)
 
     if @user.username == "Guest" && @user.is_password?("n3k8c0sap19")
-      User.find_by(username: "Guest").try(:delete)
+      User.find_by(username: "Guest").try(:destroy)
     end
 
     if @user.save

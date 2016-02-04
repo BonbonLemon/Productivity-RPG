@@ -15,8 +15,7 @@
 class Equipment < ActiveRecord::Base
   validates :name, :url, :type_name, :task_id, presence: true
 
-  belongs_to :avatar,
-    dependent: :destroy
+  belongs_to :avatar
 
   belongs_to :task
 end

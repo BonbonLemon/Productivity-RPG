@@ -18,9 +18,11 @@ class User < ActiveRecord::Base
 
   attr_reader :password
 
-  has_many :task_types
+  has_many :task_types,
+    dependent: :destroy
 
-  has_one :avatar
+  has_one :avatar,
+    dependent: :destroy
 
   after_initialize :ensure_session_token
 
