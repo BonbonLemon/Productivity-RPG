@@ -25,10 +25,16 @@ var Home = React.createClass({
           </div>
         </div>
         <div className="row">
-          <img className="col-xs-8 col-xs-offset-2" src="/assets/logo.png" />
+          <h1 className="home-text">Motivate yourself to be productive.</h1>
+          <img className="col-xs-8 col-xs-offset-2 logo" src="/assets/logo.png" />
         </div>
         <div className="row">
           <button className="col-xs-2 col-xs-offset-5 col-centered" data-toggle="modal" data-target="#myModal" onClick={this.onClick}>Sign in as guest</button>
+        </div>
+        <div className="home-description row">
+          <p className="col-xs-8 col-xs-offset-2">
+            Productivity RPG is a habit building and productivity app that treats your life like a game. It uses in-game rewards to motivate you to achieve your goals to become healthy, hard-working, and happy.
+          </p>
         </div>
       </div>
     );

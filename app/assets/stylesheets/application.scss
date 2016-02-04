@@ -63,6 +63,25 @@ a {
   text-align: center;
 }
 
+.logo {
+  background: gainsboro;
+  border: thin solid grey;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.home-text {
+  font-size: 30px;
+  text-align: center;
+}
+
+.home-description {
+  text-align: center;
+  margin-top: 50px;
+  border-top: 1px solid #ccc;
+  padding-top: 50px;
+}
+
 .avatar-row {
   background: #cfdbde;
   border: 1px solid rgba(0,0,0,.2);

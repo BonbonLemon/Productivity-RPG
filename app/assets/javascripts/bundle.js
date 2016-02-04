@@ -54,8 +54,8 @@
 	var App = __webpack_require__(210),
 	    Home = __webpack_require__(238),
 	    Profile = __webpack_require__(240),
-	    TaskBlock = __webpack_require__(255),
-	    Inventory = __webpack_require__(256);
+	    TaskBlock = __webpack_require__(246),
+	    Inventory = __webpack_require__(255);
 
 	var routes = React.createElement(
 	  Route,
@@ -31458,7 +31458,12 @@
 	      React.createElement(
 	        'div',
 	        { className: 'row' },
-	        React.createElement('img', { className: 'col-xs-8 col-xs-offset-2', src: '/assets/logo.png' })
+	        React.createElement(
+	          'h1',
+	          { className: 'home-text' },
+	          'Motivate yourself to be productive.'
+	        ),
+	        React.createElement('img', { className: 'col-xs-8 col-xs-offset-2 logo', src: '/assets/logo.png' })
 	      ),
 	      React.createElement(
 	        'div',
@@ -31467,6 +31472,15 @@
 	          'button',
 	          { className: 'col-xs-2 col-xs-offset-5 col-centered', 'data-toggle': 'modal', 'data-target': '#myModal', onClick: this.onClick },
 	          'Sign in as guest'
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'home-description row' },
+	        React.createElement(
+	          'p',
+	          { className: 'col-xs-8 col-xs-offset-2' },
+	          'Productivity RPG is a habit building and productivity app that treats your life like a game. It uses in-game rewards to motivate you to achieve your goals to become healthy, hard-working, and happy.'
 	        )
 	      )
 	    );
@@ -31626,7 +31640,7 @@
 
 	var React = __webpack_require__(1),
 	    NavBar = __webpack_require__(239),
-	    Avatar = __webpack_require__(250);
+	    Avatar = __webpack_require__(241);
 
 	var History = __webpack_require__(159).History;
 
@@ -31660,391 +31674,287 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    TaskForm = __webpack_require__(242),
-	    Task = __webpack_require__(247);
+	    ReactDOM = __webpack_require__(158),
+	    AvatarStore = __webpack_require__(242),
+	    ItemShop = __webpack_require__(243),
+	    sjs = __webpack_require__(245),
+	    ApiUtil = __webpack_require__(234);
 
-	var TaskType = React.createClass({
-	  displayName: 'TaskType',
+	var Avatar = React.createClass({
+	  displayName: 'Avatar',
+
+	  getInitialState: function () {
+	    return { Avatar: AvatarStore.get() };
+	  },
+
+	  _onChange: function () {
+	    this.setState({ Avatar: AvatarStore.get() });
+	    this.renderEquipments();
+	  },
+
+	  renderStickMan: function () {
+	    this.avatar = ReactDOM.findDOMNode(this.refs.avatarRef);
+	    var sprite = document.querySelector('.sjs');
+	    if (this.avatar && !sprite) {
+	      // NOTE: Hacky solution
+	      // setTimeout(stick.update.bind(stick), 500);
+
+	      // NOTE: Doesn't work...
+	      // var p2 = new Promise(function(resolve, reject) {
+	      //   // this.scene = sjs.Scene({parent: this.avatar, w:300, h:425});
+	      //   resolve(this.scene = sjs.Scene({parent: this.avatar, w:300, h:425}));
+	      // }.bind(this));
+
+	      // p2.then(function() {
+	      //   debugger;
+	      //   this.stick = this.scene.Sprite('assets/stick_man.png');
+	      // }.bind(this)).then(function() {
+	      //   this.stick.position(50, 100);
+	      // }.bind(this)).then(function () {
+	      //   debugger;
+	      //   this.stick.update()
+	      // }.bind(this));
+
+	      var that = this;
+	      $.when($.ajax((function () {
+	        that.scene = sjs.Scene({ parent: that.avatar, w: 300, h: 425 });
+	        that.stick = that.scene.Sprite('assets/stick_man.png');
+	        that.stick.position(50, 100);
+	      })())).then(function () {
+	        // NOTE: Hacky
+	        setTimeout(that.stick.update.bind(that.stick), 500);
+	      });
+	    }
+	  },
+
+	  renderEquipments: function () {
+	    var Avatar = this.state.Avatar;
+	    if (Avatar) {
+	      Avatar.equipments.forEach((function (equipment) {
+	        this.handleEquipmentType(equipment);
+	      }).bind(this));
+	    }
+	  },
+
+	  handleEquipmentType: function (equipment) {
+	    switch (equipment.type_name) {
+	      case "sword":
+	        this.renderSword(equipment);
+	        break;
+	      case "shield":
+	        this.renderShield(equipment);
+	        break;
+	      case "hat":
+	        this.renderHat(equipment);
+	        break;
+	    }
+	  },
+
+	  renderHat: function (equipment) {
+	    var avatarDiv = this.avatar;
+	    if (this.hat) {
+	      currUrl = this.hat.dom['style']['backgroundImage'];
+	      if (currUrl.indexOf(equipment.url) > -1) {
+	        return;
+	      } else {
+	        this.hat.remove();
+	      }
+	    }
+	    var that = this;
+	    $.when($.ajax((function () {
+	      that.hat = that.scene.Sprite(equipment.url);
+	      that.hat.position(45, -10);
+	    })())).then(function () {
+	      setTimeout(that.hat.update.bind(that.hat), 500);
+	    });
+	  },
+
+	  renderShield: function (equipment) {
+	    var avatarDiv = this.avatar;
+	    if (this.shield) {
+	      currUrl = this.shield.dom['style']['backgroundImage'];
+	      if (currUrl.indexOf(equipment.url) > -1) {
+	        return;
+	      } else {
+	        this.shield.remove();
+	      }
+	    }
+	    var that = this;
+	    $.when($.ajax((function () {
+	      that.shield = that.scene.Sprite(equipment.url);
+	      that.shield.position(160, 180);
+	    })())).then(function () {
+	      setTimeout(that.shield.update.bind(that.shield), 500);
+	    });
+	  },
+
+	  renderSword: function (equipment) {
+	    var avatarDiv = this.avatar;
+	    if (this.sword) {
+	      currUrl = this.sword.dom['style']['backgroundImage'];
+	      if (currUrl.indexOf(equipment.url) > -1) {
+	        return;
+	      } else {
+	        this.sword.remove();
+	      }
+	    }
+	    var that = this;
+	    $.when($.ajax((function () {
+	      that.sword = that.scene.Sprite(equipment.url);
+	      that.sword.position(0, 40);
+	    })())).then(function () {
+	      setTimeout(that.sword.update.bind(that.sword), 500);
+	    });
+	  },
+
+	  componentDidMount: function () {
+	    this.listener = AvatarStore.addListener(this._onChange);
+	    this.renderStickMan();
+	    ApiUtil.fetchAvatar();
+	  },
+
+	  componentWillUnmount: function () {
+	    this.listener.remove();
+	  },
 
 	  render: function () {
+	    var money;
+	    var Avatar = this.state.Avatar;
+	    if (Avatar) {
+	      money = Avatar.money;
+	    } else {
+	      money = 0;
+	    }
 	    return React.createElement(
 	      'div',
-	      { className: "task-type-container col-xs-3 " + this.props.taskType.type_name },
+	      { className: 'row' },
 	      React.createElement(
 	        'div',
-	        { className: 'task-type col-xs-12' },
+	        { className: 'col-xs-12' },
 	        React.createElement(
-	          'h2',
-	          { className: 'task-type-name' },
-	          this.props.taskType.type_name
-	        ),
-	        React.createElement(TaskForm, { taskType: this.props.taskType }),
-	        React.createElement(
-	          'ul',
-	          { className: 'task-box row' },
-	          this.props.taskType.tasks.map(function (task, idx) {
-	            if (!task.completed) {
-	              return React.createElement(Task, { key: idx, task: task });
-	            }
-	          })
+	          'div',
+	          { className: 'avatar-row row' },
+	          React.createElement(
+	            'div',
+	            { className: 'col-xs-4 container-fluid avatar-n-money' },
+	            React.createElement('div', { ref: 'avatarRef', className: 'avatar row' }),
+	            React.createElement(
+	              'div',
+	              { className: 'current-money row' },
+	              React.createElement('img', { className: 'current-gold-bar col', src: '/assets/gold_bar.png' }),
+	              React.createElement(
+	                'span',
+	                { className: 'current-money-text col' },
+	                ' ',
+	                money,
+	                ' '
+	              )
+	            )
+	          ),
+	          React.createElement(ItemShop, null)
 	        )
 	      )
 	    );
+	    // <div className="current-money row">
+	    //   <img className="current-gold-bar col" src="/assets/gold_bar.png" />
+	    //   <span className="current-money-text col"> {money} </span>
+	    // </div>
 	  }
 	});
 
-	module.exports = TaskType;
+	module.exports = Avatar;
 
 /***/ },
 /* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var AppDispatcher = __webpack_require__(212),
+	    Store = __webpack_require__(216).Store,
+	    AvatarConstants = __webpack_require__(237);
+
+	var AvatarStore = new Store(AppDispatcher);
+
+	var _Avatar;
+
+	var resetAvatar = function (avatar) {
+	  _Avatar = avatar;
+	};
+
+	AvatarStore.get = function () {
+	  var Avatar = _Avatar;
+	  return Avatar;
+	};
+
+	AvatarStore.__onDispatch = function (payload) {
+	  switch (payload.actionType) {
+	    case AvatarConstants.AVATAR_RECEIVED:
+	      resetAvatar(payload.avatar);
+	      AvatarStore.__emitChange();
+	      break;
+	  }
+	};
+
+	module.exports = AvatarStore;
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var React = __webpack_require__(1),
 	    ApiUtil = __webpack_require__(234),
-	    History = __webpack_require__(159).History,
-	    LinkedStateMixin = __webpack_require__(243);
+	    Task = __webpack_require__(244);
 
-	var TaskForm = React.createClass({
-	  displayName: 'TaskForm',
-
-	  mixins: [LinkedStateMixin, History],
+	var ItemShop = React.createClass({
+	  displayName: 'ItemShop',
 
 	  getInitialState: function () {
-	    return {
-	      title: "",
-	      moneyReward: 0
-	    };
+	    return { items: [] };
 	  },
 
-	  handleRewardChange: function (e) {
-	    e.preventDefault();
-	    this.setState({ moneyReward: e.target.value });
-	  },
-
-	  handleTitleChange: function (e) {
-	    e.preventDefault();
-	    this.setState({ title: e.target.value });
-	  },
-
-	  handleSubmit: function (e) {
-	    e.preventDefault();
-	    var newTask = {};
-	    newTask.type_id = this.props.taskType.id;
-	    newTask.title = this.state.title;
-	    newTask.money_reward = this.state.moneyReward;
-	    ApiUtil.createTask(newTask);
-	    this.setState({
-	      title: "",
-	      moneyReward: 0
+	  getItems: function () {
+	    $.ajax({
+	      url: "api/task_types/",
+	      method: "GET",
+	      success: (function (taskTypes) {
+	        this.setState({ items: taskTypes[4].tasks });
+	      }).bind(this)
 	    });
 	  },
 
-	  handleMinus: function (e) {
-	    e.preventDefault();
-	    this.setState({ moneyReward: parseInt(this.state.moneyReward) - 1 });
-	    this.checkNaN();
-	  },
-
-	  handlePlus: function (e) {
-	    e.preventDefault();
-	    this.setState({ moneyReward: parseInt(this.state.moneyReward) + 1 });
-	    this.checkNaN();
-	  },
-
-	  checkNaN: function () {
-	    if (isNaN(this.state.moneyReward)) {
-	      this.setState({ moneyReward: 0 });
-	    }
+	  componentDidMount: function () {
+	    this.getItems();
 	  },
 
 	  render: function () {
 	    return React.createElement(
-	      'form',
-	      { className: 'row', id: 'newTaskForm', onSubmit: this.handleSubmit },
-	      React.createElement('br', null),
-	      React.createElement('input', { type: 'text',
-	        id: 'task-text-box',
-	        className: 'task-form-text',
-	        value: this.state.title,
-	        onChange: this.handleTitleChange,
-	        placeholder: "Create " + this.props.taskType.type_name
-	      }),
-	      React.createElement('input', { type: 'submit',
-	        className: 'task-form-text plus-minus-sign',
-	        value: '+'
-	      }),
-	      React.createElement('br', null),
-	      React.createElement('br', null),
+	      'div',
+	      { className: 'task-type Items col-xs-4 col-xs-offset-4 container-fluid' },
 	      React.createElement(
-	        'label',
-	        { id: 'moneyRewardForm' },
-	        React.createElement('img', { className: 'gold-bar', src: '/assets/gold_bar.png' }),
-	        React.createElement(
-	          'span',
-	          null,
-	          ' '
-	        ),
-	        React.createElement('input', { type: 'text',
-	          name: 'quantity',
-	          value: this.state.moneyReward,
-	          className: 'qty',
-	          onChange: this.handleRewardChange
-	        }),
-	        React.createElement('input', { type: 'button',
-	          value: '-',
-	          className: 'qtyminus plus-minus-sign',
-	          field: 'quantity',
-	          onClick: this.handleMinus
-	        }),
-	        React.createElement('input', { type: 'button',
-	          value: '+',
-	          className: 'qtyplus plus-minus-sign',
-	          field: 'quantity',
-	          onClick: this.handlePlus
+	        'h2',
+	        { className: 'task-type-name row' },
+	        'Item Shop'
+	      ),
+	      React.createElement(
+	        'ul',
+	        { className: 'items-task-box row' },
+	        this.state.items.map(function (item, idx) {
+	          if (!item.inventory_id) {
+	            return React.createElement(Task, { key: idx, task: item });
+	          }
 	        })
 	      )
 	    );
 	  }
 	});
 
-	module.exports = TaskForm;
-
-/***/ },
-/* 243 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(244);
+	module.exports = ItemShop;
 
 /***/ },
 /* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule LinkedStateMixin
-	 * @typechecks static-only
-	 */
-
-	'use strict';
-
-	var ReactLink = __webpack_require__(245);
-	var ReactStateSetters = __webpack_require__(246);
-
-	/**
-	 * A simple mixin around ReactLink.forState().
-	 */
-	var LinkedStateMixin = {
-	  /**
-	   * Create a ReactLink that's linked to part of this component's state. The
-	   * ReactLink will have the current value of this.state[key] and will call
-	   * setState() when a change is requested.
-	   *
-	   * @param {string} key state key to update. Note: you may want to use keyOf()
-	   * if you're using Google Closure Compiler advanced mode.
-	   * @return {ReactLink} ReactLink instance linking to the state.
-	   */
-	  linkState: function (key) {
-	    return new ReactLink(this.state[key], ReactStateSetters.createStateKeySetter(this, key));
-	  }
-	};
-
-	module.exports = LinkedStateMixin;
-
-/***/ },
-/* 245 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactLink
-	 * @typechecks static-only
-	 */
-
-	'use strict';
-
-	/**
-	 * ReactLink encapsulates a common pattern in which a component wants to modify
-	 * a prop received from its parent. ReactLink allows the parent to pass down a
-	 * value coupled with a callback that, when invoked, expresses an intent to
-	 * modify that value. For example:
-	 *
-	 * React.createClass({
-	 *   getInitialState: function() {
-	 *     return {value: ''};
-	 *   },
-	 *   render: function() {
-	 *     var valueLink = new ReactLink(this.state.value, this._handleValueChange);
-	 *     return <input valueLink={valueLink} />;
-	 *   },
-	 *   _handleValueChange: function(newValue) {
-	 *     this.setState({value: newValue});
-	 *   }
-	 * });
-	 *
-	 * We have provided some sugary mixins to make the creation and
-	 * consumption of ReactLink easier; see LinkedValueUtils and LinkedStateMixin.
-	 */
-
-	var React = __webpack_require__(2);
-
-	/**
-	 * @param {*} value current value of the link
-	 * @param {function} requestChange callback to request a change
-	 */
-	function ReactLink(value, requestChange) {
-	  this.value = value;
-	  this.requestChange = requestChange;
-	}
-
-	/**
-	 * Creates a PropType that enforces the ReactLink API and optionally checks the
-	 * type of the value being passed inside the link. Example:
-	 *
-	 * MyComponent.propTypes = {
-	 *   tabIndexLink: ReactLink.PropTypes.link(React.PropTypes.number)
-	 * }
-	 */
-	function createLinkTypeChecker(linkType) {
-	  var shapes = {
-	    value: typeof linkType === 'undefined' ? React.PropTypes.any.isRequired : linkType.isRequired,
-	    requestChange: React.PropTypes.func.isRequired
-	  };
-	  return React.PropTypes.shape(shapes);
-	}
-
-	ReactLink.PropTypes = {
-	  link: createLinkTypeChecker
-	};
-
-	module.exports = ReactLink;
-
-/***/ },
-/* 246 */
-/***/ function(module, exports) {
-
-	/**
-	 * Copyright 2013-2015, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule ReactStateSetters
-	 */
-
-	'use strict';
-
-	var ReactStateSetters = {
-	  /**
-	   * Returns a function that calls the provided function, and uses the result
-	   * of that to set the component's state.
-	   *
-	   * @param {ReactCompositeComponent} component
-	   * @param {function} funcReturningState Returned callback uses this to
-	   *                                      determine how to update state.
-	   * @return {function} callback that when invoked uses funcReturningState to
-	   *                    determined the object literal to setState.
-	   */
-	  createStateSetter: function (component, funcReturningState) {
-	    return function (a, b, c, d, e, f) {
-	      var partialState = funcReturningState.call(component, a, b, c, d, e, f);
-	      if (partialState) {
-	        component.setState(partialState);
-	      }
-	    };
-	  },
-
-	  /**
-	   * Returns a single-argument callback that can be used to update a single
-	   * key in the component's state.
-	   *
-	   * Note: this is memoized function, which makes it inexpensive to call.
-	   *
-	   * @param {ReactCompositeComponent} component
-	   * @param {string} key The key in the state that you should update.
-	   * @return {function} callback of 1 argument which calls setState() with
-	   *                    the provided keyName and callback argument.
-	   */
-	  createStateKeySetter: function (component, key) {
-	    // Memoize the setters.
-	    var cache = component.__keySetters || (component.__keySetters = {});
-	    return cache[key] || (cache[key] = createStateKeySetter(component, key));
-	  }
-	};
-
-	function createStateKeySetter(component, key) {
-	  // Partial state is allocated outside of the function closure so it can be
-	  // reused with every call, avoiding memory allocation when this function
-	  // is called.
-	  var partialState = {};
-	  return function stateKeySetter(value) {
-	    partialState[key] = value;
-	    component.setState(partialState);
-	  };
-	}
-
-	ReactStateSetters.Mixin = {
-	  /**
-	   * Returns a function that calls the provided function, and uses the result
-	   * of that to set the component's state.
-	   *
-	   * For example, these statements are equivalent:
-	   *
-	   *   this.setState({x: 1});
-	   *   this.createStateSetter(function(xValue) {
-	   *     return {x: xValue};
-	   *   })(1);
-	   *
-	   * @param {function} funcReturningState Returned callback uses this to
-	   *                                      determine how to update state.
-	   * @return {function} callback that when invoked uses funcReturningState to
-	   *                    determined the object literal to setState.
-	   */
-	  createStateSetter: function (funcReturningState) {
-	    return ReactStateSetters.createStateSetter(this, funcReturningState);
-	  },
-
-	  /**
-	   * Returns a single-argument callback that can be used to update a single
-	   * key in the component's state.
-	   *
-	   * For example, these statements are equivalent:
-	   *
-	   *   this.setState({x: 1});
-	   *   this.createStateKeySetter('x')(1);
-	   *
-	   * Note: this is memoized function, which makes it inexpensive to call.
-	   *
-	   * @param {string} key The key in the state that you should update.
-	   * @return {function} callback of 1 argument which calls setState() with
-	   *                    the provided keyName and callback argument.
-	   */
-	  createStateKeySetter: function (key) {
-	    return ReactStateSetters.createStateKeySetter(this, key);
-	  }
-	};
-
-	module.exports = ReactStateSetters;
-
-/***/ },
-/* 247 */
-/***/ function(module, exports, __webpack_require__) {
-
 	var React = __webpack_require__(1),
-	    AvatarStore = __webpack_require__(248),
+	    AvatarStore = __webpack_require__(242),
 	    ApiUtil = __webpack_require__(234);
 
 	var Task = React.createClass({
@@ -32221,39 +32131,7 @@
 	module.exports = Task;
 
 /***/ },
-/* 248 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var AppDispatcher = __webpack_require__(212),
-	    Store = __webpack_require__(216).Store,
-	    AvatarConstants = __webpack_require__(237);
-
-	var AvatarStore = new Store(AppDispatcher);
-
-	var _Avatar;
-
-	var resetAvatar = function (avatar) {
-	  _Avatar = avatar;
-	};
-
-	AvatarStore.get = function () {
-	  var Avatar = _Avatar;
-	  return Avatar;
-	};
-
-	AvatarStore.__onDispatch = function (payload) {
-	  switch (payload.actionType) {
-	    case AvatarConstants.AVATAR_RECEIVED:
-	      resetAvatar(payload.avatar);
-	      AvatarStore.__emitChange();
-	      break;
-	  }
-	};
-
-	module.exports = AvatarStore;
-
-/***/ },
-/* 249 */
+/* 245 */
 /***/ function(module, exports) {
 
 	/*
@@ -33993,147 +33871,192 @@
 	module.exports = this.sjs;
 
 /***/ },
-/* 250 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
-	    AvatarStore = __webpack_require__(248),
-	    ItemShop = __webpack_require__(251),
-	    sjs = __webpack_require__(249),
-	    ApiUtil = __webpack_require__(234);
+	    ApiUtil = __webpack_require__(234),
+	    TaskStore = __webpack_require__(211),
+	    TaskType = __webpack_require__(247);
 
-	var Avatar = React.createClass({
-	  displayName: 'Avatar',
+	var Shepherd = __webpack_require__(253);
+
+	var TaskBlock = React.createClass({
+	  displayName: 'TaskBlock',
+
+	  // mixins: [History],
 
 	  getInitialState: function () {
-	    return { Avatar: AvatarStore.get() };
+	    return { TaskTypes: TaskStore.all() };
 	  },
 
 	  _onChange: function () {
-	    this.setState({ Avatar: AvatarStore.get() });
-	    this.renderEquipments();
-	  },
+	    this.setState({ TaskTypes: TaskStore.all() });
+	    if (this.state.TaskTypes[0]) {
+	      var currentUser = this.state.TaskTypes[0].user;
 
-	  renderStickMan: function () {
-	    this.avatar = ReactDOM.findDOMNode(this.refs.avatarRef);
-	    var sprite = document.querySelector('.sjs');
-	    if (this.avatar && !sprite) {
-	      // NOTE: Hacky solution
-	      // setTimeout(stick.update.bind(stick), 500);
-
-	      // NOTE: Doesn't work...
-	      // var p2 = new Promise(function(resolve, reject) {
-	      //   // this.scene = sjs.Scene({parent: this.avatar, w:300, h:425});
-	      //   resolve(this.scene = sjs.Scene({parent: this.avatar, w:300, h:425}));
-	      // }.bind(this));
-
-	      // p2.then(function() {
-	      //   debugger;
-	      //   this.stick = this.scene.Sprite('assets/stick_man.png');
-	      // }.bind(this)).then(function() {
-	      //   this.stick.position(50, 100);
-	      // }.bind(this)).then(function () {
-	      //   debugger;
-	      //   this.stick.update()
-	      // }.bind(this));
-
-	      var that = this;
-	      $.when($.ajax((function () {
-	        that.scene = sjs.Scene({ parent: that.avatar, w: 300, h: 425 });
-	        that.stick = that.scene.Sprite('assets/stick_man.png');
-	        that.stick.position(50, 100);
-	      })())).then(function () {
-	        // NOTE: Hacky
-	        setTimeout(that.stick.update.bind(that.stick), 500);
-	      });
-	    }
-	  },
-
-	  renderEquipments: function () {
-	    var Avatar = this.state.Avatar;
-	    if (Avatar) {
-	      Avatar.equipments.forEach((function (equipment) {
-	        this.handleEquipmentType(equipment);
-	      }).bind(this));
-	    }
-	  },
-
-	  handleEquipmentType: function (equipment) {
-	    switch (equipment.type_name) {
-	      case "sword":
-	        this.renderSword(equipment);
-	        break;
-	      case "shield":
-	        this.renderShield(equipment);
-	        break;
-	      case "hat":
-	        this.renderHat(equipment);
-	        break;
-	    }
-	  },
-
-	  renderHat: function (equipment) {
-	    var avatarDiv = this.avatar;
-	    if (this.hat) {
-	      currUrl = this.hat.dom['style']['backgroundImage'];
-	      if (currUrl.indexOf(equipment.url) > -1) {
-	        return;
-	      } else {
-	        this.hat.remove();
+	      if (!currentUser.tutorial) {
+	        ApiUtil.updateUser(currentUser.id);
+	        currentUser.tutorial = true;
+	        this.giveTour();
 	      }
 	    }
-	    var that = this;
-	    $.when($.ajax((function () {
-	      that.hat = that.scene.Sprite(equipment.url);
-	      that.hat.position(45, -10);
-	    })())).then(function () {
-	      setTimeout(that.hat.update.bind(that.hat), 500);
-	    });
 	  },
 
-	  renderShield: function (equipment) {
-	    var avatarDiv = this.avatar;
-	    if (this.shield) {
-	      currUrl = this.shield.dom['style']['backgroundImage'];
-	      if (currUrl.indexOf(equipment.url) > -1) {
-	        return;
-	      } else {
-	        this.shield.remove();
+	  giveTour: function () {
+	    var tour = new Shepherd.Tour({
+	      defaults: {
+	        classes: 'shepherd-theme-default',
+	        showCancelLink: true
 	      }
-	    }
-	    var that = this;
-	    $.when($.ajax((function () {
-	      that.shield = that.scene.Sprite(equipment.url);
-	      that.shield.position(160, 180);
-	    })())).then(function () {
-	      setTimeout(that.shield.update.bind(that.shield), 500);
 	    });
-	  },
 
-	  renderSword: function (equipment) {
-	    var avatarDiv = this.avatar;
-	    if (this.sword) {
-	      currUrl = this.sword.dom['style']['backgroundImage'];
-	      if (currUrl.indexOf(equipment.url) > -1) {
-	        return;
-	      } else {
-	        this.sword.remove();
-	      }
-	    }
-	    var that = this;
-	    $.when($.ajax((function () {
-	      that.sword = that.scene.Sprite(equipment.url);
-	      that.sword.position(0, 40);
-	    })())).then(function () {
-	      setTimeout(that.sword.update.bind(that.sword), 500);
+	    tour.addStep('introduction-step', {
+	      title: 'Welcome!',
+	      text: 'Welcome to Productivity-RPG!<br/>' + 'Let me give you a tour!',
+	      attachTo: '.sjs right',
+	      when: {
+	        show: function () {
+	          window.scrollTo(0, 0);
+	        }
+	      },
+	      buttons: [{
+	        text: 'Next',
+	        action: tour.next
+	      }]
 	    });
+
+	    tour.addStep('avatar-step', {
+	      title: 'Customize Your Avatar',
+	      text: "I'm your personal avatar! I will " + "represent you as you progress.",
+	      attachTo: '.sjs right',
+	      buttons: [{
+	        text: 'Back',
+	        action: tour.back
+	      }, {
+	        text: 'Next',
+	        action: tour.next
+	      }]
+	    });
+
+	    tour.addStep('todos-step', {
+	      title: 'To-Do List',
+	      text: 'Check off To-Dos by clicking them ' + 'to earn gold!',
+	      attachTo: '.To-dos top',
+	      when: {
+	        show: function () {
+	          window.scrollTo(0, 150);
+	        }
+	      },
+	      buttons: [{
+	        text: 'Back',
+	        action: tour.back
+	      }, {
+	        text: 'Next',
+	        action: tour.next
+	      }]
+	    });
+
+	    tour.addStep('dailies-step', {
+	      title: 'Daily Tasks',
+	      text: 'Dailies repeat every day.',
+	      attachTo: '.Dailies top',
+	      buttons: [{
+	        text: 'Back',
+	        action: tour.back
+	      }, {
+	        text: 'Next',
+	        action: tour.next
+	      }]
+	    });
+
+	    tour.addStep('habits-step', {
+	      title: 'Good & Bad Habits',
+	      text: 'Habits reward you everytime you do it. ' + 'Bad habits will punish you.',
+	      attachTo: '.Habits top',
+	      buttons: [{
+	        text: 'Back',
+	        action: tour.back
+	      }, {
+	        text: 'Next',
+	        action: tour.next
+	      }]
+	    });
+
+	    tour.addStep('item-shop-step', {
+	      title: 'Item Shop',
+	      text: 'Spend your hard-earned gold here! ' + 'Purchase equipment for your avatar!',
+	      attachTo: '.Items left',
+	      when: {
+	        show: function () {
+	          window.scrollTo(0, 0);
+	        }
+	      },
+	      buttons: [{
+	        text: 'Back',
+	        action: tour.back
+	      }, {
+	        text: 'Next',
+	        action: tour.next
+	      }]
+	    });
+
+	    tour.addStep('rewards-step', {
+	      title: 'Reward List',
+	      text: 'Or set custom rewards for yourself.',
+	      attachTo: '.Rewards top',
+	      buttons: [{
+	        text: 'Back',
+	        action: tour.back
+	      }, {
+	        text: 'Next',
+	        action: tour.next
+	      }]
+	    });
+
+	    tour.addStep('form-step', {
+	      title: 'Create Custom Tasks',
+	      text: 'create tasks and rewards with ' + 'these forms. Set custom names and gold rewards.',
+	      attachTo: '#newTaskForm right',
+	      when: {
+	        show: function () {
+	          window.scrollTo(0, 200);
+	        }
+	      },
+	      buttons: [{
+	        text: 'Back',
+	        action: tour.back
+	      }, {
+	        text: 'Next',
+	        action: tour.next
+	      }]
+	    });
+
+	    tour.addStep('completed-step', {
+	      title: 'The End!',
+	      text: "And that's it! Now go find the free " + "'Party Hat' in the item shop so we " + "can get this productivity party " + "started!",
+	      attachTo: '.sjs right',
+	      when: {
+	        show: function () {
+	          window.scrollTo(0, 0);
+	        }
+	      },
+	      buttons: [{
+	        text: 'Back',
+	        action: tour.back
+	      }, {
+	        text: 'Finish',
+	        action: tour.next
+	      }]
+	    });
+
+	    tour.start();
 	  },
 
 	  componentDidMount: function () {
-	    this.listener = AvatarStore.addListener(this._onChange);
-	    this.renderStickMan();
-	    ApiUtil.fetchAvatar();
+	    this.listener = TaskStore.addListener(this._onChange);
+	    ApiUtil.fetchAllTaskTypes();
 	  },
 
 	  componentWillUnmount: function () {
@@ -34141,107 +34064,405 @@
 	  },
 
 	  render: function () {
-	    var money;
-	    var Avatar = this.state.Avatar;
-	    if (Avatar) {
-	      money = Avatar.money;
-	    } else {
-	      money = 0;
-	    }
 	    return React.createElement(
 	      'div',
-	      { className: 'row' },
-	      React.createElement(
-	        'div',
-	        { className: 'col-xs-12' },
-	        React.createElement(
-	          'div',
-	          { className: 'avatar-row row' },
-	          React.createElement(
-	            'div',
-	            { className: 'col-xs-4 container-fluid avatar-n-money' },
-	            React.createElement('div', { ref: 'avatarRef', className: 'avatar row' }),
-	            React.createElement(
-	              'div',
-	              { className: 'current-money row' },
-	              React.createElement('img', { className: 'current-gold-bar col', src: '/assets/gold_bar.png' }),
-	              React.createElement(
-	                'span',
-	                { className: 'current-money-text col' },
-	                ' ',
-	                money,
-	                ' '
-	              )
-	            )
-	          ),
-	          React.createElement(ItemShop, null)
-	        )
-	      )
+	      { className: 'task-block row' },
+	      this.state.TaskTypes.map(function (taskType) {
+	        if (taskType.type_name !== "Items") {
+	          return React.createElement(TaskType, { key: taskType.id, taskType: taskType });
+	        }
+	      })
 	    );
-	    // <div className="current-money row">
-	    //   <img className="current-gold-bar col" src="/assets/gold_bar.png" />
-	    //   <span className="current-money-text col"> {money} </span>
-	    // </div>
 	  }
 	});
 
-	module.exports = Avatar;
+	module.exports = TaskBlock;
 
 /***/ },
-/* 251 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    ApiUtil = __webpack_require__(234),
-	    Task = __webpack_require__(247);
+	    TaskForm = __webpack_require__(248),
+	    Task = __webpack_require__(244);
 
-	var ItemShop = React.createClass({
-	  displayName: 'ItemShop',
-
-	  getInitialState: function () {
-	    return { items: [] };
-	  },
-
-	  getItems: function () {
-	    $.ajax({
-	      url: "api/task_types/",
-	      method: "GET",
-	      success: (function (taskTypes) {
-	        this.setState({ items: taskTypes[4].tasks });
-	      }).bind(this)
-	    });
-	  },
-
-	  componentDidMount: function () {
-	    this.getItems();
-	  },
+	var TaskType = React.createClass({
+	  displayName: 'TaskType',
 
 	  render: function () {
 	    return React.createElement(
 	      'div',
-	      { className: 'task-type Items col-xs-4 col-xs-offset-4 container-fluid' },
+	      { className: "task-type-container col-xs-3 " + this.props.taskType.type_name },
 	      React.createElement(
-	        'h2',
-	        { className: 'task-type-name row' },
-	        'Item Shop'
-	      ),
+	        'div',
+	        { className: 'task-type col-xs-12' },
+	        React.createElement(
+	          'h2',
+	          { className: 'task-type-name' },
+	          this.props.taskType.type_name
+	        ),
+	        React.createElement(TaskForm, { taskType: this.props.taskType }),
+	        React.createElement(
+	          'ul',
+	          { className: 'task-box row' },
+	          this.props.taskType.tasks.map(function (task, idx) {
+	            if (!task.completed) {
+	              return React.createElement(Task, { key: idx, task: task });
+	            }
+	          })
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = TaskType;
+
+/***/ },
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    ApiUtil = __webpack_require__(234),
+	    History = __webpack_require__(159).History,
+	    LinkedStateMixin = __webpack_require__(249);
+
+	var TaskForm = React.createClass({
+	  displayName: 'TaskForm',
+
+	  mixins: [LinkedStateMixin, History],
+
+	  getInitialState: function () {
+	    return {
+	      title: "",
+	      moneyReward: 0
+	    };
+	  },
+
+	  handleRewardChange: function (e) {
+	    e.preventDefault();
+	    this.setState({ moneyReward: e.target.value });
+	  },
+
+	  handleTitleChange: function (e) {
+	    e.preventDefault();
+	    this.setState({ title: e.target.value });
+	  },
+
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    var newTask = {};
+	    newTask.type_id = this.props.taskType.id;
+	    newTask.title = this.state.title;
+	    newTask.money_reward = this.state.moneyReward;
+	    ApiUtil.createTask(newTask);
+	    this.setState({
+	      title: "",
+	      moneyReward: 0
+	    });
+	  },
+
+	  handleMinus: function (e) {
+	    e.preventDefault();
+	    this.setState({ moneyReward: parseInt(this.state.moneyReward) - 1 });
+	    this.checkNaN();
+	  },
+
+	  handlePlus: function (e) {
+	    e.preventDefault();
+	    this.setState({ moneyReward: parseInt(this.state.moneyReward) + 1 });
+	    this.checkNaN();
+	  },
+
+	  checkNaN: function () {
+	    if (isNaN(this.state.moneyReward)) {
+	      this.setState({ moneyReward: 0 });
+	    }
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'form',
+	      { className: 'row', id: 'newTaskForm', onSubmit: this.handleSubmit },
+	      React.createElement('br', null),
+	      React.createElement('input', { type: 'text',
+	        id: 'task-text-box',
+	        className: 'task-form-text',
+	        value: this.state.title,
+	        onChange: this.handleTitleChange,
+	        placeholder: "Create " + this.props.taskType.type_name
+	      }),
+	      React.createElement('input', { type: 'submit',
+	        className: 'task-form-text plus-minus-sign',
+	        value: '+'
+	      }),
+	      React.createElement('br', null),
+	      React.createElement('br', null),
 	      React.createElement(
-	        'ul',
-	        { className: 'items-task-box row' },
-	        this.state.items.map(function (item, idx) {
-	          if (!item.inventory_id) {
-	            return React.createElement(Task, { key: idx, task: item });
-	          }
+	        'label',
+	        { id: 'moneyRewardForm' },
+	        React.createElement('img', { className: 'gold-bar', src: '/assets/gold_bar.png' }),
+	        React.createElement(
+	          'span',
+	          null,
+	          ' '
+	        ),
+	        React.createElement('input', { type: 'text',
+	          name: 'quantity',
+	          value: this.state.moneyReward,
+	          className: 'qty',
+	          onChange: this.handleRewardChange
+	        }),
+	        React.createElement('input', { type: 'button',
+	          value: '-',
+	          className: 'qtyminus plus-minus-sign',
+	          field: 'quantity',
+	          onClick: this.handleMinus
+	        }),
+	        React.createElement('input', { type: 'button',
+	          value: '+',
+	          className: 'qtyplus plus-minus-sign',
+	          field: 'quantity',
+	          onClick: this.handlePlus
 	        })
 	      )
 	    );
 	  }
 	});
 
-	module.exports = ItemShop;
+	module.exports = TaskForm;
 
 /***/ },
-/* 252 */,
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(250);
+
+/***/ },
+/* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule LinkedStateMixin
+	 * @typechecks static-only
+	 */
+
+	'use strict';
+
+	var ReactLink = __webpack_require__(251);
+	var ReactStateSetters = __webpack_require__(252);
+
+	/**
+	 * A simple mixin around ReactLink.forState().
+	 */
+	var LinkedStateMixin = {
+	  /**
+	   * Create a ReactLink that's linked to part of this component's state. The
+	   * ReactLink will have the current value of this.state[key] and will call
+	   * setState() when a change is requested.
+	   *
+	   * @param {string} key state key to update. Note: you may want to use keyOf()
+	   * if you're using Google Closure Compiler advanced mode.
+	   * @return {ReactLink} ReactLink instance linking to the state.
+	   */
+	  linkState: function (key) {
+	    return new ReactLink(this.state[key], ReactStateSetters.createStateKeySetter(this, key));
+	  }
+	};
+
+	module.exports = LinkedStateMixin;
+
+/***/ },
+/* 251 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactLink
+	 * @typechecks static-only
+	 */
+
+	'use strict';
+
+	/**
+	 * ReactLink encapsulates a common pattern in which a component wants to modify
+	 * a prop received from its parent. ReactLink allows the parent to pass down a
+	 * value coupled with a callback that, when invoked, expresses an intent to
+	 * modify that value. For example:
+	 *
+	 * React.createClass({
+	 *   getInitialState: function() {
+	 *     return {value: ''};
+	 *   },
+	 *   render: function() {
+	 *     var valueLink = new ReactLink(this.state.value, this._handleValueChange);
+	 *     return <input valueLink={valueLink} />;
+	 *   },
+	 *   _handleValueChange: function(newValue) {
+	 *     this.setState({value: newValue});
+	 *   }
+	 * });
+	 *
+	 * We have provided some sugary mixins to make the creation and
+	 * consumption of ReactLink easier; see LinkedValueUtils and LinkedStateMixin.
+	 */
+
+	var React = __webpack_require__(2);
+
+	/**
+	 * @param {*} value current value of the link
+	 * @param {function} requestChange callback to request a change
+	 */
+	function ReactLink(value, requestChange) {
+	  this.value = value;
+	  this.requestChange = requestChange;
+	}
+
+	/**
+	 * Creates a PropType that enforces the ReactLink API and optionally checks the
+	 * type of the value being passed inside the link. Example:
+	 *
+	 * MyComponent.propTypes = {
+	 *   tabIndexLink: ReactLink.PropTypes.link(React.PropTypes.number)
+	 * }
+	 */
+	function createLinkTypeChecker(linkType) {
+	  var shapes = {
+	    value: typeof linkType === 'undefined' ? React.PropTypes.any.isRequired : linkType.isRequired,
+	    requestChange: React.PropTypes.func.isRequired
+	  };
+	  return React.PropTypes.shape(shapes);
+	}
+
+	ReactLink.PropTypes = {
+	  link: createLinkTypeChecker
+	};
+
+	module.exports = ReactLink;
+
+/***/ },
+/* 252 */
+/***/ function(module, exports) {
+
+	/**
+	 * Copyright 2013-2015, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule ReactStateSetters
+	 */
+
+	'use strict';
+
+	var ReactStateSetters = {
+	  /**
+	   * Returns a function that calls the provided function, and uses the result
+	   * of that to set the component's state.
+	   *
+	   * @param {ReactCompositeComponent} component
+	   * @param {function} funcReturningState Returned callback uses this to
+	   *                                      determine how to update state.
+	   * @return {function} callback that when invoked uses funcReturningState to
+	   *                    determined the object literal to setState.
+	   */
+	  createStateSetter: function (component, funcReturningState) {
+	    return function (a, b, c, d, e, f) {
+	      var partialState = funcReturningState.call(component, a, b, c, d, e, f);
+	      if (partialState) {
+	        component.setState(partialState);
+	      }
+	    };
+	  },
+
+	  /**
+	   * Returns a single-argument callback that can be used to update a single
+	   * key in the component's state.
+	   *
+	   * Note: this is memoized function, which makes it inexpensive to call.
+	   *
+	   * @param {ReactCompositeComponent} component
+	   * @param {string} key The key in the state that you should update.
+	   * @return {function} callback of 1 argument which calls setState() with
+	   *                    the provided keyName and callback argument.
+	   */
+	  createStateKeySetter: function (component, key) {
+	    // Memoize the setters.
+	    var cache = component.__keySetters || (component.__keySetters = {});
+	    return cache[key] || (cache[key] = createStateKeySetter(component, key));
+	  }
+	};
+
+	function createStateKeySetter(component, key) {
+	  // Partial state is allocated outside of the function closure so it can be
+	  // reused with every call, avoiding memory allocation when this function
+	  // is called.
+	  var partialState = {};
+	  return function stateKeySetter(value) {
+	    partialState[key] = value;
+	    component.setState(partialState);
+	  };
+	}
+
+	ReactStateSetters.Mixin = {
+	  /**
+	   * Returns a function that calls the provided function, and uses the result
+	   * of that to set the component's state.
+	   *
+	   * For example, these statements are equivalent:
+	   *
+	   *   this.setState({x: 1});
+	   *   this.createStateSetter(function(xValue) {
+	   *     return {x: xValue};
+	   *   })(1);
+	   *
+	   * @param {function} funcReturningState Returned callback uses this to
+	   *                                      determine how to update state.
+	   * @return {function} callback that when invoked uses funcReturningState to
+	   *                    determined the object literal to setState.
+	   */
+	  createStateSetter: function (funcReturningState) {
+	    return ReactStateSetters.createStateSetter(this, funcReturningState);
+	  },
+
+	  /**
+	   * Returns a single-argument callback that can be used to update a single
+	   * key in the component's state.
+	   *
+	   * For example, these statements are equivalent:
+	   *
+	   *   this.setState({x: 1});
+	   *   this.createStateKeySetter('x')(1);
+	   *
+	   * Note: this is memoized function, which makes it inexpensive to call.
+	   *
+	   * @param {string} key The key in the state that you should update.
+	   * @return {function} callback of 1 argument which calls setState() with
+	   *                    the provided keyName and callback argument.
+	   */
+	  createStateKeySetter: function (key) {
+	    return ReactStateSetters.createStateKeySetter(this, key);
+	  }
+	};
+
+	module.exports = ReactStateSetters;
+
+/***/ },
 /* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -36619,215 +36840,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    ReactDOM = __webpack_require__(158),
-	    ApiUtil = __webpack_require__(234),
-	    TaskStore = __webpack_require__(211),
-	    TaskType = __webpack_require__(241);
-
-	var Shepherd = __webpack_require__(253);
-
-	var TaskBlock = React.createClass({
-	  displayName: 'TaskBlock',
-
-	  // mixins: [History],
-
-	  getInitialState: function () {
-	    return { TaskTypes: TaskStore.all() };
-	  },
-
-	  _onChange: function () {
-	    this.setState({ TaskTypes: TaskStore.all() });
-	    if (this.state.TaskTypes[0]) {
-	      var currentUser = this.state.TaskTypes[0].user;
-
-	      if (!currentUser.tutorial) {
-	        ApiUtil.updateUser(currentUser.id);
-	        currentUser.tutorial = true;
-	        this.giveTour();
-	      }
-	    }
-	  },
-
-	  giveTour: function () {
-	    var tour = new Shepherd.Tour({
-	      defaults: {
-	        classes: 'shepherd-theme-default',
-	        showCancelLink: true
-	      }
-	    });
-
-	    tour.addStep('introduction-step', {
-	      title: 'Welcome!',
-	      text: 'Welcome to Productivity-RPG!<br/>' + 'Let me give you a tour!',
-	      attachTo: '.sjs right',
-	      when: {
-	        show: function () {
-	          window.scrollTo(0, 0);
-	        }
-	      },
-	      buttons: [{
-	        text: 'Next',
-	        action: tour.next
-	      }]
-	    });
-
-	    tour.addStep('avatar-step', {
-	      title: 'Customize Your Avatar',
-	      text: "I'm your personal avatar! I will " + "represent you as you progress.",
-	      attachTo: '.sjs right',
-	      buttons: [{
-	        text: 'Back',
-	        action: tour.back
-	      }, {
-	        text: 'Next',
-	        action: tour.next
-	      }]
-	    });
-
-	    tour.addStep('todos-step', {
-	      title: 'To-Do List',
-	      text: 'Check off To-Dos by clicking them ' + 'to earn gold!',
-	      attachTo: '.To-dos top',
-	      when: {
-	        show: function () {
-	          window.scrollTo(0, 150);
-	        }
-	      },
-	      buttons: [{
-	        text: 'Back',
-	        action: tour.back
-	      }, {
-	        text: 'Next',
-	        action: tour.next
-	      }]
-	    });
-
-	    tour.addStep('dailies-step', {
-	      title: 'Daily Tasks',
-	      text: 'Dailies repeat every day.',
-	      attachTo: '.Dailies top',
-	      buttons: [{
-	        text: 'Back',
-	        action: tour.back
-	      }, {
-	        text: 'Next',
-	        action: tour.next
-	      }]
-	    });
-
-	    tour.addStep('habits-step', {
-	      title: 'Good & Bad Habits',
-	      text: 'Habits reward you everytime you do it. ' + 'Bad habits will punish you.',
-	      attachTo: '.Habits top',
-	      buttons: [{
-	        text: 'Back',
-	        action: tour.back
-	      }, {
-	        text: 'Next',
-	        action: tour.next
-	      }]
-	    });
-
-	    tour.addStep('item-shop-step', {
-	      title: 'Item Shop',
-	      text: 'Spend your hard-earned gold here! ' + 'Purchase equipment for your avatar!',
-	      attachTo: '.Items left',
-	      when: {
-	        show: function () {
-	          window.scrollTo(0, 0);
-	        }
-	      },
-	      buttons: [{
-	        text: 'Back',
-	        action: tour.back
-	      }, {
-	        text: 'Next',
-	        action: tour.next
-	      }]
-	    });
-
-	    tour.addStep('rewards-step', {
-	      title: 'Reward List',
-	      text: 'Or set custom rewards for yourself.',
-	      attachTo: '.Rewards top',
-	      buttons: [{
-	        text: 'Back',
-	        action: tour.back
-	      }, {
-	        text: 'Next',
-	        action: tour.next
-	      }]
-	    });
-
-	    tour.addStep('form-step', {
-	      title: 'Create Custom Tasks',
-	      text: 'create tasks and rewards with ' + 'these forms. Set custom names and gold rewards.',
-	      attachTo: '#newTaskForm right',
-	      when: {
-	        show: function () {
-	          window.scrollTo(0, 200);
-	        }
-	      },
-	      buttons: [{
-	        text: 'Back',
-	        action: tour.back
-	      }, {
-	        text: 'Next',
-	        action: tour.next
-	      }]
-	    });
-
-	    tour.addStep('completed-step', {
-	      title: 'The End!',
-	      text: "And that's it! Now go find the free " + "'Party Hat' in the item shop so we " + "can get this productivity party " + "started!",
-	      attachTo: '.sjs right',
-	      when: {
-	        show: function () {
-	          window.scrollTo(0, 0);
-	        }
-	      },
-	      buttons: [{
-	        text: 'Back',
-	        action: tour.back
-	      }, {
-	        text: 'Finish',
-	        action: tour.next
-	      }]
-	    });
-
-	    tour.start();
-	  },
-
-	  componentDidMount: function () {
-	    this.listener = TaskStore.addListener(this._onChange);
-	    ApiUtil.fetchAllTaskTypes();
-	  },
-
-	  componentWillUnmount: function () {
-	    this.listener.remove();
-	  },
-
-	  render: function () {
-	    return React.createElement(
-	      'div',
-	      { className: 'task-block row' },
-	      this.state.TaskTypes.map(function (taskType) {
-	        if (taskType.type_name !== "Items") {
-	          return React.createElement(TaskType, { key: taskType.id, taskType: taskType });
-	        }
-	      })
-	    );
-	  }
-	});
-
-	module.exports = TaskBlock;
-
-/***/ },
-/* 256 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    InventoryItem = __webpack_require__(257),
+	    InventoryItem = __webpack_require__(256),
 	    TaskStore = __webpack_require__(211);
 
 	var Inventory = React.createClass({
@@ -36885,11 +36898,11 @@
 	module.exports = Inventory;
 
 /***/ },
-/* 257 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    AvatarStore = __webpack_require__(248),
+	    AvatarStore = __webpack_require__(242),
 	    ApiUtil = __webpack_require__(234);
 
 	var InventoryItem = React.createClass({
