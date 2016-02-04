@@ -13,14 +13,13 @@ var App = React.createClass({
 
   _onChange: function () {
     this.setState({ TaskTypes: TaskStore.all() });
-    var currUrl = window.location.hash;
-    var location = currUrl.substr(2, currUrl.indexOf("?") - 2);
-    if (!location) {
-      if (this.state.TaskTypes[0]) {
+    var path = this.props.location.pathname;
+    if (this.state.TaskTypes[0]) { // NOTE: Logged In
+      if (path.indexOf("profile") === -1) {
         this.history.pushState(null, '/profile', {});
-      } else {
-        this.history.pushState(null, '/home', {});
       }
+    } else { // NOTE: Not logged in
+      this.history.pushState(null, '/home', {});
     }
   },
 

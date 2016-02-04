@@ -2,13 +2,7 @@ var React = require('react'),
     ReactDOM = require('react-dom'),
     ApiUtil = require('./../util/api_util'),
     TaskStore = require('./../stores/task'),
-    TaskType = require('./taskType'),
-    sjs = require('../util/sprite'),
-    Avatar = require('./avatar'),
-    NavBar = require('./navBar'),
-    Footer = require('./footer');
-
-// var History = require('react-router').History;
+    TaskType = require('./taskType');
 
 var Shepherd = require("tether-shepherd");
 

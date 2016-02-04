@@ -1,8 +1,7 @@
 var React = require('react'),
-    ApiUtil = require('./../util/api_util'),
-    Task = require('./task');
+    InventoryItem = require('./inventoryItem');
 
-var ItemShop = React.createClass({
+var Inventory = React.createClass({
   getInitialState: function () {
     return { items: [] }
   },
@@ -23,14 +22,14 @@ var ItemShop = React.createClass({
 
   render: function () {
     return (
-      <div className="task-type Items col-xs-4 col-xs-offset-4 container-fluid">
-        <h2 className="task-type-name row">Item Shop</h2>
+      <div className="task-type row">
+        <h2 className="task-type-name row">Inventory</h2>
         <ul className="items-task-box row">
           {
             this.state.items.map(function (item, idx) {
-              if (!item.inventory_id) {
+              if (item.inventory_id) {
                 return (
-                  <Task key={idx} task={item}/>
+                  <InventoryItem key={idx} task={item}/>
                 );
               }
             })
@@ -41,4 +40,4 @@ var ItemShop = React.createClass({
   }
 });
 
-module.exports = ItemShop;
+module.exports = Inventory;

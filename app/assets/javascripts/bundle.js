@@ -54,7 +54,8 @@
 	var App = __webpack_require__(210),
 	    Home = __webpack_require__(238),
 	    Profile = __webpack_require__(240),
-	    TaskBlock = __webpack_require__(255);
+	    TaskBlock = __webpack_require__(255),
+	    Inventory = __webpack_require__(256);
 
 	var routes = React.createElement(
 	  Route,
@@ -63,7 +64,8 @@
 	  React.createElement(
 	    Route,
 	    { path: 'profile', component: Profile },
-	    React.createElement(Route, { path: 'tasks', component: TaskBlock })
+	    React.createElement(Route, { path: 'tasks', component: TaskBlock }),
+	    React.createElement(Route, { path: 'inventory', component: Inventory })
 	  )
 	);
 
@@ -24453,14 +24455,15 @@
 
 	  _onChange: function () {
 	    this.setState({ TaskTypes: TaskStore.all() });
-	    var currUrl = window.location.hash;
-	    var location = currUrl.substr(2, currUrl.indexOf("?") - 2);
-	    if (!location) {
-	      if (this.state.TaskTypes[0]) {
+	    var path = this.props.location.pathname;
+	    if (this.state.TaskTypes[0]) {
+	      // NOTE: Logged In
+	      if (path.indexOf("profile") === -1) {
 	        this.history.pushState(null, '/profile', {});
-	      } else {
-	        this.history.pushState(null, '/home', {});
 	      }
+	    } else {
+	      // NOTE: Not logged in
+	      this.history.pushState(null, '/home', {});
 	    }
 	  },
 
@@ -31598,9 +31601,8 @@
 	  mixins: [History],
 
 	  componentDidMount: function () {
-	    var currUrl = window.location.hash;
-	    var location = currUrl.substr(2, currUrl.indexOf("?") - 2);
-	    if (location === "profile") {
+	    var path = this.props.location.pathname;
+	    if (path === "/profile") {
 	      this.history.pushState(null, '/profile/tasks');
 	    }
 	  },
@@ -34189,7 +34191,7 @@
 	        'Item Shop'
 	      ),
 	      React.createElement(
-	        'div',
+	        'ul',
 	        { className: 'items-task-box row' },
 	        this.state.items.map(function (item, idx) {
 	          if (!item.inventory_id) {
@@ -34204,27 +34206,7 @@
 	module.exports = ItemShop;
 
 /***/ },
-/* 252 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    ApiUtil = __webpack_require__(234);
-
-	var Footer = React.createClass({
-	  displayName: 'Footer',
-
-	  render: function () {
-	    return React.createElement(
-	      'nav',
-	      { className: 'footer' },
-	      'Hello'
-	    );
-	  }
-	});
-
-	module.exports = Footer;
-
-/***/ },
+/* 252 */,
 /* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -36605,13 +36587,7 @@
 	    ReactDOM = __webpack_require__(158),
 	    ApiUtil = __webpack_require__(234),
 	    TaskStore = __webpack_require__(211),
-	    TaskType = __webpack_require__(241),
-	    sjs = __webpack_require__(249),
-	    Avatar = __webpack_require__(250),
-	    NavBar = __webpack_require__(239),
-	    Footer = __webpack_require__(252);
-
-	// var History = require('react-router').History;
+	    TaskType = __webpack_require__(241);
 
 	var Shepherd = __webpack_require__(253);
 
@@ -36810,6 +36786,128 @@
 	});
 
 	module.exports = TaskBlock;
+
+/***/ },
+/* 256 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    InventoryItem = __webpack_require__(257);
+
+	var Inventory = React.createClass({
+	  displayName: 'Inventory',
+
+	  getInitialState: function () {
+	    return { items: [] };
+	  },
+
+	  getItems: function () {
+	    $.ajax({
+	      url: "api/task_types/",
+	      method: "GET",
+	      success: (function (taskTypes) {
+	        this.setState({ items: taskTypes[4].tasks });
+	      }).bind(this)
+	    });
+	  },
+
+	  componentDidMount: function () {
+	    this.getItems();
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'task-type row' },
+	      React.createElement(
+	        'h2',
+	        { className: 'task-type-name row' },
+	        'Inventory'
+	      ),
+	      React.createElement(
+	        'ul',
+	        { className: 'items-task-box row' },
+	        this.state.items.map(function (item, idx) {
+	          if (item.inventory_id) {
+	            return React.createElement(InventoryItem, { key: idx, task: item });
+	          }
+	        })
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Inventory;
+
+/***/ },
+/* 257 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    AvatarStore = __webpack_require__(248),
+	    ApiUtil = __webpack_require__(234);
+
+	var InventoryItem = React.createClass({
+	  displayName: 'InventoryItem',
+
+	  getInitialState: function () {
+	    return {
+	      Avatar: AvatarStore.get(),
+	      disable: false
+	    };
+	  },
+
+	  _onChange: function () {
+	    this.setState({ Avatar: AvatarStore.get() });
+	  },
+
+	  handleClickComplete: function () {
+	    var task = this.props.task;
+	    task.money_reward = 0;
+	    ApiUtil.updateTask(task);
+	    ApiUtil.updateAvatar(task);
+	  },
+
+	  componentDidMount: function () {
+	    this.listener = AvatarStore.addListener(this._onChange);
+	  },
+
+	  componentWillUnmount: function () {
+	    this.listener.remove();
+	  },
+
+	  render: function () {
+	    var task = this.props.task;
+	    return React.createElement(
+	      'li',
+	      { className: 'task-item col-xs-4' },
+	      React.createElement(
+	        'div',
+	        { className: 'row' },
+	        React.createElement(
+	          'button',
+	          { className: 'task-item-description-button col-xs-12', disabled: this.state.disable, onClick: this.handleClickComplete },
+	          React.createElement(
+	            'div',
+	            { className: 'task-item-description container-fluid' },
+	            React.createElement(
+	              'div',
+	              { className: 'task-item-description row' },
+	              React.createElement(
+	                'div',
+	                { className: 'task-description col-xs-6' },
+	                task.title
+	              ),
+	              React.createElement('img', { className: 'item-image', src: task.equipment.url })
+	            )
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = InventoryItem;
 
 /***/ }
 /******/ ]);

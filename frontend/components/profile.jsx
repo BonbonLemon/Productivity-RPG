@@ -8,9 +8,8 @@ var Profile = React.createClass({
   mixins: [History],
 
   componentDidMount: function () {
-    var currUrl = window.location.hash;
-    var location = currUrl.substr(2, currUrl.indexOf("?") - 2);
-    if (location === "profile") {
+    var path = this.props.location.pathname;
+    if (path === "/profile") {
       this.history.pushState(null, '/profile/tasks');
     }
   },
