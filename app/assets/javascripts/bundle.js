@@ -31489,6 +31489,14 @@
 
 	  mixins: [History],
 
+	  handleClickTasks: function () {
+	    this.history.pushState(null, '/profile/tasks');
+	  },
+
+	  handleClickInventory: function () {
+	    this.history.pushState(null, '/profile/inventory');
+	  },
+
 	  handleSignOut: function (e) {
 	    e.preventDefault();
 	    $.ajax({
@@ -31501,8 +31509,30 @@
 	  },
 
 	  render: function () {
-	    var rightButtons;
+	    var rightButtons, leftButtons;
 	    if (this.props.loggedIn) {
+	      leftButtons = React.createElement(
+	        'ul',
+	        { className: 'nav navbar-nav pull-left' },
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { onClick: this.handleClickTasks },
+	            'Tasks'
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { onClick: this.handleClickInventory },
+	            'Inventory'
+	          )
+	        )
+	      );
 	      rightButtons = React.createElement(
 	        'ul',
 	        { className: 'nav navbar-nav pull-right' },
@@ -31517,6 +31547,19 @@
 	        )
 	      );
 	    } else {
+	      leftButtons = React.createElement(
+	        'ul',
+	        { className: 'nav navbar-nav pull-left' },
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { href: '/#' },
+	            'Home'
+	          )
+	        )
+	      );
 	      rightButtons = React.createElement(
 	        'ul',
 	        { className: 'nav navbar-nav pull-right' },
@@ -31563,19 +31606,7 @@
 	        React.createElement(
 	          'div',
 	          { className: 'collapse navbar-collapse', id: 'collapse-menu' },
-	          React.createElement(
-	            'ul',
-	            { className: 'nav navbar-nav pull-left' },
-	            React.createElement(
-	              'li',
-	              null,
-	              React.createElement(
-	                'a',
-	                { href: '/#' },
-	                'Home'
-	              )
-	            )
-	          ),
+	          leftButtons,
 	          rightButtons
 	        )
 	      )

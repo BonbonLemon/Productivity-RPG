@@ -4,7 +4,15 @@ var React = require('react'),
 var History = require('react-router').History;
 
 var NavBar = React.createClass({
-    mixins: [History],
+  mixins: [History],
+
+  handleClickTasks: function () {
+    this.history.pushState(null, '/profile/tasks');
+  },
+
+  handleClickInventory: function () {
+    this.history.pushState(null, '/profile/inventory');
+  },
 
   handleSignOut: function (e) {
     e.preventDefault();
@@ -18,14 +26,25 @@ var NavBar = React.createClass({
   },
 
   render: function () {
-    var rightButtons;
+    var rightButtons, leftButtons;
     if (this.props.loggedIn) {
+      leftButtons = (
+        <ul className="nav navbar-nav pull-left">
+          <li><a onClick={this.handleClickTasks}>Tasks</a></li>
+          <li><a onClick={this.handleClickInventory}>Inventory</a></li>
+        </ul>
+      );
       rightButtons = (
         <ul className="nav navbar-nav pull-right">
           <li><a onClick={this.handleSignOut} href="/#">Sign Out</a></li>
         </ul>
       );
     } else {
+      leftButtons = (
+        <ul className="nav navbar-nav pull-left">
+          <li><a href="/#">Home</a></li>
+        </ul>
+      )
       rightButtons = (
         <ul className="nav navbar-nav pull-right">
           <li><a href="/session/new">Sign In</a></li>
@@ -49,9 +68,7 @@ var NavBar = React.createClass({
           </div>
 
           <div className="collapse navbar-collapse" id="collapse-menu">
-            <ul className="nav navbar-nav pull-left">
-              <li><a href="/#">Home</a></li>
-            </ul>
+            {leftButtons}
             {rightButtons}
           </div>
 
