@@ -24453,10 +24453,14 @@
 
 	  _onChange: function () {
 	    this.setState({ TaskTypes: TaskStore.all() });
-	    if (this.state.TaskTypes[0]) {
-	      this.history.pushState(null, '/profile/tasks', {});
-	    } else {
-	      this.history.pushState(null, '/home', {});
+	    var currUrl = window.location.hash;
+	    var location = currUrl.substr(2, currUrl.indexOf("?") - 2);
+	    if (!location) {
+	      if (this.state.TaskTypes[0]) {
+	        this.history.pushState(null, '/profile', {});
+	      } else {
+	        this.history.pushState(null, '/home', {});
+	      }
 	    }
 	  },
 
@@ -31475,8 +31479,12 @@
 	var React = __webpack_require__(1),
 	    ApiUtil = __webpack_require__(234);
 
+	var History = __webpack_require__(159).History;
+
 	var NavBar = React.createClass({
 	  displayName: 'NavBar',
+
+	  mixins: [History],
 
 	  handleSignOut: function (e) {
 	    e.preventDefault();
@@ -31590,8 +31598,8 @@
 	  mixins: [History],
 
 	  componentDidMount: function () {
-	    var currURL = window.location.hash;
-	    var location = currURL.substr(2, currURL.indexOf("?") - 2);
+	    var currUrl = window.location.hash;
+	    var location = currUrl.substr(2, currUrl.indexOf("?") - 2);
 	    if (location === "profile") {
 	      this.history.pushState(null, '/profile/tasks');
 	    }

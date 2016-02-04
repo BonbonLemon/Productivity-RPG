@@ -13,10 +13,14 @@ var App = React.createClass({
 
   _onChange: function () {
     this.setState({ TaskTypes: TaskStore.all() });
-    if (this.state.TaskTypes[0]) {
-      this.history.pushState(null, '/profile/tasks', {});
-    } else {
-      this.history.pushState(null, '/home', {});
+    var currUrl = window.location.hash;
+    var location = currUrl.substr(2, currUrl.indexOf("?") - 2);
+    if (!location) {
+      if (this.state.TaskTypes[0]) {
+        this.history.pushState(null, '/profile', {});
+      } else {
+        this.history.pushState(null, '/home', {});
+      }
     }
   },
 
