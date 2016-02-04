@@ -14,6 +14,10 @@ var NavBar = React.createClass({
     this.history.pushState(null, '/profile/inventory');
   },
 
+  handleClickHome: function () {
+    this.history.pushState(null, '/home');
+  },
+
   handleSignOut: function (e) {
     e.preventDefault();
     $.ajax({
@@ -42,7 +46,7 @@ var NavBar = React.createClass({
     } else {
       leftButtons = (
         <ul className="nav navbar-nav pull-left">
-          <li><a href="/#">Home</a></li>
+          <li><a onClick={this.handleClickHome}>Home</a></li>
         </ul>
       )
       rightButtons = (

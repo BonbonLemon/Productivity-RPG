@@ -31497,6 +31497,10 @@
 	    this.history.pushState(null, '/profile/inventory');
 	  },
 
+	  handleClickHome: function () {
+	    this.history.pushState(null, '/home');
+	  },
+
 	  handleSignOut: function (e) {
 	    e.preventDefault();
 	    $.ajax({
@@ -31555,7 +31559,7 @@
 	          null,
 	          React.createElement(
 	            'a',
-	            { href: '/#' },
+	            { onClick: this.handleClickHome },
 	            'Home'
 	          )
 	        )
