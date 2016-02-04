@@ -73,6 +73,7 @@ a {
 .home-text {
   font-size: 30px;
   text-align: center;
+  margin-top: 30px;
 }
 
 .home-description {
@@ -143,6 +144,37 @@ a {
   // text-align: center;
   // text-indent: 10px;
   // outline: thin solid black;
+}
+
+.task-filter {
+  // border-radius: .382em;
+  border-color: #c3d1d6;
+  text-align: center;
+}
+
+.active {
+  border-radius: .382em 0 0 .382em;
+  border: 1px solid #d6d6d6;
+  cursor: pointer;
+}
+
+.done {
+  border-radius: 0 .382em .382em 0;
+  border: 1px solid #d6d6d6;
+  cursor: pointer;
+}
+
+.active:hover {
+  background-color: #e7edee!important;
+  background: red;
+}
+
+.done:hover {
+  background-color: #e7edee!important;
+}
+
+.selected {
+  background-color: #e7edee!important;
 }
 
 .task-box {
