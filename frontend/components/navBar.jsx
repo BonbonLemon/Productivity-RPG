@@ -1,9 +1,7 @@
 var React = require('react'),
-    ApiUtil = require('./../util/api_util'),
-    History = require('react-router').History;
+    ApiUtil = require('./../util/api_util');
 
 var NavBar = React.createClass({
-  mixins: [History],
 
   handleSignOut: function (e) {
     e.preventDefault();

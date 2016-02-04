@@ -7,12 +7,15 @@ var Router = require('react-router').Router,
 
 var App = require('./components/app'),
     Home = require('./components/home'),
-    Profile = require('./components/profile');
+    Profile = require('./components/profile'),
+    TaskBlock = require('./components/taskBlock');
 
 var routes = (
   <Route path="/" component={App}>
     <Route path="home" component={Home}></Route>
-    <Route path="tasks" component={Profile}></Route>
+    <Route path="profile" component={Profile}>
+      <Route path="tasks" component={TaskBlock}></Route>
+    </Route>
   </Route>
 );
 

@@ -14,7 +14,7 @@ var App = React.createClass({
   _onChange: function () {
     this.setState({ TaskTypes: TaskStore.all() });
     if (this.state.TaskTypes[0]) {
-      this.history.pushState(null, '/tasks', {});
+      this.history.pushState(null, '/profile/tasks', {});
     } else {
       this.history.pushState(null, '/home', {});
     }
