@@ -14,7 +14,7 @@ var InventoryItem = React.createClass({
     this.setState({ Avatar: AvatarStore.get() });
   },
 
-  handleClickComplete: function () {
+  handleClickEquip: function () {
     var task = this.props.task;
     task.money_reward = 0;
     ApiUtil.updateTask(task);
@@ -34,7 +34,7 @@ var InventoryItem = React.createClass({
     return (
       <li className="task-item col-xs-4">
         <div className="row">
-          <button className="task-item-description-button col-xs-12" disabled={this.state.disable} onClick={this.handleClickComplete}>
+          <button className="task-item-description-button col-xs-12" disabled={this.state.disable} onClick={this.handleClickEquip}>
             <div className="task-item-description container-fluid">
               <div className="task-item-description row">
                 <div className="task-description col-xs-6">{task.title}</div>

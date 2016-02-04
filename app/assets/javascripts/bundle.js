@@ -36792,13 +36792,18 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    InventoryItem = __webpack_require__(257);
+	    InventoryItem = __webpack_require__(257),
+	    TaskStore = __webpack_require__(211);
 
 	var Inventory = React.createClass({
 	  displayName: 'Inventory',
 
 	  getInitialState: function () {
 	    return { items: [] };
+	  },
+
+	  _onChange: function () {
+	    this.getItems();
 	  },
 
 	  getItems: function () {
@@ -36813,6 +36818,11 @@
 
 	  componentDidMount: function () {
 	    this.getItems();
+	    this.listener = TaskStore.addListener(this._onChange);
+	  },
+
+	  componentWillUnmount: function () {
+	    this.listener.remove();
 	  },
 
 	  render: function () {
@@ -36861,7 +36871,7 @@
 	    this.setState({ Avatar: AvatarStore.get() });
 	  },
 
-	  handleClickComplete: function () {
+	  handleClickEquip: function () {
 	    var task = this.props.task;
 	    task.money_reward = 0;
 	    ApiUtil.updateTask(task);
@@ -36886,7 +36896,7 @@
 	        { className: 'row' },
 	        React.createElement(
 	          'button',
-	          { className: 'task-item-description-button col-xs-12', disabled: this.state.disable, onClick: this.handleClickComplete },
+	          { className: 'task-item-description-button col-xs-12', disabled: this.state.disable, onClick: this.handleClickEquip },
 	          React.createElement(
 	            'div',
 	            { className: 'task-item-description container-fluid' },

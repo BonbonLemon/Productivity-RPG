@@ -1,9 +1,14 @@
 var React = require('react'),
-    InventoryItem = require('./inventoryItem');
+    InventoryItem = require('./inventoryItem'),
+    TaskStore = require('./../stores/task');
 
 var Inventory = React.createClass({
   getInitialState: function () {
     return { items: [] }
+  },
+
+  _onChange: function () {
+    this.getItems();
   },
 
   getItems: function () {
@@ -18,6 +23,11 @@ var Inventory = React.createClass({
 
   componentDidMount: function () {
     this.getItems();
+    this.listener = TaskStore.addListener(this._onChange);
+  },
+
+  componentWillUnmount: function () {
+    this.listener.remove();
   },
 
   render: function () {
