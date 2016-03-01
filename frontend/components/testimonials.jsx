@@ -22,7 +22,7 @@ var Testimonials = React.createClass({
           </ul>
         </div>
       </div>
-    )
+    );
   }
 });
 
