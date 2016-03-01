@@ -31414,7 +31414,8 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    NavBar = __webpack_require__(239);
+	    NavBar = __webpack_require__(239),
+	    Testimonials = __webpack_require__(257);
 
 	var Home = React.createClass({
 	  displayName: 'Home',
@@ -31482,7 +31483,8 @@
 	          { className: 'col-xs-8 col-xs-offset-2' },
 	          'Productivity RPG is a habit building and productivity app that treats your life like a game. It uses in-game rewards to motivate you to achieve your goals to become healthy, hard-working, and happy.'
 	        )
-	      )
+	      ),
+	      React.createElement(Testimonials, null)
 	    );
 	  }
 	});
@@ -37021,6 +37023,76 @@
 	});
 
 	module.exports = InventoryItem;
+
+/***/ },
+/* 257 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+
+	var Testimonials = React.createClass({
+	  displayName: "Testimonials",
+
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "home-testimonials row" },
+	      React.createElement("img", { className: "col-xs-4 col-xs-offset-1", src: "/assets/what_people_say.png" }),
+	      React.createElement(
+	        "div",
+	        { className: "col-xs-7" },
+	        React.createElement(
+	          "ul",
+	          null,
+	          React.createElement(
+	            "li",
+	            { className: "testimonial-li" },
+	            React.createElement(
+	              "p",
+	              { className: "quote" },
+	              "\"Thanks to Productivity-RPG, I'm now a daily flosser!\""
+	            ),
+	            React.createElement(
+	              "p",
+	              { className: "user" },
+	              "-DragonSlayer7"
+	            )
+	          ),
+	          React.createElement(
+	            "li",
+	            { className: "testimonial-li" },
+	            React.createElement(
+	              "p",
+	              { className: "quote" },
+	              "\"This website is awesome! Someone should give the creator a job!\""
+	            ),
+	            React.createElement(
+	              "p",
+	              { className: "user" },
+	              "-CoolGuy123"
+	            )
+	          ),
+	          React.createElement(
+	            "li",
+	            { className: "testimonial-li" },
+	            React.createElement(
+	              "p",
+	              { className: "quote" },
+	              "\"My productivity has definitely gone up since I started using this website!\""
+	            ),
+	            React.createElement(
+	              "p",
+	              { className: "user" },
+	              "-HiIAmSam"
+	            )
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Testimonials;
 
 /***/ }
 /******/ ]);
