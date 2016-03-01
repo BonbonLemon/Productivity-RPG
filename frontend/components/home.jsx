@@ -37,6 +37,7 @@ var Home = React.createClass({
             Productivity RPG is a habit building and productivity app that treats your life like a game. It uses in-game rewards to motivate you to achieve your goals to become healthy, hard-working, and happy.
           </p>
         </div>
+        <Testimonials/>
       </div>
     );
   }
