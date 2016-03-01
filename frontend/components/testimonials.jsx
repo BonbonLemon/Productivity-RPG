@@ -4,6 +4,7 @@ var Testimonials = React.createClass({
   render: function () {
     return (
       <div className="home-testimonials row">
+        <img className="col-xs-4 col-xs-offset-1" src="/assets/what_people_say.png" />
         <div className="col-xs-7">
           <ul>
             <li className="testimonial-li">

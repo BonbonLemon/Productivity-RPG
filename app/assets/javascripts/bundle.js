@@ -31484,7 +31484,61 @@
 	          'Productivity RPG is a habit building and productivity app that treats your life like a game. It uses in-game rewards to motivate you to achieve your goals to become healthy, hard-working, and happy.'
 	        )
 	      ),
-	      React.createElement(Testimonials, null)
+	      React.createElement(
+	        'div',
+	        { className: 'home-testimonials row' },
+	        React.createElement('img', { className: 'col-xs-4 col-xs-offset-1', src: '/assets/what_people_say.png' }),
+	        React.createElement(
+	          'div',
+	          { className: 'col-xs-7' },
+	          React.createElement(
+	            'ul',
+	            null,
+	            React.createElement(
+	              'li',
+	              { className: 'testimonial-li' },
+	              React.createElement(
+	                'p',
+	                { className: 'quote' },
+	                '"Thanks to Productivity-RPG, I\'m now a daily flosser!"'
+	              ),
+	              React.createElement(
+	                'p',
+	                { className: 'user' },
+	                '-DragonSlayer7'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              { className: 'testimonial-li' },
+	              React.createElement(
+	                'p',
+	                { className: 'quote' },
+	                '"This website is awesome! Someone should give the creator a job!"'
+	              ),
+	              React.createElement(
+	                'p',
+	                { className: 'user' },
+	                '-CoolGuy123'
+	              )
+	            ),
+	            React.createElement(
+	              'li',
+	              { className: 'testimonial-li' },
+	              React.createElement(
+	                'p',
+	                { className: 'quote' },
+	                '"My productivity has definitely gone up since I started using this website!"'
+	              ),
+	              React.createElement(
+	                'p',
+	                { className: 'user' },
+	                '-HiIAmSam'
+	              )
+	            )
+	          )
+	        )
+	      )
 	    );
 	  }
 	});
@@ -37037,6 +37091,7 @@
 	    return React.createElement(
 	      "div",
 	      { className: "home-testimonials row" },
+	      React.createElement("img", { className: "col-xs-4 col-xs-offset-1", src: "/assets/what_people_say.png" }),
 	      React.createElement(
 	        "div",
 	        { className: "col-xs-7" },
