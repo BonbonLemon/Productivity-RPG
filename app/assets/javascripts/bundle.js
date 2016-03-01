@@ -37037,7 +37037,6 @@
 	    return React.createElement(
 	      "div",
 	      { className: "home-testimonials row" },
-	      React.createElement("img", { className: "col-xs-4 col-xs-offset-1", src: "/assets/what_people_say.png" }),
 	      React.createElement(
 	        "div",
 	        { className: "col-xs-7" },
