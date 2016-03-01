@@ -31463,7 +31463,7 @@
 	          { className: 'home-text' },
 	          'Motivate yourself to be productive.'
 	        ),
-	        React.createElement('img', { className: 'col-xs-8 col-xs-offset-2 logo', src: '/assets/logo.png' })
+	        React.createElement('img', { className: 'col-xs-8 col-xs-offset-2 logo', src: '/assets/logo2.png' })
 	      ),
 	      React.createElement(
 	        'div',

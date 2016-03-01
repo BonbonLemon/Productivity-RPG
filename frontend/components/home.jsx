@@ -26,7 +26,7 @@ var Home = React.createClass({
         </div>
         <div className="row">
           <h1 className="home-text">Motivate yourself to be productive.</h1>
-          <img className="col-xs-8 col-xs-offset-2 logo" src="/assets/logo.png" />
+          <img className="col-xs-8 col-xs-offset-2 logo" src="/assets/logo2.png" />
         </div>
         <div className="row">
           <button className="col-xs-2 col-xs-offset-5 col-centered" data-toggle="modal" data-target="#myModal" onClick={this.onClick}>Sign in as guest</button>
