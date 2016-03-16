@@ -53,14 +53,16 @@
 
 	var App = __webpack_require__(210),
 	    Home = __webpack_require__(238),
-	    Profile = __webpack_require__(240),
-	    TaskBlock = __webpack_require__(246),
-	    Inventory = __webpack_require__(255);
+	    Login = __webpack_require__(258),
+	    Profile = __webpack_require__(241),
+	    TaskBlock = __webpack_require__(247),
+	    Inventory = __webpack_require__(256);
 
 	var routes = React.createElement(
 	  Route,
 	  { path: '/', component: App },
 	  React.createElement(Route, { path: 'home', component: Home }),
+	  React.createElement(Route, { path: 'login', component: Login }),
 	  React.createElement(
 	    Route,
 	    { path: 'profile', component: Profile },
@@ -24440,7 +24442,8 @@
 
 	var React = __webpack_require__(1),
 	    TaskStore = __webpack_require__(211),
-	    ApiUtil = __webpack_require__(234);
+	    ApiUtil = __webpack_require__(234),
+	    NavBar = __webpack_require__(239);
 
 	var History = __webpack_require__(159).History;
 
@@ -24450,7 +24453,10 @@
 	  mixins: [History],
 
 	  getInitialState: function () {
-	    return { TaskTypes: TaskStore.all() };
+	    return {
+	      TaskTypes: TaskStore.all(),
+	      loggedIn: false
+	    };
 	  },
 
 	  _onChange: function () {
@@ -24458,12 +24464,16 @@
 	    var path = this.props.location.pathname;
 	    if (this.state.TaskTypes[0]) {
 	      // NOTE: Logged In
+	      this.setState({ loggedIn: true });
 	      if (path.indexOf("profile") === -1) {
 	        this.history.pushState(null, '/profile', {});
 	      }
 	    } else {
 	      // NOTE: Not logged in
-	      this.history.pushState(null, '/home', {});
+	      this.setState({ loggedIn: false });
+	      if (path === "/") {
+	        this.history.pushState(null, '/home', {});
+	      }
 	    }
 	  },
 
@@ -24480,6 +24490,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
+	      React.createElement(NavBar, { loggedIn: this.state.loggedIn }),
 	      this.props.children
 	    );
 	  }
@@ -31414,8 +31425,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    NavBar = __webpack_require__(239),
-	    Testimonials = __webpack_require__(257);
+	    Testimonials = __webpack_require__(240);
 
 	var Home = React.createClass({
 	  displayName: 'Home',
@@ -31435,7 +31445,6 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(NavBar, { loggedIn: false }),
 	      React.createElement(
 	        'div',
 	        { className: 'modal fade', id: 'myModal', role: 'dialog' },
@@ -31694,9 +31703,79 @@
 /* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
+	var React = __webpack_require__(1);
+
+	var Testimonials = React.createClass({
+	  displayName: "Testimonials",
+
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      { className: "home-testimonials row" },
+	      React.createElement("img", { className: "col-xs-4 col-xs-offset-1", src: "/assets/what_people_say.png" }),
+	      React.createElement(
+	        "div",
+	        { className: "col-xs-7" },
+	        React.createElement(
+	          "ul",
+	          null,
+	          React.createElement(
+	            "li",
+	            { className: "testimonial-li" },
+	            React.createElement(
+	              "p",
+	              { className: "quote" },
+	              "\"Thanks to Productivity-RPG, I'm now a daily flosser!\""
+	            ),
+	            React.createElement(
+	              "p",
+	              { className: "user" },
+	              "-DragonSlayer7"
+	            )
+	          ),
+	          React.createElement(
+	            "li",
+	            { className: "testimonial-li" },
+	            React.createElement(
+	              "p",
+	              { className: "quote" },
+	              "\"This website is awesome! Someone should give the creator a job!\""
+	            ),
+	            React.createElement(
+	              "p",
+	              { className: "user" },
+	              "-CoolGuy123"
+	            )
+	          ),
+	          React.createElement(
+	            "li",
+	            { className: "testimonial-li" },
+	            React.createElement(
+	              "p",
+	              { className: "quote" },
+	              "\"My productivity has definitely gone up since I started using this website!\""
+	            ),
+	            React.createElement(
+	              "p",
+	              { className: "user" },
+	              "-HiIAmSam"
+	            )
+	          )
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Testimonials;
+
+/***/ },
+/* 241 */
+/***/ function(module, exports, __webpack_require__) {
+
 	var React = __webpack_require__(1),
 	    NavBar = __webpack_require__(239),
-	    Avatar = __webpack_require__(241);
+	    Avatar = __webpack_require__(242);
 
 	var History = __webpack_require__(159).History;
 
@@ -31713,10 +31792,10 @@
 	  },
 
 	  render: function () {
+	    // <NavBar loggedIn={true}/>
 	    return React.createElement(
 	      'div',
 	      { className: 'profile container-fluid' },
-	      React.createElement(NavBar, { loggedIn: true }),
 	      React.createElement(Avatar, null),
 	      this.props.children
 	    );
@@ -31726,14 +31805,14 @@
 	module.exports = Profile;
 
 /***/ },
-/* 241 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
-	    AvatarStore = __webpack_require__(242),
-	    ItemShop = __webpack_require__(243),
-	    sjs = __webpack_require__(245),
+	    AvatarStore = __webpack_require__(243),
+	    ItemShop = __webpack_require__(244),
+	    sjs = __webpack_require__(246),
 	    ApiUtil = __webpack_require__(234);
 
 	var Avatar = React.createClass({
@@ -31921,7 +32000,7 @@
 	module.exports = Avatar;
 
 /***/ },
-/* 242 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(212),
@@ -31953,12 +32032,12 @@
 	module.exports = AvatarStore;
 
 /***/ },
-/* 243 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    ApiUtil = __webpack_require__(234),
-	    Task = __webpack_require__(244);
+	    Task = __webpack_require__(245);
 
 	var ItemShop = React.createClass({
 	  displayName: 'ItemShop',
@@ -32006,11 +32085,11 @@
 	module.exports = ItemShop;
 
 /***/ },
-/* 244 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    AvatarStore = __webpack_require__(242),
+	    AvatarStore = __webpack_require__(243),
 	    ApiUtil = __webpack_require__(234);
 
 	var Task = React.createClass({
@@ -32187,7 +32266,7 @@
 	module.exports = Task;
 
 /***/ },
-/* 245 */
+/* 246 */
 /***/ function(module, exports) {
 
 	/*
@@ -33927,16 +34006,16 @@
 	module.exports = this.sjs;
 
 /***/ },
-/* 246 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
 	    ApiUtil = __webpack_require__(234),
 	    TaskStore = __webpack_require__(211),
-	    TaskType = __webpack_require__(247);
+	    TaskType = __webpack_require__(248);
 
-	var Shepherd = __webpack_require__(253);
+	var Shepherd = __webpack_require__(254);
 
 	var TaskBlock = React.createClass({
 	  displayName: 'TaskBlock',
@@ -34135,12 +34214,12 @@
 	module.exports = TaskBlock;
 
 /***/ },
-/* 247 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    TaskForm = __webpack_require__(248),
-	    Task = __webpack_require__(244);
+	    TaskForm = __webpack_require__(249),
+	    Task = __webpack_require__(245);
 
 	var TaskType = React.createClass({
 	  displayName: 'TaskType',
@@ -34230,13 +34309,13 @@
 	module.exports = TaskType;
 
 /***/ },
-/* 248 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    ApiUtil = __webpack_require__(234),
 	    History = __webpack_require__(159).History,
-	    LinkedStateMixin = __webpack_require__(249);
+	    LinkedStateMixin = __webpack_require__(250);
 
 	var TaskForm = React.createClass({
 	  displayName: 'TaskForm',
@@ -34344,13 +34423,13 @@
 	module.exports = TaskForm;
 
 /***/ },
-/* 249 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(250);
+	module.exports = __webpack_require__(251);
 
 /***/ },
-/* 250 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -34367,8 +34446,8 @@
 
 	'use strict';
 
-	var ReactLink = __webpack_require__(251);
-	var ReactStateSetters = __webpack_require__(252);
+	var ReactLink = __webpack_require__(252);
+	var ReactStateSetters = __webpack_require__(253);
 
 	/**
 	 * A simple mixin around ReactLink.forState().
@@ -34391,7 +34470,7 @@
 	module.exports = LinkedStateMixin;
 
 /***/ },
-/* 251 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -34465,7 +34544,7 @@
 	module.exports = ReactLink;
 
 /***/ },
-/* 252 */
+/* 253 */
 /***/ function(module, exports) {
 
 	/**
@@ -34574,14 +34653,14 @@
 	module.exports = ReactStateSetters;
 
 /***/ },
-/* 253 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether-shepherd 1.2.0 */
 
 	(function(root, factory) {
 	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(254)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(255)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	  } else if (typeof exports === 'object') {
 	    module.exports = factory(require('tether'));
 	  } else {
@@ -35226,7 +35305,7 @@
 
 
 /***/ },
-/* 254 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.1.0 */
@@ -36947,11 +37026,11 @@
 
 
 /***/ },
-/* 255 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    InventoryItem = __webpack_require__(256),
+	    InventoryItem = __webpack_require__(257),
 	    TaskStore = __webpack_require__(211);
 
 	var Inventory = React.createClass({
@@ -37009,11 +37088,11 @@
 	module.exports = Inventory;
 
 /***/ },
-/* 256 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    AvatarStore = __webpack_require__(242),
+	    AvatarStore = __webpack_require__(243),
 	    ApiUtil = __webpack_require__(234);
 
 	var InventoryItem = React.createClass({
@@ -37079,74 +37158,42 @@
 	module.exports = InventoryItem;
 
 /***/ },
-/* 257 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1);
 
-	var Testimonials = React.createClass({
-	  displayName: "Testimonials",
+	var Login = React.createClass({
+	  displayName: "Login",
 
 	  render: function () {
 	    return React.createElement(
 	      "div",
-	      { className: "home-testimonials row" },
-	      React.createElement("img", { className: "col-xs-4 col-xs-offset-1", src: "/assets/what_people_say.png" }),
+	      { className: "row" },
 	      React.createElement(
 	        "div",
-	        { className: "col-xs-7" },
+	        { className: "col-xs-4 col-xs-offset-1" },
 	        React.createElement(
-	          "ul",
+	          "h1",
 	          null,
+	          "Sign In"
+	        ),
+	        React.createElement(
+	          "form",
+	          { className: "", action: "<%= session_url %>", method: "post" },
 	          React.createElement(
-	            "li",
-	            { className: "testimonial-li" },
-	            React.createElement(
-	              "p",
-	              { className: "quote" },
-	              "\"Thanks to Productivity-RPG, I'm now a daily flosser!\""
-	            ),
-	            React.createElement(
-	              "p",
-	              { className: "user" },
-	              "-DragonSlayer7"
-	            )
-	          ),
-	          React.createElement(
-	            "li",
-	            { className: "testimonial-li" },
-	            React.createElement(
-	              "p",
-	              { className: "quote" },
-	              "\"This website is awesome! Someone should give the creator a job!\""
-	            ),
-	            React.createElement(
-	              "p",
-	              { className: "user" },
-	              "-CoolGuy123"
-	            )
-	          ),
-	          React.createElement(
-	            "li",
-	            { className: "testimonial-li" },
-	            React.createElement(
-	              "p",
-	              { className: "quote" },
-	              "\"My productivity has definitely gone up since I started using this website!\""
-	            ),
-	            React.createElement(
-	              "p",
-	              { className: "user" },
-	              "-HiIAmSam"
-	            )
+	            "button",
+	            { type: "button", className: "btn btn-primary" },
+	            "Sign In"
 	          )
-	        )
+	        ),
+	        "or"
 	      )
 	    );
 	  }
 	});
 
-	module.exports = Testimonials;
+	module.exports = Login;
 
 /***/ }
 /******/ ]);

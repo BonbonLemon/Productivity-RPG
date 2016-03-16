@@ -15,9 +15,9 @@ var Profile = React.createClass({
   },
 
   render: function () {
+        // <NavBar loggedIn={true}/>
     return (
       <div className="profile container-fluid">
-        <NavBar loggedIn={true}/>
         <Avatar/>
         {this.props.children}
       </div>

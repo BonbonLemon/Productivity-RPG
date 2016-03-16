@@ -1,5 +1,4 @@
 var React = require('react'),
-    NavBar = require('./navBar'),
     Testimonials = require('./testimonials');
 
 var Home = React.createClass({
@@ -17,7 +16,6 @@ var Home = React.createClass({
   render: function () {
     return (
       <div>
-        <NavBar loggedIn={false}/>
         <div className="modal fade" id="myModal" role="dialog">
           <div className="modal-dialog modal-sm">
             <div className="heartbeat-loader">Loading…</div>
