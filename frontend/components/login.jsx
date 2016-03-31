@@ -28,6 +28,9 @@ var Login = React.createClass({
       success: function () {
         window.location = '/';
       },
+      error: function () {
+        debugger;
+      }
     })
   },
 
@@ -38,9 +41,6 @@ var Login = React.createClass({
       data: {user: {username: "Guest", password: "n3k8c0sap19"}},
       success: function () {
         window.location = '/';
-      },
-      error: function () {
-        debugger;
       }
     })
   },

@@ -35,6 +35,10 @@ var NavBar = React.createClass({
     });
   },
 
+  handleSignIn: function () {
+    this.history.pushState(null, '/login');
+  },
+
   render: function () {
     // this.setState({ loggedIn: this.props.loggedIn });
     var rightButtons, leftButtons;
@@ -47,7 +51,7 @@ var NavBar = React.createClass({
       );
       rightButtons = (
         <ul className="nav navbar-nav pull-right">
-          <li><a onClick={this.handleSignOut} href="/#">Sign Out</a></li>
+          <li><a onClick={this.handleSignOut}>Sign Out</a></li>
         </ul>
       );
     } else {
@@ -58,7 +62,7 @@ var NavBar = React.createClass({
       )
       rightButtons = (
         <ul className="nav navbar-nav pull-right">
-          <li><a href="/session/new">Sign In</a></li>
+          <li><a onClick={this.handleSignIn}>Sign In</a></li>
           <li><a href="/users/new">Sign Up</a></li>
         </ul>
       );

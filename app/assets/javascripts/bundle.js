@@ -31459,6 +31459,10 @@
 	    });
 	  },
 
+	  handleSignIn: function () {
+	    this.history.pushState(null, '/login');
+	  },
+
 	  render: function () {
 	    // this.setState({ loggedIn: this.props.loggedIn });
 	    var rightButtons, leftButtons;
@@ -31493,7 +31497,7 @@
 	          null,
 	          React.createElement(
 	            'a',
-	            { onClick: this.handleSignOut, href: '/#' },
+	            { onClick: this.handleSignOut },
 	            'Sign Out'
 	          )
 	        )
@@ -31520,7 +31524,7 @@
 	          null,
 	          React.createElement(
 	            'a',
-	            { href: '/session/new' },
+	            { onClick: this.handleSignIn },
 	            'Sign In'
 	          )
 	        ),
@@ -31809,6 +31813,9 @@
 	      data: { user: { username: this.state.username, password: "this.state.password" } },
 	      success: function () {
 	        window.location = '/';
+	      },
+	      error: function () {
+	        debugger;
 	      }
 	    });
 	  },
@@ -31820,9 +31827,6 @@
 	      data: { user: { username: "Guest", password: "n3k8c0sap19" } },
 	      success: function () {
 	        window.location = '/';
-	      },
-	      error: function () {
-	        debugger;
 	      }
 	    });
 	  },
