@@ -2,6 +2,35 @@ var React = require('react'),
     NavBar = require('./navBar');
 
 var Login = React.createClass({
+  getInitialState: function () {
+    return {
+      username: "",
+      password: ""
+    }
+  },
+
+  handleUsernameChange: function (e) {
+    e.preventDefault();
+    this.setState({ username: e.target.value});
+  },
+
+  handlePasswordChange: function (e) {
+    e.preventDefault();
+    this.setState({ password: e.target.value});
+  },
+
+  handleSubmit: function (e) {
+    e.preventDefault();
+    $.ajax({
+      url: "/session/",
+      method: "POST",
+      data: {user: {username: this.state.username, password: "this.state.password"}},
+      success: function () {
+        window.location = '/';
+      },
+    })
+  },
+
   guestLogin: function () {
     $.ajax({
       url: "/users/",
@@ -9,6 +38,9 @@ var Login = React.createClass({
       data: {user: {username: "Guest", password: "n3k8c0sap19"}},
       success: function () {
         window.location = '/';
+      },
+      error: function () {
+        debugger;
       }
     })
   },
@@ -29,18 +61,18 @@ var Login = React.createClass({
         <div className="col-xs-4 col-xs-offset-1">
           <h1>Sign In</h1>
 
-          <form className="" action="<%= session_url %>" method="post">
+          <form className="" onSubmit={this.handleSubmit}>
             <div className="form-group">
               <label>Username</label>
-              <input type="text" className="form-control" />
+              <input type="text" className="form-control" onChange={this.handleUsernameChange}/>
             </div>
 
             <div className="form-group">
               <label>Password</label>
-              <input type="text" className="form-control" />
+              <input type="password" className="form-control" onChange={this.handlePasswordChange}/>
             </div>
 
-            <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#myModal">Sign In</button>
+            <button type="submit" className="btn btn-primary" data-toggle="modal" data-target="#myModal">Sign In</button>
           </form>
           or
           <br/>

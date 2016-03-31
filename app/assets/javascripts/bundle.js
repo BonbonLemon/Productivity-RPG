@@ -31784,6 +31784,35 @@
 	var Login = React.createClass({
 	  displayName: 'Login',
 
+	  getInitialState: function () {
+	    return {
+	      username: "",
+	      password: ""
+	    };
+	  },
+
+	  handleUsernameChange: function (e) {
+	    e.preventDefault();
+	    this.setState({ username: e.target.value });
+	  },
+
+	  handlePasswordChange: function (e) {
+	    e.preventDefault();
+	    this.setState({ password: e.target.value });
+	  },
+
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    $.ajax({
+	      url: "/session/",
+	      method: "POST",
+	      data: { user: { username: this.state.username, password: "this.state.password" } },
+	      success: function () {
+	        window.location = '/';
+	      }
+	    });
+	  },
+
 	  guestLogin: function () {
 	    $.ajax({
 	      url: "/users/",
@@ -31791,6 +31820,9 @@
 	      data: { user: { username: "Guest", password: "n3k8c0sap19" } },
 	      success: function () {
 	        window.location = '/';
+	      },
+	      error: function () {
+	        debugger;
 	      }
 	    });
 	  },
@@ -31830,7 +31862,7 @@
 	        ),
 	        React.createElement(
 	          'form',
-	          { className: '', action: '<%= session_url %>', method: 'post' },
+	          { className: '', onSubmit: this.handleSubmit },
 	          React.createElement(
 	            'div',
 	            { className: 'form-group' },
@@ -31839,7 +31871,7 @@
 	              null,
 	              'Username'
 	            ),
-	            React.createElement('input', { type: 'text', className: 'form-control' })
+	            React.createElement('input', { type: 'text', className: 'form-control', onChange: this.handleUsernameChange })
 	          ),
 	          React.createElement(
 	            'div',
@@ -31849,11 +31881,11 @@
 	              null,
 	              'Password'
 	            ),
-	            React.createElement('input', { type: 'text', className: 'form-control' })
+	            React.createElement('input', { type: 'password', className: 'form-control', onChange: this.handlePasswordChange })
 	          ),
 	          React.createElement(
 	            'button',
-	            { type: 'button', className: 'btn btn-primary', 'data-toggle': 'modal', 'data-target': '#myModal' },
+	            { type: 'submit', className: 'btn btn-primary', 'data-toggle': 'modal', 'data-target': '#myModal' },
 	            'Sign In'
 	          )
 	        ),
