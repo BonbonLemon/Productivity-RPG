@@ -18,13 +18,6 @@ var Profile = React.createClass({
     return (
       <div className="profile container-fluid">
         <NavBar loggedIn={true}/>
-        <div className="modal fade" id="myModal" role="dialog">
-          <div className="modal-dialog modal-sm">
-            <div className="heartbeat-loader">Loading…</div>
-            <br/><br/>
-            <span>Your profile is being setup...</span>
-          </div>
-        </div>
         <Avatar/>
         {this.props.children}
       </div>

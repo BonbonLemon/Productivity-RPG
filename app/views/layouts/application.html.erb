@@ -11,7 +11,7 @@
 </head>
 <body>
 
-  <ul>
+  <!-- <ul>
     <% if flash[:errors] %>
       <% flash[:errors].each do |error| %>
         <li>
@@ -19,12 +19,12 @@
         </li>
       <% end %>
     <% end %>
-  </ul>
+  </ul> -->
 
   <div class="container-fluid">
-    <% if signed_in? %>
+    <!-- <% if signed_in? %>
       <span class="welcome">Greetings, <%= current_user.username %>!</span>
-    <% end %>
+    <% end %> -->
     <%= yield %>
   </div>
 

@@ -15,7 +15,8 @@ class SessionsController < ApplicationController
     else
       @user = User.new(username: params[:user][:username])
       flash.now[:errors] = ["Incorrect credentials"]
-      render :new
+      raise "error"
+      # render :new
     end
   end
 

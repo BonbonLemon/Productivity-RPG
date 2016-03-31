@@ -1,11 +1,16 @@
 var React = require('react'),
     NavBar = require('./navBar');
 
+var History = require('react-router').History;
+
 var Login = React.createClass({
+  mixins: [History],
+
   getInitialState: function () {
     return {
       username: "",
-      password: ""
+      password: "",
+      flash: ""
     }
   },
 
@@ -24,13 +29,13 @@ var Login = React.createClass({
     $.ajax({
       url: "/session/",
       method: "POST",
-      data: {user: {username: this.state.username, password: "this.state.password"}},
+      data: {user: {username: this.state.username, password: this.state.password}},
       success: function () {
-        window.location = '/';
-      },
+        this.history.pushState(null, '/profile/tasks')
+      }.bind(this),
       error: function () {
-        debugger;
-      }
+        this.setState({ flash: "Incorrect credentials" });
+      }.bind(this)
     })
   },
 
@@ -57,7 +62,7 @@ var Login = React.createClass({
             <span>Your profile is being setup...</span>
           </div>
         </div>
-
+        
         <div className="col-xs-4 col-xs-offset-1">
           <h1>Sign In</h1>
 
@@ -73,6 +78,7 @@ var Login = React.createClass({
             </div>
 
             <button type="submit" className="btn btn-primary" data-toggle="modal" data-target="#myModal">Sign In</button>
+            <span className="flash-error"><br/>{this.state.flash}</span>
           </form>
           or
           <br/>

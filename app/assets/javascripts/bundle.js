@@ -31785,13 +31785,18 @@
 	var React = __webpack_require__(1),
 	    NavBar = __webpack_require__(238);
 
+	var History = __webpack_require__(159).History;
+
 	var Login = React.createClass({
 	  displayName: 'Login',
+
+	  mixins: [History],
 
 	  getInitialState: function () {
 	    return {
 	      username: "",
-	      password: ""
+	      password: "",
+	      flash: ""
 	    };
 	  },
 
@@ -31810,13 +31815,13 @@
 	    $.ajax({
 	      url: "/session/",
 	      method: "POST",
-	      data: { user: { username: this.state.username, password: "this.state.password" } },
-	      success: function () {
-	        window.location = '/';
-	      },
-	      error: function () {
-	        debugger;
-	      }
+	      data: { user: { username: this.state.username, password: this.state.password } },
+	      success: (function () {
+	        this.history.pushState(null, '/profile/tasks');
+	      }).bind(this),
+	      error: (function () {
+	        this.setState({ flash: "Incorrect credentials" });
+	      }).bind(this)
 	    });
 	  },
 
@@ -31891,6 +31896,12 @@
 	            'button',
 	            { type: 'submit', className: 'btn btn-primary', 'data-toggle': 'modal', 'data-target': '#myModal' },
 	            'Sign In'
+	          ),
+	          React.createElement(
+	            'span',
+	            { className: 'flash-error' },
+	            React.createElement('br', null),
+	            this.state.flash
 	          )
 	        ),
 	        'or',
@@ -31934,26 +31945,6 @@
 	      'div',
 	      { className: 'profile container-fluid' },
 	      React.createElement(NavBar, { loggedIn: true }),
-	      React.createElement(
-	        'div',
-	        { className: 'modal fade', id: 'myModal', role: 'dialog' },
-	        React.createElement(
-	          'div',
-	          { className: 'modal-dialog modal-sm' },
-	          React.createElement(
-	            'div',
-	            { className: 'heartbeat-loader' },
-	            'Loading…'
-	          ),
-	          React.createElement('br', null),
-	          React.createElement('br', null),
-	          React.createElement(
-	            'span',
-	            null,
-	            'Your profile is being setup...'
-	          )
-	        )
-	      ),
 	      React.createElement(Avatar, null),
 	      this.props.children
 	    );
