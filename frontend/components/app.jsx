@@ -10,8 +10,7 @@ var App = React.createClass({
 
   getInitialState: function () {
     return {
-      TaskTypes: TaskStore.all(),
-      loggedIn: false
+      TaskTypes: TaskStore.all()
     };
   },
 
@@ -19,12 +18,10 @@ var App = React.createClass({
     this.setState({ TaskTypes: TaskStore.all() });
     var path = this.props.location.pathname;
     if (this.state.TaskTypes[0]) { // NOTE: Logged In
-      this.setState({ loggedIn: true });
       if (path.indexOf("profile") === -1) {
         this.history.pushState(null, '/profile', {});
       }
     } else { // NOTE: Not logged in
-      this.setState({ loggedIn: false });
       if (path === "/") {
         this.history.pushState(null, '/home', {});
       }
@@ -43,7 +40,6 @@ var App = React.createClass({
   render: function () {
     return (
       <div>
-        <NavBar loggedIn={this.state.loggedIn} />
         {this.props.children}
       </div>
     );

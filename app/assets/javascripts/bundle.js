@@ -52,11 +52,11 @@
 	    IndexRoute = __webpack_require__(159).IndexRoute;
 
 	var App = __webpack_require__(210),
-	    Home = __webpack_require__(238),
-	    Login = __webpack_require__(258),
-	    Profile = __webpack_require__(241),
-	    TaskBlock = __webpack_require__(247),
-	    Inventory = __webpack_require__(256);
+	    Home = __webpack_require__(239),
+	    Login = __webpack_require__(241),
+	    Profile = __webpack_require__(242),
+	    TaskBlock = __webpack_require__(248),
+	    Inventory = __webpack_require__(257);
 
 	var routes = React.createElement(
 	  Route,
@@ -24443,7 +24443,7 @@
 	var React = __webpack_require__(1),
 	    TaskStore = __webpack_require__(211),
 	    ApiUtil = __webpack_require__(234),
-	    NavBar = __webpack_require__(239);
+	    NavBar = __webpack_require__(238);
 
 	var History = __webpack_require__(159).History;
 
@@ -24454,8 +24454,7 @@
 
 	  getInitialState: function () {
 	    return {
-	      TaskTypes: TaskStore.all(),
-	      loggedIn: false
+	      TaskTypes: TaskStore.all()
 	    };
 	  },
 
@@ -24464,13 +24463,11 @@
 	    var path = this.props.location.pathname;
 	    if (this.state.TaskTypes[0]) {
 	      // NOTE: Logged In
-	      this.setState({ loggedIn: true });
 	      if (path.indexOf("profile") === -1) {
 	        this.history.pushState(null, '/profile', {});
 	      }
 	    } else {
 	      // NOTE: Not logged in
-	      this.setState({ loggedIn: false });
 	      if (path === "/") {
 	        this.history.pushState(null, '/home', {});
 	      }
@@ -24490,7 +24487,6 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(NavBar, { loggedIn: this.state.loggedIn }),
 	      this.props.children
 	    );
 	  }
@@ -31425,6 +31421,159 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
+	    ApiUtil = __webpack_require__(234);
+
+	var History = __webpack_require__(159).History;
+
+	var NavBar = React.createClass({
+	  displayName: 'NavBar',
+
+	  mixins: [History],
+
+	  getInitialState: function () {
+	    return { loggedIn: this.props.loggedIn };
+	  },
+
+	  handleClickTasks: function () {
+	    this.history.pushState(null, '/profile/tasks');
+	  },
+
+	  handleClickInventory: function () {
+	    this.history.pushState(null, '/profile/inventory');
+	  },
+
+	  handleClickHome: function () {
+	    this.history.pushState(null, '/home');
+	  },
+
+	  handleSignOut: function (e) {
+	    e.preventDefault();
+	    $.ajax({
+	      url: "/session/",
+	      method: "DELETE",
+	      success: (function () {
+	        // window.location = '/session/new';
+	        this.setState({ loggedIn: false });
+	        this.history.pushState(null, '/home');
+	      }).bind(this)
+	    });
+	  },
+
+	  render: function () {
+	    // this.setState({ loggedIn: this.props.loggedIn });
+	    var rightButtons, leftButtons;
+	    if (this.props.loggedIn) {
+	      leftButtons = React.createElement(
+	        'ul',
+	        { className: 'nav navbar-nav pull-left' },
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { onClick: this.handleClickTasks },
+	            'Tasks'
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { onClick: this.handleClickInventory },
+	            'Inventory'
+	          )
+	        )
+	      );
+	      rightButtons = React.createElement(
+	        'ul',
+	        { className: 'nav navbar-nav pull-right' },
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { onClick: this.handleSignOut, href: '/#' },
+	            'Sign Out'
+	          )
+	        )
+	      );
+	    } else {
+	      leftButtons = React.createElement(
+	        'ul',
+	        { className: 'nav navbar-nav pull-left' },
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { onClick: this.handleClickHome },
+	            'Home'
+	          )
+	        )
+	      );
+	      rightButtons = React.createElement(
+	        'ul',
+	        { className: 'nav navbar-nav pull-right' },
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { href: '/session/new' },
+	            'Sign In'
+	          )
+	        ),
+	        React.createElement(
+	          'li',
+	          null,
+	          React.createElement(
+	            'a',
+	            { href: '/users/new' },
+	            'Sign Up'
+	          )
+	        )
+	      );
+	    }
+	    return React.createElement(
+	      'nav',
+	      { className: 'navbar navbar-default navbar-fixed-top' },
+	      React.createElement(
+	        'div',
+	        { className: 'container-fluid' },
+	        React.createElement(
+	          'div',
+	          { className: 'navbar-header' },
+	          React.createElement(
+	            'button',
+	            { type: 'button', className: 'navbar-toggle collapsed',
+	              'data-toggle': 'collapse',
+	              'data-target': '#collapse-menu',
+	              'aria-expanded': 'false' },
+	            React.createElement('span', { className: 'icon-bar' }),
+	            React.createElement('span', { className: 'icon-bar' }),
+	            React.createElement('span', { className: 'icon-bar' })
+	          )
+	        ),
+	        React.createElement(
+	          'div',
+	          { className: 'collapse navbar-collapse', id: 'collapse-menu' },
+	          leftButtons,
+	          rightButtons
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = NavBar;
+
+/***/ },
+/* 239 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    NavBar = __webpack_require__(238),
 	    Testimonials = __webpack_require__(240);
 
 	var Home = React.createClass({
@@ -31445,6 +31594,7 @@
 	    return React.createElement(
 	      'div',
 	      null,
+	      React.createElement(NavBar, { loggedIn: false }),
 	      React.createElement(
 	        'div',
 	        { className: 'modal fade', id: 'myModal', role: 'dialog' },
@@ -31555,151 +31705,6 @@
 	module.exports = Home;
 
 /***/ },
-/* 239 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1),
-	    ApiUtil = __webpack_require__(234);
-
-	var History = __webpack_require__(159).History;
-
-	var NavBar = React.createClass({
-	  displayName: 'NavBar',
-
-	  mixins: [History],
-
-	  handleClickTasks: function () {
-	    this.history.pushState(null, '/profile/tasks');
-	  },
-
-	  handleClickInventory: function () {
-	    this.history.pushState(null, '/profile/inventory');
-	  },
-
-	  handleClickHome: function () {
-	    this.history.pushState(null, '/home');
-	  },
-
-	  handleSignOut: function (e) {
-	    e.preventDefault();
-	    $.ajax({
-	      url: "/session/",
-	      method: "DELETE",
-	      success: function () {
-	        window.location = '/session/new';
-	      }
-	    });
-	  },
-
-	  render: function () {
-	    var rightButtons, leftButtons;
-	    if (this.props.loggedIn) {
-	      leftButtons = React.createElement(
-	        'ul',
-	        { className: 'nav navbar-nav pull-left' },
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            'a',
-	            { onClick: this.handleClickTasks },
-	            'Tasks'
-	          )
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            'a',
-	            { onClick: this.handleClickInventory },
-	            'Inventory'
-	          )
-	        )
-	      );
-	      rightButtons = React.createElement(
-	        'ul',
-	        { className: 'nav navbar-nav pull-right' },
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            'a',
-	            { onClick: this.handleSignOut, href: '/#' },
-	            'Sign Out'
-	          )
-	        )
-	      );
-	    } else {
-	      leftButtons = React.createElement(
-	        'ul',
-	        { className: 'nav navbar-nav pull-left' },
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            'a',
-	            { onClick: this.handleClickHome },
-	            'Home'
-	          )
-	        )
-	      );
-	      rightButtons = React.createElement(
-	        'ul',
-	        { className: 'nav navbar-nav pull-right' },
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            'a',
-	            { href: '/session/new' },
-	            'Sign In'
-	          )
-	        ),
-	        React.createElement(
-	          'li',
-	          null,
-	          React.createElement(
-	            'a',
-	            { href: '/users/new' },
-	            'Sign Up'
-	          )
-	        )
-	      );
-	    }
-	    return React.createElement(
-	      'nav',
-	      { className: 'navbar navbar-default navbar-fixed-top' },
-	      React.createElement(
-	        'div',
-	        { className: 'container-fluid' },
-	        React.createElement(
-	          'div',
-	          { className: 'navbar-header' },
-	          React.createElement(
-	            'button',
-	            { type: 'button', className: 'navbar-toggle collapsed',
-	              'data-toggle': 'collapse',
-	              'data-target': '#collapse-menu',
-	              'aria-expanded': 'false' },
-	            React.createElement('span', { className: 'icon-bar' }),
-	            React.createElement('span', { className: 'icon-bar' }),
-	            React.createElement('span', { className: 'icon-bar' })
-	          )
-	        ),
-	        React.createElement(
-	          'div',
-	          { className: 'collapse navbar-collapse', id: 'collapse-menu' },
-	          leftButtons,
-	          rightButtons
-	        )
-	      )
-	    );
-	  }
-	});
-
-	module.exports = NavBar;
-
-/***/ },
 /* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -31774,8 +31779,105 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    NavBar = __webpack_require__(239),
-	    Avatar = __webpack_require__(242);
+	    NavBar = __webpack_require__(238);
+
+	var Login = React.createClass({
+	  displayName: 'Login',
+
+	  guestLogin: function () {
+	    $.ajax({
+	      url: "/users/",
+	      method: "POST",
+	      data: { user: { username: "Guest", password: "n3k8c0sap19" } },
+	      success: function () {
+	        window.location = '/';
+	      }
+	    });
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'row' },
+	      React.createElement(NavBar, { loggedIn: false }),
+	      React.createElement(
+	        'div',
+	        { className: 'modal fade', id: 'myModal', role: 'dialog' },
+	        React.createElement(
+	          'div',
+	          { className: 'modal-dialog modal-sm' },
+	          React.createElement(
+	            'div',
+	            { className: 'heartbeat-loader' },
+	            'Loading…'
+	          ),
+	          React.createElement('br', null),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'span',
+	            null,
+	            'Your profile is being setup...'
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'col-xs-4 col-xs-offset-1' },
+	        React.createElement(
+	          'h1',
+	          null,
+	          'Sign In'
+	        ),
+	        React.createElement(
+	          'form',
+	          { className: '', action: '<%= session_url %>', method: 'post' },
+	          React.createElement(
+	            'div',
+	            { className: 'form-group' },
+	            React.createElement(
+	              'label',
+	              null,
+	              'Username'
+	            ),
+	            React.createElement('input', { type: 'text', className: 'form-control' })
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'form-group' },
+	            React.createElement(
+	              'label',
+	              null,
+	              'Password'
+	            ),
+	            React.createElement('input', { type: 'text', className: 'form-control' })
+	          ),
+	          React.createElement(
+	            'button',
+	            { type: 'button', className: 'btn btn-primary', 'data-toggle': 'modal', 'data-target': '#myModal' },
+	            'Sign In'
+	          )
+	        ),
+	        'or',
+	        React.createElement('br', null),
+	        React.createElement(
+	          'button',
+	          { type: 'button', className: 'btn btn-success', 'data-toggle': 'modal', 'data-target': '#myModal', onClick: this.guestLogin },
+	          'Sign in as guest'
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = Login;
+
+/***/ },
+/* 242 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    NavBar = __webpack_require__(238),
+	    Avatar = __webpack_require__(243);
 
 	var History = __webpack_require__(159).History;
 
@@ -31792,10 +31894,30 @@
 	  },
 
 	  render: function () {
-	    // <NavBar loggedIn={true}/>
 	    return React.createElement(
 	      'div',
 	      { className: 'profile container-fluid' },
+	      React.createElement(NavBar, { loggedIn: true }),
+	      React.createElement(
+	        'div',
+	        { className: 'modal fade', id: 'myModal', role: 'dialog' },
+	        React.createElement(
+	          'div',
+	          { className: 'modal-dialog modal-sm' },
+	          React.createElement(
+	            'div',
+	            { className: 'heartbeat-loader' },
+	            'Loading…'
+	          ),
+	          React.createElement('br', null),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'span',
+	            null,
+	            'Your profile is being setup...'
+	          )
+	        )
+	      ),
 	      React.createElement(Avatar, null),
 	      this.props.children
 	    );
@@ -31805,14 +31927,14 @@
 	module.exports = Profile;
 
 /***/ },
-/* 242 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
-	    AvatarStore = __webpack_require__(243),
-	    ItemShop = __webpack_require__(244),
-	    sjs = __webpack_require__(246),
+	    AvatarStore = __webpack_require__(244),
+	    ItemShop = __webpack_require__(245),
+	    sjs = __webpack_require__(247),
 	    ApiUtil = __webpack_require__(234);
 
 	var Avatar = React.createClass({
@@ -32000,7 +32122,7 @@
 	module.exports = Avatar;
 
 /***/ },
-/* 243 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var AppDispatcher = __webpack_require__(212),
@@ -32032,12 +32154,12 @@
 	module.exports = AvatarStore;
 
 /***/ },
-/* 244 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    ApiUtil = __webpack_require__(234),
-	    Task = __webpack_require__(245);
+	    Task = __webpack_require__(246);
 
 	var ItemShop = React.createClass({
 	  displayName: 'ItemShop',
@@ -32085,11 +32207,11 @@
 	module.exports = ItemShop;
 
 /***/ },
-/* 245 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    AvatarStore = __webpack_require__(243),
+	    AvatarStore = __webpack_require__(244),
 	    ApiUtil = __webpack_require__(234);
 
 	var Task = React.createClass({
@@ -32266,7 +32388,7 @@
 	module.exports = Task;
 
 /***/ },
-/* 246 */
+/* 247 */
 /***/ function(module, exports) {
 
 	/*
@@ -34006,16 +34128,16 @@
 	module.exports = this.sjs;
 
 /***/ },
-/* 247 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    ReactDOM = __webpack_require__(158),
 	    ApiUtil = __webpack_require__(234),
 	    TaskStore = __webpack_require__(211),
-	    TaskType = __webpack_require__(248);
+	    TaskType = __webpack_require__(249);
 
-	var Shepherd = __webpack_require__(254);
+	var Shepherd = __webpack_require__(255);
 
 	var TaskBlock = React.createClass({
 	  displayName: 'TaskBlock',
@@ -34214,12 +34336,12 @@
 	module.exports = TaskBlock;
 
 /***/ },
-/* 248 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    TaskForm = __webpack_require__(249),
-	    Task = __webpack_require__(245);
+	    TaskForm = __webpack_require__(250),
+	    Task = __webpack_require__(246);
 
 	var TaskType = React.createClass({
 	  displayName: 'TaskType',
@@ -34309,13 +34431,13 @@
 	module.exports = TaskType;
 
 /***/ },
-/* 249 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
 	    ApiUtil = __webpack_require__(234),
 	    History = __webpack_require__(159).History,
-	    LinkedStateMixin = __webpack_require__(250);
+	    LinkedStateMixin = __webpack_require__(251);
 
 	var TaskForm = React.createClass({
 	  displayName: 'TaskForm',
@@ -34423,13 +34545,13 @@
 	module.exports = TaskForm;
 
 /***/ },
-/* 250 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(251);
+	module.exports = __webpack_require__(252);
 
 /***/ },
-/* 251 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -34446,8 +34568,8 @@
 
 	'use strict';
 
-	var ReactLink = __webpack_require__(252);
-	var ReactStateSetters = __webpack_require__(253);
+	var ReactLink = __webpack_require__(253);
+	var ReactStateSetters = __webpack_require__(254);
 
 	/**
 	 * A simple mixin around ReactLink.forState().
@@ -34470,7 +34592,7 @@
 	module.exports = LinkedStateMixin;
 
 /***/ },
-/* 252 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -34544,7 +34666,7 @@
 	module.exports = ReactLink;
 
 /***/ },
-/* 253 */
+/* 254 */
 /***/ function(module, exports) {
 
 	/**
@@ -34653,14 +34775,14 @@
 	module.exports = ReactStateSetters;
 
 /***/ },
-/* 254 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether-shepherd 1.2.0 */
 
 	(function(root, factory) {
 	  if (true) {
-	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(255)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(256)], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory), __WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ? (__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
 	  } else if (typeof exports === 'object') {
 	    module.exports = factory(require('tether'));
 	  } else {
@@ -35305,7 +35427,7 @@
 
 
 /***/ },
-/* 255 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;/*! tether 1.1.0 */
@@ -37026,11 +37148,11 @@
 
 
 /***/ },
-/* 256 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    InventoryItem = __webpack_require__(257),
+	    InventoryItem = __webpack_require__(258),
 	    TaskStore = __webpack_require__(211);
 
 	var Inventory = React.createClass({
@@ -37088,11 +37210,11 @@
 	module.exports = Inventory;
 
 /***/ },
-/* 257 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var React = __webpack_require__(1),
-	    AvatarStore = __webpack_require__(243),
+	    AvatarStore = __webpack_require__(244),
 	    ApiUtil = __webpack_require__(234);
 
 	var InventoryItem = React.createClass({
@@ -37156,44 +37278,6 @@
 	});
 
 	module.exports = InventoryItem;
-
-/***/ },
-/* 258 */
-/***/ function(module, exports, __webpack_require__) {
-
-	var React = __webpack_require__(1);
-
-	var Login = React.createClass({
-	  displayName: "Login",
-
-	  render: function () {
-	    return React.createElement(
-	      "div",
-	      { className: "row" },
-	      React.createElement(
-	        "div",
-	        { className: "col-xs-4 col-xs-offset-1" },
-	        React.createElement(
-	          "h1",
-	          null,
-	          "Sign In"
-	        ),
-	        React.createElement(
-	          "form",
-	          { className: "", action: "<%= session_url %>", method: "post" },
-	          React.createElement(
-	            "button",
-	            { type: "button", className: "btn btn-primary" },
-	            "Sign In"
-	          )
-	        ),
-	        "or"
-	      )
-	    );
-	  }
-	});
-
-	module.exports = Login;
 
 /***/ }
 /******/ ]);

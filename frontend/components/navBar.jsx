@@ -6,6 +6,10 @@ var History = require('react-router').History;
 var NavBar = React.createClass({
   mixins: [History],
 
+  getInitialState: function () {
+    return { loggedIn: this.props.loggedIn };
+  },
+
   handleClickTasks: function () {
     this.history.pushState(null, '/profile/tasks');
   },
@@ -24,12 +28,15 @@ var NavBar = React.createClass({
       url: "/session/",
       method: "DELETE",
       success: function () {
-        window.location = '/session/new';
-      }
+        // window.location = '/session/new';
+        this.setState({loggedIn: false});
+        this.history.pushState(null, '/home');
+      }.bind(this)
     });
   },
 
   render: function () {
+    // this.setState({ loggedIn: this.props.loggedIn });
     var rightButtons, leftButtons;
     if (this.props.loggedIn) {
       leftButtons = (
