@@ -31817,10 +31817,12 @@
 	      method: "POST",
 	      data: { user: { username: this.state.username, password: this.state.password } },
 	      success: (function () {
+	        $("#myModal").modal("toggle");
 	        this.history.pushState(null, '/profile/tasks');
 	      }).bind(this),
 	      error: (function () {
 	        this.setState({ flash: "Incorrect credentials" });
+	        $("#myModal").modal("toggle");
 	      }).bind(this)
 	    });
 	  },
@@ -31830,9 +31832,10 @@
 	      url: "/users/",
 	      method: "POST",
 	      data: { user: { username: "Guest", password: "n3k8c0sap19" } },
-	      success: function () {
-	        window.location = '/';
-	      }
+	      success: (function () {
+	        $("#myModal").modal("toggle");
+	        this.history.pushState(null, '/profile/tasks');
+	      }).bind(this)
 	    });
 	  },
 
@@ -31843,7 +31846,7 @@
 	      React.createElement(NavBar, { loggedIn: false }),
 	      React.createElement(
 	        'div',
-	        { className: 'modal fade', id: 'myModal', role: 'dialog' },
+	        { show: this.state.showModal, className: 'modal fade', id: 'myModal', role: 'dialog' },
 	        React.createElement(
 	          'div',
 	          { className: 'modal-dialog modal-sm' },
@@ -31900,7 +31903,6 @@
 	          React.createElement(
 	            'span',
 	            { className: 'flash-error' },
-	            React.createElement('br', null),
 	            this.state.flash
 	          )
 	        ),
