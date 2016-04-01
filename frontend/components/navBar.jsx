@@ -35,8 +35,12 @@ var NavBar = React.createClass({
     });
   },
 
-  handleSignIn: function () {
+  handleLogIn: function () {
     this.history.pushState(null, '/login');
+  },
+
+  handleSignUp: function () {
+    this.history.pushState(null, '/signup');
   },
 
   render: function () {
@@ -62,8 +66,8 @@ var NavBar = React.createClass({
       )
       rightButtons = (
         <ul className="nav navbar-nav pull-right">
-          <li><a onClick={this.handleSignIn}>Sign In</a></li>
-          <li><a href="/users/new">Sign Up</a></li>
+          <li><a onClick={this.handleLogIn}>Log In</a></li>
+          <li><a onClick={this.handleSignUp}>Sign Up</a></li>
         </ul>
       );
     }

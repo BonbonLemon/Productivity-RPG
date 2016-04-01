@@ -54,6 +54,7 @@
 	var App = __webpack_require__(210),
 	    Home = __webpack_require__(239),
 	    Login = __webpack_require__(241),
+	    SignUp = __webpack_require__(259),
 	    Profile = __webpack_require__(242),
 	    TaskBlock = __webpack_require__(248),
 	    Inventory = __webpack_require__(257);
@@ -63,6 +64,7 @@
 	  { path: '/', component: App },
 	  React.createElement(Route, { path: 'home', component: Home }),
 	  React.createElement(Route, { path: 'login', component: Login }),
+	  React.createElement(Route, { path: 'signup', component: SignUp }),
 	  React.createElement(
 	    Route,
 	    { path: 'profile', component: Profile },
@@ -31459,8 +31461,12 @@
 	    });
 	  },
 
-	  handleSignIn: function () {
+	  handleLogIn: function () {
 	    this.history.pushState(null, '/login');
+	  },
+
+	  handleSignUp: function () {
+	    this.history.pushState(null, '/signup');
 	  },
 
 	  render: function () {
@@ -31524,8 +31530,8 @@
 	          null,
 	          React.createElement(
 	            'a',
-	            { onClick: this.handleSignIn },
-	            'Sign In'
+	            { onClick: this.handleLogIn },
+	            'Log In'
 	          )
 	        ),
 	        React.createElement(
@@ -31533,7 +31539,7 @@
 	          null,
 	          React.createElement(
 	            'a',
-	            { href: '/users/new' },
+	            { onClick: this.handleSignUp },
 	            'Sign Up'
 	          )
 	        )
@@ -31870,7 +31876,7 @@
 	        React.createElement(
 	          'h1',
 	          null,
-	          'Sign In'
+	          'Log In'
 	        ),
 	        React.createElement(
 	          'form',
@@ -31898,7 +31904,7 @@
 	          React.createElement(
 	            'button',
 	            { type: 'submit', className: 'btn btn-primary', 'data-toggle': 'modal', 'data-target': '#myModal' },
-	            'Sign In'
+	            'Log In'
 	          ),
 	          React.createElement(
 	            'span',
@@ -37307,6 +37313,154 @@
 	});
 
 	module.exports = InventoryItem;
+
+/***/ },
+/* 259 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1),
+	    NavBar = __webpack_require__(238);
+
+	var History = __webpack_require__(159).History;
+
+	var SignUp = React.createClass({
+	  displayName: 'SignUp',
+
+	  mixins: [History],
+
+	  getInitialState: function () {
+	    return {
+	      username: "",
+	      password: "",
+	      flash: []
+	    };
+	  },
+
+	  handleUsernameChange: function (e) {
+	    e.preventDefault();
+	    this.setState({ username: e.target.value });
+	  },
+
+	  handlePasswordChange: function (e) {
+	    e.preventDefault();
+	    this.setState({ password: e.target.value });
+	  },
+
+	  handleSubmit: function (e) {
+	    e.preventDefault();
+	    $.ajax({
+	      url: "/users/",
+	      method: "POST",
+	      data: { user: { username: this.state.username, password: this.state.password } },
+	      success: (function () {
+	        $("#myModal").modal("toggle");
+	        this.history.pushState(null, '/profile/tasks');
+	      }).bind(this),
+	      error: (function (data) {
+	        this.setState({ flash: data.responseJSON });
+	        $("#myModal").modal("toggle");
+	      }).bind(this)
+	    });
+	  },
+
+	  guestLogin: function () {
+	    $.ajax({
+	      url: "/users/",
+	      method: "POST",
+	      data: { user: { username: "Guest", password: "n3k8c0sap19" } },
+	      success: (function () {
+	        $("#myModal").modal("toggle");
+	        this.history.pushState(null, '/profile/tasks');
+	      }).bind(this)
+	    });
+	  },
+
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      { className: 'row' },
+	      React.createElement(NavBar, { loggedIn: false }),
+	      React.createElement(
+	        'div',
+	        { show: this.state.showModal, className: 'modal fade', id: 'myModal', role: 'dialog' },
+	        React.createElement(
+	          'div',
+	          { className: 'modal-dialog modal-sm' },
+	          React.createElement(
+	            'div',
+	            { className: 'heartbeat-loader' },
+	            'Loading…'
+	          ),
+	          React.createElement('br', null),
+	          React.createElement('br', null),
+	          React.createElement(
+	            'span',
+	            null,
+	            'Your profile is being setup...'
+	          )
+	        )
+	      ),
+	      React.createElement(
+	        'div',
+	        { className: 'col-xs-4 col-xs-offset-1' },
+	        React.createElement(
+	          'h1',
+	          null,
+	          'Sign Up'
+	        ),
+	        React.createElement(
+	          'form',
+	          { className: '', onSubmit: this.handleSubmit },
+	          React.createElement(
+	            'div',
+	            { className: 'form-group' },
+	            React.createElement(
+	              'label',
+	              null,
+	              'Username'
+	            ),
+	            React.createElement('input', { type: 'text', className: 'form-control', onChange: this.handleUsernameChange })
+	          ),
+	          React.createElement(
+	            'div',
+	            { className: 'form-group' },
+	            React.createElement(
+	              'label',
+	              null,
+	              'Password'
+	            ),
+	            React.createElement('input', { type: 'password', className: 'form-control', onChange: this.handlePasswordChange })
+	          ),
+	          React.createElement(
+	            'button',
+	            { type: 'submit', className: 'btn btn-primary', 'data-toggle': 'modal', 'data-target': '#myModal' },
+	            'Sign Un'
+	          ),
+	          React.createElement(
+	            'ul',
+	            { className: 'flash-error' },
+	            this.state.flash.map(function (message, idx) {
+	              return React.createElement(
+	                'li',
+	                { key: idx },
+	                message
+	              );
+	            })
+	          )
+	        ),
+	        'or',
+	        React.createElement('br', null),
+	        React.createElement(
+	          'button',
+	          { type: 'button', className: 'btn btn-success', 'data-toggle': 'modal', 'data-target': '#myModal', onClick: this.guestLogin },
+	          'Sign in as guest'
+	        )
+	      )
+	    );
+	  }
+	});
+
+	module.exports = SignUp;
 
 /***/ }
 /******/ ]);

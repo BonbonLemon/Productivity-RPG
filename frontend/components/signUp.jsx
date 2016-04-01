@@ -3,14 +3,14 @@ var React = require('react'),
 
 var History = require('react-router').History;
 
-var Login = React.createClass({
+var SignUp = React.createClass({
   mixins: [History],
 
   getInitialState: function () {
     return {
       username: "",
       password: "",
-      flash: ""
+      flash: []
     }
   },
 
@@ -27,15 +27,15 @@ var Login = React.createClass({
   handleSubmit: function (e) {
     e.preventDefault();
     $.ajax({
-      url: "/session/",
+      url: "/users/",
       method: "POST",
       data: {user: {username: this.state.username, password: this.state.password}},
       success: function () {
         $("#myModal").modal("toggle");
         this.history.pushState(null, '/profile/tasks');
       }.bind(this),
-      error: function () {
-        this.setState({ flash: "Incorrect credentials" });
+      error: function (data) {
+        this.setState({ flash: data.responseJSON });
         $("#myModal").modal("toggle");
       }.bind(this)
     })
@@ -67,7 +67,7 @@ var Login = React.createClass({
         </div>
 
         <div className="col-xs-4 col-xs-offset-1">
-          <h1>Log In</h1>
+          <h1>Sign Up</h1>
 
           <form className="" onSubmit={this.handleSubmit}>
             <div className="form-group">
@@ -80,8 +80,16 @@ var Login = React.createClass({
               <input type="password" className="form-control" onChange={this.handlePasswordChange}/>
             </div>
 
-            <button type="submit" className="btn btn-primary" data-toggle="modal" data-target="#myModal">Log In</button>
-            <span className="flash-error">{this.state.flash}</span>
+            <button type="submit" className="btn btn-primary" data-toggle="modal" data-target="#myModal">Sign Un</button>
+            <ul className="flash-error">
+              {
+                this.state.flash.map(function (message, idx) {
+                  return (
+                    <li key={idx}>{message}</li>
+                  );
+                })
+              }
+            </ul>
           </form>
           or
           <br/>
@@ -92,4 +100,4 @@ var Login = React.createClass({
   }
 });
 
-module.exports = Login;
+module.exports = SignUp;
