@@ -30,7 +30,7 @@ var Home = React.createClass({
           <img className="col-xs-8 col-xs-offset-2 logo" src="/assets/logo2.png" />
         </div>
         <div className="row">
-          <button className="col-xs-2 col-xs-offset-5 col-centered" data-toggle="modal" data-target="#myModal" onClick={this.onClick}>Sign in as guest</button>
+          <button className="col-xs-2 col-xs-offset-5 col-centered btn btn-primary" data-toggle="modal" data-target="#myModal" onClick={this.onClick}>Sign in as guest</button>
         </div>
         <div className="home-description row">
           <p className="col-xs-8 col-xs-offset-2">

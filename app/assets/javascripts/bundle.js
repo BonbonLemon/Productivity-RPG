@@ -31640,7 +31640,7 @@
 	        { className: 'row' },
 	        React.createElement(
 	          'button',
-	          { className: 'col-xs-2 col-xs-offset-5 col-centered', 'data-toggle': 'modal', 'data-target': '#myModal', onClick: this.onClick },
+	          { className: 'col-xs-2 col-xs-offset-5 col-centered btn btn-primary', 'data-toggle': 'modal', 'data-target': '#myModal', onClick: this.onClick },
 	          'Sign in as guest'
 	        )
 	      ),
